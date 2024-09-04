@@ -7,8 +7,6 @@ import QuizGame from "./components/Quizgame";
 export default function Home() {
   return (
     <div> 
-      {/* <QuizGame />  */}
-
       <Quizapp /> 
     </div>
   )
