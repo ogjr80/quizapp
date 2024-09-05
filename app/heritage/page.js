@@ -98,6 +98,7 @@ const QuestionCard = ({ card, onAnswer, timeLeft, answered }) => {
   };
 
   return (
+    
     <div className={`relative p-8 rounded-lg shadow-xl w-full h-full flex flex-col ${getCategoryColor()}`}>
       {/* SVG for hand-drawn edges */}
       <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">

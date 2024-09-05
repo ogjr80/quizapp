@@ -118,8 +118,8 @@ const QuizGame = () => {
             exit={{ opacity: 0 }}
             className="text-center"
           >
-            <h2 className="text-3xl font-bold mb-4">Welcome to the ITTHYNK Values Quiz!</h2>
-            <p className="mb-4">Test your knowledge of ITTHYNK Smart Solutions' core values with {questions.length} questions.</p>
+            <h2 className="text-3xl font-bold mb-4">Welcome to the EOH Values Quiz!</h2>
+            <p className="mb-4">Test your knowledge of EOH Smart Solutions' core values with {questions.length} questions.</p>
             <Button onClick={startGame} className="bg-green-500 hover:bg-green-600 text-white">
               Start Quiz
             </Button>
@@ -181,7 +181,7 @@ const QuizGame = () => {
       <Card className="w-full max-w-md mx-auto shadow-lg">
         <CardHeader className="bg-gray-800 text-white">
           <CardTitle className="text-2xl font-bold text-center flex items-center justify-center">
-            <Sparkles className="mr-2" /> ITTHYNK Values Quiz
+            <Sparkles className="mr-2" /> EOH Values Quiz
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
