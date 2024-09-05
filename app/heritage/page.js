@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -90,37 +90,63 @@ const CardDeck = ({ cards, onCardClick }) => {
 
 const QuestionCard = ({ card, onAnswer, timeLeft, answered }) => {
   const { darkMode } = useContext(ThemeContext);
+  const progress = (timeLeft / 60) * 100; // Assuming 60 seconds total
+
+  const getCategoryColor = () => {
+    const category = categories.find(c => c.name === card.category);
+    return darkMode ? category.colorDark : category.colorLight;
+  };
+
   return (
-    <div className={`p-6 rounded-lg shadow-xl max-w-md mx-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-      <h2 className="text-xl font-bold mb-4">{card.category}</h2>
-      <p className="mb-4">{card.content}</p>
-      {card.options && (
-        <div className="space-y-2">
-          {card.options.map((option, index) => (
-            <button
-              key={index}
-              className={`w-full p-2 text-left rounded transition-colors duration-200 ${
-                answered
-                  ? option === card.answer
-                    ? darkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-200 hover:bg-green-300'
-                    : darkMode ? 'bg-red-700 hover:bg-red-600' : 'bg-red-200 hover:bg-red-300'
-                  : darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
-              }`}
-              onClick={() => onAnswer(option)}
-              disabled={answered}
-            >
-              {option}
-              {answered && option === card.answer && <CheckCircle className="inline-block ml-2 text-green-500" />}
-              {answered && option !== card.answer && <XCircle className="inline-block ml-2 text-red-500" />}
-            </button>
-          ))}
+    <div className={`relative p-8 rounded-lg shadow-xl w-full h-full flex flex-col ${getCategoryColor()}`}>
+      {/* SVG for hand-drawn edges */}
+      <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10,10 Q30,5 50,10 T90,10 T130,10 T170,10 T210,10 T250,10 T290,10 T330,10 T370,10 T390,10 V590 Q370,595 350,590 T310,590 T270,590 T230,590 T190,590 T150,590 T110,590 T70,590 T30,590 T10,590 Z" 
+              fill="none" 
+              stroke={darkMode ? "white" : "black"} 
+              strokeWidth="2"
+              vectorEffect="non-scaling-stroke" />
+      </svg>
+
+      <div className="relative z-10 flex flex-col h-full">
+        <h2 className="text-3xl font-bold mb-6 text-white">{card.category}</h2>
+        <p className="text-xl mb-8 text-white flex-grow">{card.content}</p>
+        {card.options && (
+          <div className="space-y-4 mb-8">
+            {card.options.map((option, index) => (
+              <button
+                key={index}
+                className={`w-full p-4 text-left rounded transition-colors duration-200 text-lg ${
+                  answered
+                    ? option === card.answer
+                      ? 'bg-green-500 text-white'
+                      : 'bg-red-500 text-white'
+                    : 'bg-white text-gray-800 hover:bg-gray-100'
+                }`}
+                onClick={() => onAnswer(option)}
+                disabled={answered}
+              >
+                {option}
+                {answered && option === card.answer && <CheckCircle className="inline-block ml-2" />}
+                {answered && option !== card.answer && <XCircle className="inline-block ml-2" />}
+              </button>
+            ))}
+          </div>
+        )}
+        {answered && card.explanation && (
+          <p className="mt-4 text-lg text-white">{card.explanation}</p>
+        )}
+        <div className="mt-auto">
+          <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 overflow-hidden">
+            <div 
+              className="bg-blue-600 h-4 rounded-full transition-all duration-1000 ease-linear" 
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <div className="mt-2 text-right text-xl font-bold text-white">
+            Time left: {timeLeft}s
+          </div>
         </div>
-      )}
-      {answered && card.explanation && (
-        <p className={`mt-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{card.explanation}</p>
-      )}
-      <div className="mt-4 text-right text-xl font-bold">
-        Time left: {timeLeft}s
       </div>
     </div>
   );
@@ -291,44 +317,43 @@ const HeritageCardGame = () => {
                   onCardClick={handleCardClick}
                 />
               </div>
-            ))}
+              ))}
+              </div>
+            </div>
+            <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <AlertDialogContent className="max-w-4xl w-full max-h-[90vh] h-full bg-transparent">
+                <AlertDialogHeader className="h-full">
+                  <AlertDialogDescription className="h-full">
+                    <QuestionCard
+                      card={currentCard}
+                      onAnswer={handleCardAction}
+                      timeLeft={questionTimeLeft}
+                      answered={answered}
+                    />
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog open={gameOver}>
+              <AlertDialogContent className={darkMode ? 'bg-gray-800 text-white' : 'bg-white'}>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Game Over!</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    <p>Your final score: {score}</p>
+                    <p>Total questions answered: {totalAnswered}</p>
+                    <p>Accuracy: {totalAnswered > 0 ? Math.round((score / (totalAnswered * 10)) * 100) : 0}%</p>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction onClick={restartGame} className={`${darkMode ? 'bg-yellow-600 hover:bg-yellow-500' : 'bg-yellow-400 hover:bg-yellow-300'} text-white`}>
+                    Play Again
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
-        </div>
-        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className={`max-w-md ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-            <AlertDialogHeader>
-              <AlertDialogTitle>{currentCard?.category}</AlertDialogTitle>
-              <AlertDialogDescription>
-                <QuestionCard
-                  card={currentCard}
-                  onAnswer={handleCardAction}
-                  timeLeft={questionTimeLeft}
-                  answered={answered}
-                />
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-          </AlertDialogContent>
-        </AlertDialog>
-        <AlertDialog open={gameOver}>
-          <AlertDialogContent className={darkMode ? 'bg-gray-800 text-white' : 'bg-white'}>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Game Over!</AlertDialogTitle>
-              <AlertDialogDescription>
-                <p>Your final score: {score}</p>
-                <p>Total questions answered: {totalAnswered}</p>
-                <p>Accuracy: {totalAnswered > 0 ? Math.round((score / (totalAnswered * 10)) * 100) : 0}%</p>
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogAction onClick={restartGame} className={`${darkMode ? 'bg-yellow-600 hover:bg-yellow-500' : 'bg-yellow-400 hover:bg-yellow-300'} text-white`}>
-                Play Again
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-    </ThemeContext.Provider>
-  );
-};
-
-export default HeritageCardGame;
+        </ThemeContext.Provider>
+      );
+    };
+    
+    export default HeritageCardGame;
