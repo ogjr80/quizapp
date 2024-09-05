@@ -19,6 +19,7 @@ const cards = categories.flatMap(category =>
     question: `Question about ${category.name} ${i + 1}`,
     answer: `Answer to ${category.name} question ${i + 1}`,
     difficulty: Math.floor(Math.random() * 3) + 1, // 1: Easy, 2: Medium, 3: Hard
+
   }))
 );
 
