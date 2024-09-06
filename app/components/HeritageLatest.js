@@ -1,8 +1,8 @@
-'use client'
+'use client'; 
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Trophy, Clock, Users, MessageCircle, Lightbulb, Zap, Star, XCircle, CheckCircle, Sun, Moon } from 'lucide-react';
+import { Trophy, Clock, Users, MessageCircle, Lightbulb, Zap, Star, XCircle, CheckCircle, Sun, Moon, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 // Theme context
@@ -88,40 +88,91 @@ const CardDeck = ({ cards, onCardClick }) => {
   );
 };
 
-const QuestionCard = ({ card, onAnswer, timeLeft, answered }) => {
+const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
   const { darkMode } = useContext(ThemeContext);
-  return (
-    <div className={`p-6 rounded-lg shadow-xl max-w-md mx-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-      <h2 className="text-xl font-bold mb-4">{card.category}</h2>
-      <p className="mb-4">{card.content}</p>
-      {card.options && (
-        <div className="space-y-2">
-          {card.options.map((option, index) => (
+  const [storyResponse, setStoryResponse] = useState('');
+  const progress = (timeLeft / 30) * 100;
+
+  const getCategoryColor = () => {
+    const category = categories.find(c => c.name === card.category);
+    return darkMode ? category.colorDark : category.colorLight;
+  };
+
+  const renderCardContent = () => {
+    switch (card.category) {
+      case 'Diversity Questions':
+        return (
+          <>
+            <p className="text-xl mb-8 text-white flex-grow">{card.content}</p>
+            <div className="space-y-4 mb-8">
+              {card.options.map((option, index) => (
+                <button
+                  key={index}
+                  className={`w-full p-4 text-left rounded transition-colors duration-200 text-lg ${
+                    answered
+                      ? option === card.answer
+                        ? 'bg-green-500 text-white'
+                        : 'bg-red-500 text-white'
+                      : 'bg-white text-gray-800 hover:bg-gray-100'
+                  }`}
+                  onClick={() => onAnswer(option)}
+                  disabled={answered}
+                >
+                  {option}
+                  {answered && option === card.answer && <CheckCircle className="inline-block ml-2" />}
+                  {answered && option !== card.answer && <XCircle className="inline-block ml-2" />}
+                </button>
+              ))}
+            </div>
+            <div className="mt-auto">
+              <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 overflow-hidden">
+                <div 
+                  className="bg-blue-600 h-4 rounded-full transition-all duration-1000 ease-linear" 
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              <div className="mt-2 text-right text-xl font-bold text-white">
+                Time left: {timeLeft}s
+              </div>
+            </div>
+          </>
+        );
+      case 'Storytelling Prompts':
+        return (
+          <>
+            <p className="text-xl mb-8 text-white">{card.content}</p>
+            <textarea
+              className="w-full p-4 rounded text-gray-800 mb-4"
+              rows="6"
+              value={storyResponse}
+              onChange={(e) => setStoryResponse(e.target.value)}
+              placeholder="Type your story here..."
+            />
             <button
-              key={index}
-              className={`w-full p-2 text-left rounded transition-colors duration-200 ${
-                answered
-                  ? option === card.answer
-                    ? darkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-200 hover:bg-green-300'
-                    : darkMode ? 'bg-red-700 hover:bg-red-600' : 'bg-red-200 hover:bg-red-300'
-                  : darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
-              }`}
-              onClick={() => onAnswer(option)}
-              disabled={answered}
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              onClick={() => onAnswer(storyResponse)}
             >
-              {option}
-              {answered && option === card.answer && <CheckCircle className="inline-block ml-2 text-green-500" />}
-              {answered && option !== card.answer && <XCircle className="inline-block ml-2 text-red-500" />}
+              Submit
             </button>
-          ))}
-        </div>
-      )}
-      {answered && card.explanation && (
-        <p className={`mt-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{card.explanation}</p>
-      )}
-      <div className="mt-4 text-right text-xl font-bold">
-        Time left: {timeLeft}s
+          </>
+        );
+      case 'Challenge Cards':
+      case 'Unity Cards':
+        return (
+          <p className="text-xl mb-8 text-white">{card.content}</p>
+        );
+    }
+  };
+
+  return (
+    <div className={`relative p-8 rounded-lg shadow-xl w-full h-full flex flex-col ${getCategoryColor()}`}>
+      <div className="flex justify-between items-start mb-4">
+        <h2 className="text-3xl font-bold text-white">{card.category}</h2>
+        <button onClick={onClose} className="text-white hover:text-gray-300">
+          <X size={24} />
+        </button>
       </div>
+      {renderCardContent()}
     </div>
   );
 };
@@ -133,7 +184,7 @@ const HeritageCardGame = () => {
   const [currentCard, setCurrentCard] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [gameTimeLeft, setGameTimeLeft] = useState(600); // 10 minutes
-  const [questionTimeLeft, setQuestionTimeLeft] = useState(60);
+  const [questionTimeLeft, setQuestionTimeLeft] = useState(30);
   const [gameOver, setGameOver] = useState(false);
   const [unityCards, setUnityCards] = useState([]);
   const [streak, setStreak] = useState(0);
@@ -158,8 +209,8 @@ const HeritageCardGame = () => {
 
   useEffect(() => {
     let timer;
-    if (isDialogOpen) {
-      setQuestionTimeLeft(60);
+    if (isDialogOpen && currentCard && currentCard.category === 'Diversity Questions') {
+      setQuestionTimeLeft(30);
       setAnswered(false);
       timer = setInterval(() => {
         setQuestionTimeLeft((prevTime) => {
@@ -173,7 +224,7 @@ const HeritageCardGame = () => {
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [isDialogOpen]);
+  }, [isDialogOpen, currentCard]);
 
   const shuffleCards = () => {
     setShuffledCards([...cards].sort(() => Math.random() - 0.5));
@@ -218,10 +269,15 @@ const HeritageCardGame = () => {
     setScore(score + pointsEarned);
     setTotalAnswered(totalAnswered + 1);
 
-    setTimeout(() => {
+    if (currentCard.category === 'Diversity Questions') {
+      setTimeout(() => {
+        setIsDialogOpen(false);
+        setAnswered(false);
+      }, 3000);
+    } else {
       setIsDialogOpen(false);
       setAnswered(false);
-    }, 3000);
+    }
   };
 
   const handleTimeout = () => {
@@ -249,8 +305,8 @@ const HeritageCardGame = () => {
     shuffleCards();
   };
 
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
+  const handleCloseQuestion = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -258,8 +314,8 @@ const HeritageCardGame = () => {
       <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-orange-400 to-red-600'} p-8`}>
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-4xl font-bold text-white">Unity in Diversity:  Heritage Day Game</h1>
-            <button onClick={toggleTheme} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
+            <h1 className="text-4xl font-bold text-white">Unity in Diversity: iOCO Heritage Day Game</h1>
+            <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
               {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
             </button>
           </div>
@@ -282,6 +338,7 @@ const HeritageCardGame = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map(category => (
               <div key={category.name} className={`${darkMode ? category.colorDark : category.colorLight} rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-105`}>
+                <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 mx-auto shadow-inner ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}></div>
                 <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 mx-auto shadow-inner ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
                   {category.icon}
                 </div>
@@ -295,15 +352,15 @@ const HeritageCardGame = () => {
           </div>
         </div>
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent className={`max-w-md ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-            <AlertDialogHeader>
-              <AlertDialogTitle>{currentCard?.category}</AlertDialogTitle>
-              <AlertDialogDescription>
+          <AlertDialogContent className="max-w-4xl w-full max-h-[90vh] h-full bg-transparent">
+            <AlertDialogHeader className="h-full">
+              <AlertDialogDescription className="h-full">
                 <QuestionCard
                   card={currentCard}
                   onAnswer={handleCardAction}
                   timeLeft={questionTimeLeft}
                   answered={answered}
+                  onClose={handleCloseQuestion}
                 />
               </AlertDialogDescription>
             </AlertDialogHeader>
