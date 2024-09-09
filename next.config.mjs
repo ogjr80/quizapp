@@ -1,4 +1,24 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+   
+    ],
+  },
+  redirects: async () => [
+    {
+      source: "/",
+      destination: "/universe",
+      permanent: true,
+    },
+  ],
+};
 
 export default nextConfig;

@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:local": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.4.2",
     "@prisma/client": "^5.19.1",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-icons": "^1.3.0",
@@ -19,13 +21,16 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.4.0",
     "lucide-react": "^0.438.0",
+    "microsoft-entra-id": "link:next-auth/providers/microsoft-entra-id",
     "next": "14.2.7",
+    "next-auth": "^5.0.0-beta.20",
     "prisma": "^5.19.1",
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "twitte": "link:next-auth/providers/twitte"
   },
   "devDependencies": {
     "postcss": "^8",
