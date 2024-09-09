@@ -21,7 +21,6 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.4.0",
     "lucide-react": "^0.438.0",
-    "microsoft-entra-id": "link:next-auth/providers/microsoft-entra-id",
     "next": "14.2.7",
     "next-auth": "^5.0.0-beta.20",
     "prisma": "^5.19.1",
@@ -29,8 +28,7 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "twitte": "link:next-auth/providers/twitte"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "postcss": "^8",
