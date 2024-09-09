@@ -4,7 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Trophy, Clock, Users, MessageCircle, Lightbulb, Zap, Star, XCircle, CheckCircle, Sun, Moon, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
-
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 // Theme context
 const ThemeContext = createContext();
 
@@ -308,16 +309,24 @@ const HeritageCardGame = () => {
   const handleCloseQuestion = () => {
     setIsDialogOpen(false);
   };
+  const {data: session, status} = useSession();
 
   return (
-    <ThemeContext.Provider value={{ darkMode }}>
+    status === 'authenticated' &&
+      <ThemeContext.Provider value={{ darkMode }}>
       <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-orange-400 to-red-600'} p-8`}>
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold text-white">Unity in Diversity: iOCO Heritage Day Game</h1>
+            <div className='flex items-center space-x-4 '>
             <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
               {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
             </button>
+            <div>
+              <Image className='rounded-full ' src={session.user.image} width={40} height={40} alt="EOH Logo" />
+            </div>
+            </div>
+
           </div>
           <div className="flex justify-between items-center mb-8">
             <button onClick={shuffleCards} className={`px-6 py-3 rounded-full transition-colors duration-300 font-bold ${darkMode ? 'bg-yellow-600 text-white hover:bg-yellow-500' : 'bg-yellow-400 text-black hover:bg-yellow-300'}`}>
