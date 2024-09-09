@@ -309,10 +309,10 @@ const HeritageCardGame = () => {
   const handleCloseQuestion = () => {
     setIsDialogOpen(false);
   };
-  const {data: session, status} = useSession();
+  // const {data: session, status} = useSession();
 
   return (
-    status === 'authenticated' &&
+  
       <ThemeContext.Provider value={{ darkMode }}>
       <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-orange-400 to-red-600'} p-8`}>
         <div className="container mx-auto">
@@ -323,7 +323,7 @@ const HeritageCardGame = () => {
               {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
             </button>
             <div>
-              <Image className='rounded-full ' src={session.user.image} width={40} height={40} alt="EOH Logo" />
+              {/* <Image className='rounded-full ' src={session.user.image} width={40} height={40} alt="EOH Logo" /> */}
             </div>
             </div>
 
