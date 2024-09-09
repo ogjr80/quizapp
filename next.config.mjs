@@ -22,7 +22,7 @@ const nextConfig = {
   },
   redirects: async () => [
     {
-      source: "/",
+      source: "/e",
       destination: "/universe",
       permanent: false,
     },
