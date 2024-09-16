@@ -20,13 +20,13 @@ const nextConfig = {
    
     ],
   },
-  redirects: async () => [
-    {
-      source: "/",
-      destination: "/universe",
-      permanent: false,
-    },
-  ],
+  // redirects: async () => [
+  //   {
+  //     source: "/",
+  //     destination: "/universe",
+  //     permanent: false,
+  //   },
+  // ],
 };
 
 export default nextConfig;

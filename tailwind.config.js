@@ -2,9 +2,10 @@
 module.exports = {
     darkMode: ["class"],
     content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
   ],
   theme: {
   	extend: {
@@ -57,7 +58,12 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+  			'chart-1': 'var(--chart-1)',
+  			'chart-2': 'var(--chart-2)',
+  			'chart-3': 'var(--chart-3)',
+  			'chart-4': 'var(--chart-4)',
+  			'chart-5': 'var(--chart-5)',
   		}
   	}
   },

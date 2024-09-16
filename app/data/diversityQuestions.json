@@ -1,0 +1,16 @@
+[
+  {
+    "id": "dq1",
+    "content": "Which South African public holiday celebrates the country's cultural diversity?",
+    "options": ["Freedom Day", "Heritage Day", "Youth Day", "Human Rights Day"],
+    "answer": "Heritage Day",
+    "explanation": "Heritage Day, celebrated on September 24th, recognizes and celebrates the cultural wealth of South Africa."
+  },
+  {
+    "id": "dq2",
+    "content": "What is the traditional South African barbecue called?",
+    "options": ["Braai", "Potjiekos", "Bobotie", "Bunny Chow"],
+    "answer": "Braai",
+    "explanation": "A braai is a South African barbecue, which is an important part of South African culture and heritage."
+  }
+]

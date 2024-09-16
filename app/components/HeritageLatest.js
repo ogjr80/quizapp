@@ -1,68 +1,35 @@
 'use client'; 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Trophy, Clock, Users, MessageCircle, Lightbulb, Zap, Star, XCircle, CheckCircle, Sun, Moon, X } from 'lucide-react';
+import { Trophy, Clock, Users, MessageCircle, Lightbulb, Zap, Star, Sun, Moon, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import Image from "next/image";
-import { useSession } from "next-auth/react";
-// Theme context
+import DiversityQuestions from './DiversityQuestions';
+import StorytellingPrompts from './StorytellingPrompts';
+import ChallengeCards from './ChallengeCards';
+import UnityCards from './UnityCards';
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+
+import diversityQuestionsData from '../data/diversityQuestions.json';
+import storytellingPromptsData from '../data/storytellingPrompts.json';
+import challengeCardsData from '../data/challengeCards.json';
+import unityCardsData from '../data/unityCards.json';
+
 const ThemeContext = createContext();
 
 const categories = [
-  { name: 'Diversity Questions', icon: <Users className="w-8 h-8" />, colorLight: 'bg-blue-500', colorDark: 'bg-blue-900' },
-  { name: 'Storytelling Prompts', icon: <MessageCircle className="w-8 h-8" />, colorLight: 'bg-green-500', colorDark: 'bg-green-900' },
-  { name: 'Challenge Cards', icon: <Lightbulb className="w-8 h-8" />, colorLight: 'bg-yellow-500', colorDark: 'bg-yellow-900' },
-  { name: 'Unity Cards', icon: <Zap className="w-8 h-8" />, colorLight: 'bg-purple-500', colorDark: 'bg-purple-900' },
+  { name: 'Diversity Questions', icon: <Users className="w-6 h-6" />, colorLight: 'bg-blue-500', colorDark: 'bg-blue-900' },
+  { name: 'Storytelling Prompts', icon: <MessageCircle className="w-6 h-6" />, colorLight: 'bg-green-500', colorDark: 'bg-green-900' },
+  { name: 'Challenge Cards', icon: <Lightbulb className="w-6 h-6" />, colorLight: 'bg-yellow-500', colorDark: 'bg-yellow-900' },
+  { name: 'Unity Cards', icon: <Zap className="w-6 h-6" />, colorLight: 'bg-purple-500', colorDark: 'bg-purple-900' },
 ];
 
 const cards = [
-  { 
-    id: 'dq1', 
-    category: 'Diversity Questions', 
-    content: "Which South African ethnic group is known for the traditional dance called 'Indlamu'?", 
-    options: ["Zulu", "Xhosa", "Sotho", "Tswana"],
-    answer: "Zulu",
-    explanation: "Indlamu is a traditional Zulu war dance performed at Zulu gatherings and ceremonies."
-  },
-  { 
-    id: 'dq2', 
-    category: 'Diversity Questions', 
-    content: "Which of these is NOT one of South Africa's official languages?", 
-    options: ["Afrikaans", "Swahili", "Xhosa", "Zulu"],
-    answer: "Swahili",
-    explanation: "South Africa has 11 official languages, but Swahili is not one of them. It's widely spoken in East Africa."
-  },
-  { 
-    id: 'sp1', 
-    category: 'Storytelling Prompts', 
-    content: "Share a personal experience where you learned something valuable from someone of a different race." 
-  },
-  { 
-    id: 'sp2', 
-    category: 'Storytelling Prompts', 
-    content: "Describe a cultural tradition from your heritage that you're proud of." 
-  },
-  { 
-    id: 'cc1', 
-    category: 'Challenge Cards', 
-    content: "Find someone in the room who speaks a different language than you, and learn how to say 'Thank you' in 3 of the official languages" 
-  },
-  { 
-    id: 'cc2', 
-    category: 'Challenge Cards', 
-    content: "Sing the first verse of the South African national anthem in a language other than your own" 
-  },
-  { 
-    id: 'uc1', 
-    category: 'Unity Cards', 
-    content: "Lead a group discussion on the importance of racial diversity in the workplace and suggest one actionable way to improve it." 
-  },
-  { 
-    id: 'uc2', 
-    category: 'Unity Cards', 
-    content: "Double the points on your next correct answer or completed challenge." 
-  },
+  ...diversityQuestionsData.map(card => ({ ...card, category: 'Diversity Questions' })),
+  ...storytellingPromptsData.map(card => ({ ...card, category: 'Storytelling Prompts' })),
+  ...challengeCardsData.map(card => ({ ...card, category: 'Challenge Cards' })),
+  ...unityCardsData.map(card => ({ ...card, category: 'Unity Cards' })),
 ];
 
 const CardDeck = ({ cards, onCardClick }) => {
@@ -91,8 +58,6 @@ const CardDeck = ({ cards, onCardClick }) => {
 
 const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
   const { darkMode } = useContext(ThemeContext);
-  const [storyResponse, setStoryResponse] = useState('');
-  const progress = (timeLeft / 30) * 100;
 
   const getCategoryColor = () => {
     const category = categories.find(c => c.name === card.category);
@@ -102,66 +67,15 @@ const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
   const renderCardContent = () => {
     switch (card.category) {
       case 'Diversity Questions':
-        return (
-          <>
-            <p className="text-xl mb-8 text-white flex-grow">{card.content}</p>
-            <div className="space-y-4 mb-8">
-              {card.options.map((option, index) => (
-                <button
-                  key={index}
-                  className={`w-full p-4 text-left rounded transition-colors duration-200 text-lg ${
-                    answered
-                      ? option === card.answer
-                        ? 'bg-green-500 text-white'
-                        : 'bg-red-500 text-white'
-                      : 'bg-white text-gray-800 hover:bg-gray-100'
-                  }`}
-                  onClick={() => onAnswer(option)}
-                  disabled={answered}
-                >
-                  {option}
-                  {answered && option === card.answer && <CheckCircle className="inline-block ml-2" />}
-                  {answered && option !== card.answer && <XCircle className="inline-block ml-2" />}
-                </button>
-              ))}
-            </div>
-            <div className="mt-auto">
-              <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 overflow-hidden">
-                <div 
-                  className="bg-blue-600 h-4 rounded-full transition-all duration-1000 ease-linear" 
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
-              <div className="mt-2 text-right text-xl font-bold text-white">
-                Time left: {timeLeft}s
-              </div>
-            </div>
-          </>
-        );
+        return <DiversityQuestions card={card} onAnswer={onAnswer} timeLeft={timeLeft} answered={answered} />;
       case 'Storytelling Prompts':
-        return (
-          <>
-            <p className="text-xl mb-8 text-white">{card.content}</p>
-            <textarea
-              className="w-full p-4 rounded text-gray-800 mb-4"
-              rows="6"
-              value={storyResponse}
-              onChange={(e) => setStoryResponse(e.target.value)}
-              placeholder="Type your story here..."
-            />
-            <button
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-              onClick={() => onAnswer(storyResponse)}
-            >
-              Submit
-            </button>
-          </>
-        );
+        return <StorytellingPrompts card={card} onAnswer={onAnswer} />;
       case 'Challenge Cards':
+        return <ChallengeCards card={card} onAnswer={onAnswer} />;
       case 'Unity Cards':
-        return (
-          <p className="text-xl mb-8 text-white">{card.content}</p>
-        );
+        return <UnityCards card={card} onAnswer={onAnswer} />;
+      default:
+        return null;
     }
   };
 
@@ -179,18 +93,29 @@ const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
 };
 
 const HeritageCardGame = () => {
+  const { data: session, status } = useSession();
   const [darkMode, setDarkMode] = useState(false);
   const [shuffledCards, setShuffledCards] = useState(cards);
   const [score, setScore] = useState(0);
   const [currentCard, setCurrentCard] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [gameTimeLeft, setGameTimeLeft] = useState(600); // 10 minutes
+  const [gameTimeLeft, setGameTimeLeft] = useState(600);
   const [questionTimeLeft, setQuestionTimeLeft] = useState(30);
   const [gameOver, setGameOver] = useState(false);
   const [unityCards, setUnityCards] = useState([]);
   const [streak, setStreak] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [totalAnswered, setTotalAnswered] = useState(0);
+  const [difficulty, setDifficulty] = useState('medium');
+  const [achievements, setAchievements] = useState([]);
+  const [initialAchievements, setInitialAchievements] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const backgroundMusicRef = useRef(null);
+  const cardClickSoundRef = useRef(null);
+  const gameFinishSoundRef = useRef(null);
+  const correctAnswerSoundRef = useRef(null);
+  const incorrectAnswerSoundRef = useRef(null);
 
   useEffect(() => {
     shuffleCards();
@@ -205,13 +130,26 @@ const HeritageCardGame = () => {
       });
     }, 1000);
 
-    return () => clearInterval(gameTimer);
+    backgroundMusicRef.current = new Audio('/sounds/background-music.mp3');
+    cardClickSoundRef.current = new Audio('/sounds/card-click.mp3');
+    gameFinishSoundRef.current = new Audio('/sounds/game-finish.mp3');
+    correctAnswerSoundRef.current = new Audio('/sounds/correct-answer.mp3');
+    incorrectAnswerSoundRef.current = new Audio('/sounds/incorrect-answer.mp3');
+
+    backgroundMusicRef.current.loop = true;
+    backgroundMusicRef.current.play();
+
+    return () => {
+      clearInterval(gameTimer);
+      backgroundMusicRef.current.pause();
+      backgroundMusicRef.current.currentTime = 0;
+    };
   }, []);
 
   useEffect(() => {
     let timer;
     if (isDialogOpen && currentCard && currentCard.category === 'Diversity Questions') {
-      setQuestionTimeLeft(30);
+      setQuestionTimeLeft(getQuestionTime());
       setAnswered(false);
       timer = setInterval(() => {
         setQuestionTimeLeft((prevTime) => {
@@ -225,7 +163,40 @@ const HeritageCardGame = () => {
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [isDialogOpen, currentCard]);
+  }, [isDialogOpen, currentCard, difficulty]);
+
+  useEffect(() => {
+    fetch('/api/highscores')
+      .then(res => res.json())
+      .then(data => setLeaderboard(data))
+      .catch(error => {
+        console.error('Error fetching highscores:', error);
+        setLeaderboard([]);
+      });
+  }, [gameOver]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetch(`/api/achievements?userId=${session.user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          const achievementNames = data.map(achievement => achievement.name);
+          setAchievements(achievementNames);
+          setInitialAchievements(achievementNames);
+        })
+        .catch(error => {
+          console.error('Error fetching achievements:', error);
+        });
+    }
+  }, [session]);
+
+  const getQuestionTime = () => {
+    switch (difficulty) {
+      case 'easy': return 45;
+      case 'hard': return 20;
+      default: return 30;
+    }
+  };
 
   const shuffleCards = () => {
     setShuffledCards([...cards].sort(() => Math.random() - 0.5));
@@ -234,6 +205,7 @@ const HeritageCardGame = () => {
   const handleCardClick = (card) => {
     setCurrentCard(card);
     setIsDialogOpen(true);
+    cardClickSoundRef.current.play();
   };
 
   const handleCardAction = (action) => {
@@ -243,12 +215,18 @@ const HeritageCardGame = () => {
     switch (currentCard.category) {
       case 'Diversity Questions':
         correct = action === currentCard.answer;
-        pointsEarned = correct ? 10 : 0;
+        pointsEarned = correct ? getPointsForDifficulty() : 0;
+        if (correct) {
+          correctAnswerSoundRef.current.play();
+        } else {
+          incorrectAnswerSoundRef.current.play();
+        }
         break;
       case 'Storytelling Prompts':
       case 'Challenge Cards':
-        pointsEarned = 15;
+        pointsEarned = getPointsForDifficulty();
         correct = true;
+        correctAnswerSoundRef.current.play();
         break;
       case 'Unity Cards':
         if (action === 'use') {
@@ -270,6 +248,13 @@ const HeritageCardGame = () => {
     setScore(score + pointsEarned);
     setTotalAnswered(totalAnswered + 1);
 
+    checkAchievements(totalAnswered + 1, score + pointsEarned);
+
+    if (totalAnswered + 1 === shuffledCards.length) {
+      gameFinishSoundRef.current.play();
+      saveGamePlay();
+    }
+
     if (currentCard.category === 'Diversity Questions') {
       setTimeout(() => {
         setIsDialogOpen(false);
@@ -281,11 +266,20 @@ const HeritageCardGame = () => {
     }
   };
 
+  const getPointsForDifficulty = () => {
+    switch (difficulty) {
+      case 'easy': return 5;
+      case 'hard': return 15;
+      default: return 10;
+    }
+  };
+
   const handleTimeout = () => {
     setStreak(0);
     setIsDialogOpen(false);
     setAnswered(false);
     setTotalAnswered(totalAnswered + 1);
+    incorrectAnswerSoundRef.current.play();
   };
 
   const triggerConfetti = () => {
@@ -297,36 +291,109 @@ const HeritageCardGame = () => {
   };
 
   const restartGame = () => {
+    saveGamePlay();
     setScore(0);
     setGameTimeLeft(600);
     setGameOver(false);
     setUnityCards([]);
     setStreak(0);
     setTotalAnswered(0);
+    setAchievements([]);
     shuffleCards();
   };
 
   const handleCloseQuestion = () => {
     setIsDialogOpen(false);
   };
-  const {data: session, status} = useSession();
+
+  const checkAchievements = (answeredCount, newScore) => {
+    const newAchievements = [...achievements];
+    if (answeredCount === 10 && !achievements.includes('Quick Learner')) {
+      newAchievements.push('Quick Learner');
+      saveAchievement('Quick Learner');
+    }
+    if (newScore >= 100 && !achievements.includes('Century Scorer')) {
+      newAchievements.push('Century Scorer');
+      saveAchievement('Century Scorer');
+    }
+    if (streak === 5 && !achievements.includes('Streak Master')) {
+      newAchievements.push('Streak Master');
+      saveAchievement('Streak Master');
+    }
+    setAchievements(newAchievements);
+  };
+
+  const saveGamePlay = async () => {
+    if (session?.user?.id) {
+      const newAchievements = achievements.filter(achievement => !initialAchievements.includes(achievement));
+      await fetch('/api/gameplay', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: session.user.id,
+          score,
+          difficulty,
+          totalAnswered,
+          achievements: newAchievements,
+        }),
+      });
+    }
+  };
+
+  const saveAchievement = async (achievementName) => {
+    if (session?.user?.id) {
+      try {
+        const response = await fetch('/api/achievements', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: session.user.id,
+            achievement: achievementName,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to save achievement');
+        }
+        const data = await response.json();
+        console.log('Achievement saved:', data);
+      } catch (error) {
+        console.error('Error saving achievement:', error);
+      }
+    }
+  };
 
   return (
-    status === 'authenticated' &&
-      <ThemeContext.Provider value={{ darkMode }}>
+    <ThemeContext.Provider value={{ darkMode }}>
       <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-orange-400 to-red-600'} p-8`}>
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold text-white">Unity in Diversity: iOCO Heritage Day Game</h1>
-            <div className='flex items-center space-x-4 '>
-            <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
-              {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
-            </button>
-            <div>
-              <Image className='rounded-full ' src={session.user.image} width={40} height={40} alt="EOH Logo" />
+            <div className='flex items-center space-x-4'>
+              {status === "authenticated" ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-white">{session.user.name}</span>
+                  <Button onClick={() => signOut()} variant="outline">Sign Out</Button>
+                </div>
+              ) : (
+                <Button onClick={() => signIn()} variant="outline">Sign In</Button>
+              )}
+              <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
+                {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
+              </button>
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                className="p-2 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
             </div>
-            </div>
-
           </div>
           <div className="flex justify-between items-center mb-8">
             <button onClick={shuffleCards} className={`px-6 py-3 rounded-full transition-colors duration-300 font-bold ${darkMode ? 'bg-yellow-600 text-white hover:bg-yellow-500' : 'bg-yellow-400 text-black hover:bg-yellow-300'}`}>
@@ -347,17 +414,43 @@ const HeritageCardGame = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map(category => (
               <div key={category.name} className={`${darkMode ? category.colorDark : category.colorLight} rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-105`}>
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 mx-auto shadow-inner ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}></div>
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 mx-auto shadow-inner ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-                  {category.icon}
+                <div className="flex items-center justify-center mb-6">
+                  <div className={`w-10 h-10 flex items-center justify-center mr-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                    {category.icon}
+                  </div>
+                  <h2 className="text-2xl font-semibold text-white">{category.name}</h2>
                 </div>
-                <h2 className="text-2xl font-semibold mb-6 text-white text-center">{category.name}</h2>
                 <CardDeck 
                   cards={shuffledCards.filter(card => card.category === category.name)} 
                   onCardClick={handleCardClick}
                 />
               </div>
             ))}
+          </div>
+          <div className="mt-8">
+            <h3 className="text-2xl font-bold text-white mb-4">Achievements</h3>
+            <div className="flex flex-wrap gap-4">
+              {achievements.map((achievement, index) => (
+                <div key={index} className="bg-yellow-400 text-black px-4 py-2 rounded-full">
+                  {achievement}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-8">
+            <h3 className="text-2xl font-bold text-white mb-4">Leaderboard</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+              {leaderboard.length > 0 ? (
+                leaderboard.map((entry, index) => (
+                  <div key={entry.id} className="flex justify-between items-center py-2 text-black dark:text-white">
+                    <span>{index + 1}. {entry.user.name}</span>
+                    <span>{entry.score} ({entry.difficulty})</span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-black dark:text-white">No high scores yet.</p>
+              )}
+            </div>
           </div>
         </div>
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -382,7 +475,8 @@ const HeritageCardGame = () => {
               <AlertDialogDescription>
                 <p>Your final score: {score}</p>
                 <p>Total questions answered: {totalAnswered}</p>
-                <p>Accuracy: {totalAnswered > 0 ? Math.round((score / (totalAnswered * 10)) * 100) : 0}%</p>
+                <p>Accuracy: {totalAnswered > 0 ? Math.round((score / (totalAnswered * getPointsForDifficulty())) * 100) : 0}%</p>
+                <p>Achievements: {achievements.join(', ')}</p>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
