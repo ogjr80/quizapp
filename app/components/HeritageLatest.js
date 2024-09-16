@@ -10,19 +10,20 @@ import ChallengeCards from './ChallengeCards';
 import UnityCards from './UnityCards';
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { colorPalette, getCategoryColor } from '../utils/colorPalette';
 
 import diversityQuestionsData from '../data/diversityQuestions.json';
 import storytellingPromptsData from '../data/storytellingPrompts.json';
 import challengeCardsData from '../data/challengeCards.json';
 import unityCardsData from '../data/unityCards.json';
 
-const ThemeContext = createContext();
+const ThemeContext = createContext({ darkMode: false, colorPalette });
 
 const categories = [
-  { name: 'Diversity Questions', icon: <Users className="w-6 h-6" />, colorLight: 'bg-blue-500', colorDark: 'bg-blue-900' },
-  { name: 'Storytelling Prompts', icon: <MessageCircle className="w-6 h-6" />, colorLight: 'bg-green-500', colorDark: 'bg-green-900' },
-  { name: 'Challenge Cards', icon: <Lightbulb className="w-6 h-6" />, colorLight: 'bg-yellow-500', colorDark: 'bg-yellow-900' },
-  { name: 'Unity Cards', icon: <Zap className="w-6 h-6" />, colorLight: 'bg-purple-500', colorDark: 'bg-purple-900' },
+  { name: 'Diversity Questions', icon: <Users className="w-6 h-6" /> },
+  { name: 'Storytelling Prompts', icon: <MessageCircle className="w-6 h-6" /> },
+  { name: 'Challenge Cards', icon: <Lightbulb className="w-6 h-6" /> },
+  { name: 'Unity Cards', icon: <Zap className="w-6 h-6" /> },
 ];
 
 const cards = [
@@ -33,7 +34,7 @@ const cards = [
 ];
 
 const CardDeck = ({ cards, onCardClick }) => {
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, colorPalette } = useContext(ThemeContext);
   return (
     <div className="relative w-64 h-96">
       {cards.map((card, index) => (
@@ -46,7 +47,7 @@ const CardDeck = ({ cards, onCardClick }) => {
           }}
           onClick={() => onCardClick(card)}
         >
-          <CardContent className={`p-4 h-full flex flex-col justify-between ${darkMode ? 'bg-gradient-to-br from-gray-800 to-gray-900 text-white' : 'bg-gradient-to-br from-white to-gray-100'}`}>
+          <CardContent className={`p-4 h-full flex flex-col justify-between ${darkMode ? 'text-white bg-gray-800' : 'text-black bg-white'}`} style={{ backgroundColor: getCategoryColor(card.category, darkMode) }}>
             <div className="text-lg font-bold mb-2">{card.category}</div>
             <div className="text-sm">{card.content.substring(0, 50)}...</div>
           </CardContent>
@@ -58,11 +59,6 @@ const CardDeck = ({ cards, onCardClick }) => {
 
 const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
   const { darkMode } = useContext(ThemeContext);
-
-  const getCategoryColor = () => {
-    const category = categories.find(c => c.name === card.category);
-    return darkMode ? category.colorDark : category.colorLight;
-  };
 
   const renderCardContent = () => {
     switch (card.category) {
@@ -80,7 +76,7 @@ const QuestionCard = ({ card, onAnswer, timeLeft, answered, onClose }) => {
   };
 
   return (
-    <div className={`relative p-8 rounded-lg shadow-xl w-full h-full flex flex-col ${getCategoryColor()}`}>
+    <div className={`relative p-8 rounded-lg shadow-xl w-full h-full flex flex-col`} style={{ backgroundColor: getCategoryColor(card.category, darkMode) }}>
       <div className="flex justify-between items-start mb-4">
         <h2 className="text-3xl font-bold text-white">{card.category}</h2>
         <button onClick={onClose} className="text-white hover:text-gray-300">
@@ -367,9 +363,9 @@ const HeritageCardGame = () => {
   };
 
   return (
-    <ThemeContext.Provider value={{ darkMode }}>
-      <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-orange-400 to-red-600'} p-8`}>
-        <div className="container mx-auto">
+    <ThemeContext.Provider value={{ darkMode, colorPalette }}>
+      <div className="min-h-screen p-8 bg-sa-flag bg-cover bg-center bg-fixed">
+        <div className="container mx-auto bg-black bg-opacity-50 p-8 rounded-lg">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold text-white">Unity in Diversity: iOCO Heritage Day Game</h1>
             <div className='flex items-center space-x-4'>
@@ -381,13 +377,13 @@ const HeritageCardGame = () => {
               ) : (
                 <Button onClick={() => signIn()} variant="outline">Sign In</Button>
               )}
-              <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
+              <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full" style={{ backgroundColor: darkMode ? colorPalette.yellow : colorPalette.black }}>
                 {darkMode ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
               </button>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="p-2 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                className="p-2 rounded-md" style={{ backgroundColor: darkMode ? colorPalette.black : colorPalette.white, color: darkMode ? colorPalette.white : colorPalette.black }}
               >
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -396,10 +392,10 @@ const HeritageCardGame = () => {
             </div>
           </div>
           <div className="flex justify-between items-center mb-8">
-            <button onClick={shuffleCards} className={`px-6 py-3 rounded-full transition-colors duration-300 font-bold ${darkMode ? 'bg-yellow-600 text-white hover:bg-yellow-500' : 'bg-yellow-400 text-black hover:bg-yellow-300'}`}>
+            <button onClick={shuffleCards} className={`px-6 py-3 rounded-full transition-colors duration-300 font-bold`} style={{ backgroundColor: darkMode ? colorPalette.yellow : colorPalette.green, color: darkMode ? colorPalette.black : colorPalette.white }}>
               Shuffle Cards
             </button>
-            <div className="text-2xl font-bold text-white flex items-center space-x-4">
+            <div className="text-2xl font-bold flex items-center space-x-4 text-white">
               <div className="flex items-center">
                 <Trophy className="mr-2" /> {score}
               </div>
@@ -413,9 +409,9 @@ const HeritageCardGame = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map(category => (
-              <div key={category.name} className={`${darkMode ? category.colorDark : category.colorLight} rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-105`}>
+              <div key={category.name} className={`rounded-lg p-6 shadow-lg transform transition-all duration-300 hover:scale-105`} style={{ backgroundColor: getCategoryColor(category.name, darkMode) }}>
                 <div className="flex items-center justify-center mb-6">
-                  <div className={`w-10 h-10 flex items-center justify-center mr-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                  <div className={`w-10 h-10 flex items-center justify-center mr-2`} style={{ color: darkMode ? colorPalette.white : colorPalette.black }}>
                     {category.icon}
                   </div>
                   <h2 className="text-2xl font-semibold text-white">{category.name}</h2>
@@ -428,27 +424,27 @@ const HeritageCardGame = () => {
             ))}
           </div>
           <div className="mt-8">
-            <h3 className="text-2xl font-bold text-white mb-4">Achievements</h3>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: darkMode ? colorPalette.white : colorPalette.black }}>Achievements</h3>
             <div className="flex flex-wrap gap-4">
               {achievements.map((achievement, index) => (
-                <div key={index} className="bg-yellow-400 text-black px-4 py-2 rounded-full">
+                <div key={index} className="px-4 py-2 rounded-full" style={{ backgroundColor: colorPalette.yellow, color: colorPalette.black }}>
                   {achievement}
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-8">
-            <h3 className="text-2xl font-bold text-white mb-4">Leaderboard</h3>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: darkMode ? colorPalette.white : colorPalette.black }}>Leaderboard</h3>
+            <div className="rounded-lg p-4" style={{ backgroundColor: darkMode ? colorPalette.blue : colorPalette.green }}>
               {leaderboard.length > 0 ? (
                 leaderboard.map((entry, index) => (
-                  <div key={entry.id} className="flex justify-between items-center py-2 text-black dark:text-white">
+                  <div key={entry.id} className="flex justify-between items-center py-2 text-white">
                     <span>{index + 1}. {entry.user.name}</span>
                     <span>{entry.score} ({entry.difficulty})</span>
                   </div>
                 ))
               ) : (
-                <p className="text-black dark:text-white">No high scores yet.</p>
+                <p className="text-white">No high scores yet.</p>
               )}
             </div>
           </div>
@@ -490,5 +486,6 @@ const HeritageCardGame = () => {
     </ThemeContext.Provider>
   );
 };
+
 
 export default HeritageCardGame;
