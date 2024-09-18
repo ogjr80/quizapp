@@ -12,6 +12,7 @@
     "db:mg": "npx prisma migrate dev",
     "db:gen": "npx prisma generate",
     "db:seed": "npx prisma db seed",
+    "db:sync": "npx prisma db push",
     "mg": "pnpm db:mg && pnpm db:gen"
   },
   "dependencies": {
