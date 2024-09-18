@@ -1,6 +1,6 @@
 {
   "name": "heritage-next-game",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,7 @@
     "db:mg": "npx prisma migrate dev",
     "db:gen": "npx prisma generate",
     "db:seed": "npx prisma db seed",
+    "db:sync": "npx prisma db push",
     "mg": "pnpm db:mg && pnpm db:gen"
   },
   "dependencies": {
