@@ -1,13 +1,14 @@
-import { exempted } from "@/lib/auth";
+// import { exempted } from "@/lib/utils";
 import HeritageCardGame from "./components/HeritageLatest";
-import { CountdownComponent } from "@opherlabs/components";
+// import { CountdownComponent } from "@opherlabs/components";
 export default function Home() {
   return (
     <div>
       {
-        !exempted.includes(process.env.AUTH_URL) ? <HeritageCardGame />
-          : <CountdownComponent targetDate={'2024-09-26T12:00:00'} />
+       <HeritageCardGame />
+        
       }
+       {/* <CountdownComponent targetDate={'2024-09-26T12:00:00'} /> */}
     </div>
   )
 }
