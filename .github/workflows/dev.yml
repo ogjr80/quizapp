@@ -78,9 +78,10 @@ jobs:
           # Replace any characters that are not allowed in Docker image tags with a valid alternative, for example, replacing '/' with '-'
           TAG=$(echo "$TAG" | tr / -)
           VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION" > $GITHUB_ENV
+          echo "VERSION=$VERSION" > $GITHUB_OUTPUT
           # Set the modified tag as an output
           echo "TAG=$TAG" > $GITHUB_ENV
+          echo "TAG=$TAG" > $GITHUB_OUTPUT
 
       - name: Build and Push Docker Image
         run: |
