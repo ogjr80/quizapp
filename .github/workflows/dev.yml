@@ -78,10 +78,10 @@ jobs:
           # Replace any characters that are not allowed in Docker image tags with a valid alternative, for example, replacing '/' with '-'
           TAG=$(echo "$TAG" | tr / -)
           VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION" > $GITHUB_OUTPUT
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
           # Set the modified tag as an output
-          echo "TAG=$TAG" > $GITHUB_ENV
-          echo "TAG=$TAG" > $GITHUB_OUTPUT
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
 
       - name: Build and Push Docker Image
         run: |
@@ -104,7 +104,7 @@ jobs:
         id: extract-version
         run: |
           VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION" > $GITHUB_OUTPUT
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
       - name: setup pnpm 👨‍💻
         uses: pnpm/action-setup@v4.0.0
         with:
