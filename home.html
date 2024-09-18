@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOCO Heritage Day Game 2024</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --background-start: #ff9a9e;
+            --background-end: #fad0c4;
+        }
+        
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 50px 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: pulseText 2s infinite alternate;
+        }
+        
+        .countdown {
+            font-size: 2.5rem;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .game-info {
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 1s ease-out 1s forwards;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .instructions {
+            background-color: rgba(248,249,250,0.8);
+            border-left: 6px solid var(--primary-color);
+            padding: 25px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 15px 15px 0;
+        }
+        
+        .instructions ol {
+            padding-left: 25px;
+        }
+        
+        .instructions li {
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .instructions li:hover {
+            transform: translateX(10px);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(255,107,107,0.4);
+        }
+        
+        .cta-button:hover {
+            background-color: #ff4757;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255,107,107,0.6);
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover::after {
+            left: 100%;
+            transition: all 0.4s ease-in-out;
+        }
+        
+        .cultural-icon {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.7;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulseText {
+            0% { text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+            100% { text-shadow: 4px 4px 8px rgba(0,0,0,0.2); }
+        }
+        
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <header>
+            <h1>iOCO Heritage Day Game 2024</h1>
+            <div class="countdown" id="countdown"></div>
+        </header>
+        
+        <div class="game-info">
+            <h2>Celebrate South Africa's Diversity!</h2>
+            <p>Join us for an exciting game that explores the rich cultural heritage of South Africa. Test your knowledge, learn new facts, and have fun with colleagues!</p>
+            
+            <div class="instructions">
+                <h3>How to Play:</h3>
+                <ol>
+                    <li>Choose your difficulty level: Easy, Medium, or Hard.</li>
+                    <li>Answer questions about South African culture, history, and iOCO.</li>
+                    <li>Complete fun challenges and storytelling prompts.</li>
+                    <li>Use Unity Cards to boost your score and collaborate with others.</li>
+                    <li>Race against the 10-minute timer to earn as many points as possible!</li>
+                </ol>
+            </div>
+            
+            <a href="#" class="cta-button">Start Playing Now!</a>
+        </div>
+    </div>
+
+    <div class="cultural-icon" id="icon1">🇿🇦</div>
+    <div class="cultural-icon" id="icon2">🦁</div>
+    <div class="cultural-icon" id="icon3">🌻</div>
+    <div class="cultural-icon" id="icon4">🏠</div>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date("September 20, 2024 00:00:00").getTime();
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (timeLeft < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("countdown").innerHTML = "The game has begun!";
+            }
+        }
+
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Parallax effect for cultural icons
+        document.addEventListener('mousemove', (e) => {
+            const icons = document.querySelectorAll('.cultural-icon');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 30;
+                icon.style.transform = `translate(${mouseX * speed}px, ${mouseY * speed}px) rotate(${mouseX * mouseY * 360}deg)`;
+            });
+        });
+
+        // Particle animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite alternate`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+    </script>
+</body>
+</html>
