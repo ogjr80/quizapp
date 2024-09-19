@@ -1,5 +1,4 @@
-'use client';
-import HeritageCardGame from "./components/HeritageLatest";
+import HeritageCardGame from "../components/HeritageLatest";
 export default function Home() {
   return (
     <div>

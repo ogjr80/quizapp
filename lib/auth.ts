@@ -1,10 +1,9 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "./prisma";
 import Entra from "next-auth/providers/microsoft-entra-id";
-const url = `${process.env.AUTH_URL}`;
-export const exempted = ["https://unityindiversity.co.za/","https://www.unityindiversity.co.za/"];
+import { isProd } from "./utils";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   theme:{
     colorScheme: 'light',
@@ -12,12 +11,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   debug: process.env.NODE_ENV === "development",
   providers: [
+    !isProd ? Google :
     Entra({
       clientId: process.env.AUTH_AZURE_AD_ID,
       clientSecret: process.env.AUTH_AZURE_AD_SECRET,
       tenantId: process.env.AUTH_AZURE_AD_TENANT,
     }),
-    !exempted.includes(url) && Google 
+    
   ],
   adapter: PrismaAdapter(prisma),
   session: {
