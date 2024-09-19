@@ -3,10 +3,6 @@ import { QuizCards, CardsHolder, CountdownComponent } from "@opherlabs/component
 import React from "react";
 import { files } from "../universe/quizdata";
 export default function Home() {
-  const [hostname, setHostname] = React.useState('');
-  React.useEffect(() => {
-    setHostname(window.location.hostname);
-  }, []);
   const gameStartDate = new Date("September 26, 2024 20:00:00").getTime();
   const now = new Date().getTime();
   const timeLeft = gameStartDate - now;
