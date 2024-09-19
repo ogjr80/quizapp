@@ -2,7 +2,7 @@ export const files =  [
     {
       id: "1",
       title: "DIVERSITY QUESTIONS",
-      source: "/cards/sun-sm.svg",
+      source: "/cards/blue-sm.svg",
       bgColor: "#1A3E75",
       questions: [
         {
@@ -22,7 +22,7 @@ export const files =  [
     {
       id: "2",
       title: "STORYTELLING PROMPTS",
-      source: "/cards/blue-sm.svg",
+      source: "/cards/sun-sm.svg",
       bgColor: "#B32891",
       questions: [
         {
