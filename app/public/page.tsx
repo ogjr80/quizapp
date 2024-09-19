@@ -9,6 +9,9 @@ export default function Home() {
   const timeLeft = gameStartDate - now;
   return (
     <div>
+        <pre>
+            {JSON.stringify({isProd, url:process.env.__NEXT_PRIVATE_ORIGIN}, null, 2)}
+        </pre>
       {
         !isProd || timeLeft <= 0 ? 
         <CardsHolder>
