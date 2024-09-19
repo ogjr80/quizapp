@@ -10,7 +10,7 @@ export default function Home() {
   const gameStartDate = new Date("September 26, 2024 20:00:00").getTime();
   const now = new Date().getTime();
   const timeLeft = gameStartDate - now;
-  const exemptedList = ["unityindiversity.co.za", "www.unityindiversity.co.za"];
+  const exemptedList = ["https://unityindiversity.co.za", "https://www.unityindiversity.co.za"];
   const isPriod=exemptedList.includes(process.env.__NEXT_PRIVATE_ORIGIN)
   return (
     <div>
