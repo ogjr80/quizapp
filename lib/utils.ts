@@ -6,3 +6,6 @@ export function cn(...inputs) {
 }
 
 export const exempted = ["https://unityindiversity.co.za","https://www.unityindiversity.co.za"];
+
+const exemptedList = ["https://unityindiversity.co.za", "https://www.unityindiversity.co.za"];
+export const isProd=exemptedList.includes(process.env.__NEXT_PRIVATE_ORIGIN)
