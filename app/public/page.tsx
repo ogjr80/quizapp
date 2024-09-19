@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div>
         <pre>
-            {JSON.stringify({isProd, url:process.env.__NEXT_PRIVATE_ORIGIN}, null, 2)}
+            {JSON.stringify({isProd, url:process.env.__NEXT_PRIVATE_ORIGIN??process.env.NEXT_PUBLIC_URL}, null, 2)}
         </pre>
       {
         !isProd || timeLeft <= 0 ? 
