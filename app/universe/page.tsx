@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div>
       {
-        exemptedList.includes(hostname) || timeLeft <= 0 ? 
+        !exemptedList.includes(hostname) || timeLeft <= 0 ? 
         <CardsHolder>
         <QuizCards url="universe" files={files} />
       </CardsHolder>
