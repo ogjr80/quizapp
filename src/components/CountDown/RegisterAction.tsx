@@ -1,8 +1,7 @@
-import { IUserSession } from '@/lib/types/UserSession'
 import Link from 'next/link'
 import React from 'react'
 
-export const RegisterAction: React.FC<{url:string, mode?: 'session'|'register', session?: IUserSession}> = ({url, mode="register", session}) => {
+export const RegisterAction: React.FC<{url:string, mode?: 'session'|'register', session?: any | unknown}> = ({url, mode="register", session}) => {
   console.log(session)
   return (
     <div>
