@@ -6,7 +6,6 @@ import { GamePlay } from "@/components"
 const Home: NextPage = () => {
     const target = new Date("September 20, 2024 20:00:00").getTime();
     const now = new Date().getTime();
-    // const {data: session, status: loading} = useSession();
     const timeLeft = target - now;
     return (
         <div className="bsg">
