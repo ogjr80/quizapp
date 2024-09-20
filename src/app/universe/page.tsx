@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <div className="bsg">
             {timeLeft <= 0 ? <>
                 <GamePlay />
-            </> : CountdownComponent({ session, url: '/api/auth/signin', targetDate: '2024-09-20T20:00:00' })}
+            </> : CountdownComponent({ session, url: '/api/auth/signin', targetDate: '2024-09-21T20:00:00' })}
         </div>
     );
 };
