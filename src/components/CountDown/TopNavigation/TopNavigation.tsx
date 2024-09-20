@@ -1,7 +1,6 @@
-import { IUserSession } from '@/lib/types/UserSession';
 import React from 'react'
 export interface INavigationProps {
-    session?: IUserSession;
+    session?: unknown;
     url?: string;
     activeQuestions?: unknown[]
     scores?: unknown

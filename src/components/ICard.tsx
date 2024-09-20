@@ -16,8 +16,8 @@ export const InteractiveCard: React.FC<ICardProps> = ({ children, id, descriptio
   const [animateFlip, setAnimateFlip] = useState(false);
   const cardRef: any = useRef(null);
   const [isView,setIsView]=useState(false)
-  const clickSoundRef = useRef(new Audio('/sounds/click.mp3'));
-  const flipSoundRef = useRef(new Audio('/sounds/flip.mp3'));
+  // const clickSoundRef = useRef(new Audio('/sounds/click.mp3'));
+  // const flipSoundRef = useRef(new Audio('/sounds/flip.mp3'));
 const route = useRouter()
   const handleMouseMove = (e: React.MouseEvent) => {
     // if (isFocused) return;
@@ -51,19 +51,19 @@ const route = useRouter()
   };
 
   const handleClick = () => {
-    clickSoundRef.current.play();
+    // clickSoundRef.current.play();
     setAnimateFlip(true);
     setIsFocused((prevState) => !prevState);
     setIsView(true)
     // Play flip sound after a short delay
     setTimeout(() => {
-      flipSoundRef.current.play();
+      // flipSoundRef.current.play();
     }, 150);
   };
 
   const handleDoubleClick = (e:any) => {
     if (isFocused) {
-      clickSoundRef.current.play();
+      // clickSoundRef.current.play();
       route.push(navigateTo)
     }
   };
@@ -79,8 +79,8 @@ const route = useRouter()
 
   // Preload sounds
   useEffect(() => {
-    clickSoundRef.current.load();
-    flipSoundRef.current.load();
+    // clickSoundRef.current.load();
+    // flipSoundRef.current.load();
   }, []);
 
   return (
