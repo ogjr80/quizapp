@@ -1,13 +1,13 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "./prisma";
+import { db } from "./prisma";
 import Entra from "next-auth/providers/microsoft-entra-id";
 import { isProd } from "./utils";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   theme:{
-    colorScheme: 'dark',
-    logo: '/eoh.png',
+    colorScheme: 'light',
+    logo: '/eoh.svg',
   },
   debug: process.env.NODE_ENV === "development",
   providers: [
@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     
   ],
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
   },
