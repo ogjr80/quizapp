@@ -1,11 +1,10 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { AnimatedBackground } from './AnimatedBackground';
-import { Clock, Users, Rocket, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { RegisterAction } from './RegisterAction';
 import { Session } from 'inspector/promises';
-export const CountdownComponent: React.FC<{ targetDate: string, url: string, session?: Session | unknown }> = ({ targetDate, url = '/api/auth/signup', session }) => {
+export const CountdownComponent: React.FC<{ targetDate: string, url: string, session?: any | unknown }> = ({ targetDate, url = '/api/auth/signup', session }) => {
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: number }>({});
   const [isClient, setIsClient] = useState(false);
 
@@ -61,7 +60,11 @@ export const CountdownComponent: React.FC<{ targetDate: string, url: string, ses
       <div className="z-10 mt-3 text-white text-center">
         <p className="text-lg sm:text-base">Register by 23 September 2024 to secure your spot!</p>
         <div className=" py-3 space-x-4 my-4 flex justify-center items-center">
-          <RegisterAction url={url} />
+          
+          {session && session?.user ?<>
+          <h1 className="text-xl sm:text-2xl 2xl:text-5xl">Welcome {session?.user?.name}</h1>
+          
+          </> :<RegisterAction url={url} />}
           {/* <RegisterAction mode="session" url={url} session={session} /> */}
         </div>
       </div>
