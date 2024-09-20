@@ -60,9 +60,9 @@ export const CountdownComponent: React.FC<{ targetDate: string, url: string, ses
       </div>
       <div className="z-10 mt-3 text-white text-center">
         <p className="text-lg sm:text-base">Register by 23 September 2024 to secure your spot!</p>
-        <div className="hidden py-3 space-x-4 my-4 flex justify-center items-center">
+        <div className=" py-3 space-x-4 my-4 flex justify-center items-center">
           <RegisterAction url={url} />
-          <RegisterAction mode="session" url={url} session={session} />
+          {/* <RegisterAction mode="session" url={url} session={session} /> */}
         </div>
       </div>
       <div className="z-10 bg-white  backdrop-blur-md p-6 rounded-lg backdrop-blur-md max-w-2xl sm:max-w-2xl sm:p-4">
