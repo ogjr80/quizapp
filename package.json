@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@opherlabs/components": "^1.2.7",
     "@reduxjs/toolkit": "^2.2.7",
     "next": "15.0.0-rc.0",
     "react": "19.0.0-rc-f994737d14-20240522",

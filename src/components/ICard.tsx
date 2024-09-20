@@ -64,7 +64,7 @@ const route = useRouter()
   const handleDoubleClick = (e:any) => {
     if (isFocused) {
       clickSoundRef.current.play();
-      route.push(`/quiz/${e.target.id}`)
+      route.push(navigateTo)
     }
   };
 
@@ -97,9 +97,9 @@ const route = useRouter()
       }
     >
       <div className="interactive-card-inner">
-        <div className="interactive-card-front">
-          <div className="glare" style={glareStyle}></div>
-          <div className="content">{children}</div>
+        <div className="">
+          <div className="" style={glareStyle}></div>
+          <div className="">{children}</div>
         </div>
         <div className="interactive-card-back">
           {backImage && <img src={backImage} className='w-full h-full object-fit' alt="Card Back" />}
