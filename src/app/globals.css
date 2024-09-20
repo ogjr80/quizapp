@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
 @layer utilities {
   .backface-hidden {
     backface-visibility: hidden;
@@ -15,6 +29,16 @@
   .rotate-y-180 {
     transform: rotateY(180deg);
   }
+}
+.bg {
+  background: 
+    linear-gradient(rgba(6, 6, 6, 0.7), rgba(6, 6, 6, 0.7)),
+    url('/flag.svg');
+  background-size: cover, cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #060606;
+  color: black
 }
 
 /* Base Styles */

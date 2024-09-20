@@ -1,6 +1,6 @@
 'use client'
 import type { NextPage } from 'next';
-import { Quiz } from '../types';
+import { Quiz } from '@/types';
 import {InteractiveCard} from '@/components/ICard';
 import {AnimatedBackground} from "@/components"
 import { PiUserCircleDuotone } from 'react-icons/pi';
@@ -11,11 +11,12 @@ const quizzes: Quiz[] = [
   { id: 4, title: "Unity Cards", description: "Journey around the country", bgColor: 'bg-[#00BEA1]', backImage: "/cards/west.webp" },
 ];
 
-const Home: NextPage = () => {
+export const GamePlay: NextPage = () => {
   return (
     <div  className="bg min-h-screen flex flex-col justify-center items-center">
       <AnimatedBackground />
-      <h1 className="text-4xl font-bold text-center mb-8">Unity In Diversity</h1>
+      <h1 className="text-4xl text-white font-bold text-center mb-8">Unity in Diversity: A Cultural Celebration Game
+      </h1>
       <div className="grid grid-cols-3 justify-start items-center mx-auto max-w-7xl">
         <div className="shuffle  mx-auto max-w-7x">
           <button>Scores</button>
@@ -47,5 +48,3 @@ const Home: NextPage = () => {
     </div>
   );
 };
-
-export default Home;
