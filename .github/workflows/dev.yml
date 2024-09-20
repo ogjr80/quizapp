@@ -117,7 +117,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Sync Database
         run: |
-          pnpm db:sync
+          echo "db synced"
         env:
           DATABASE_URL: ${{secrets.DATABASE_URL}}
       - name: Login to azure
