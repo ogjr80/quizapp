@@ -23,12 +23,12 @@ const Home: NextPage = () => {
         </div>
         <div className="icons flex space-x-3 ">
          {
-          [1,23,4].map(e=>( <PiUserCircleDuotone className='h-4 w-4'/>))
+          [1,23,4].map(e=>( <PiUserCircleDuotone key={e} className='h-4 w-4'/>))
          }
         </div>
         <div className="companies flex ">
         {
-          [1,23,4].map(e=>( <PiUserCircleDuotone className='h-4 w-4'/>))
+          [1,23,4].map(e=>( <PiUserCircleDuotone key={e} className='h-4 w-4'/>))
          }
         </div>
       </div>
