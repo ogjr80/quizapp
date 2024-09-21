@@ -3,10 +3,12 @@ import { useQuestions } from "@/hooks/stores/useQuestions";
 import { useScores } from "@/hooks/stores/useScores";
 import { useGameSession } from "@/hooks/useGameSession";
 import { usePoints } from "@/hooks/usePoints";
+import { isFull } from "@/lib/shuffleQuestions";
 import { ScoreTypes } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import GameSessionTimer from "./GameSessionTimer";
 
 type Question = {
     question: string;
@@ -35,15 +37,18 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     const { session: gameSession, } = useGameSession()
     const { id } = useParams()
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
-    const { current } = useQuestions() as any
+    const { current, previous } = useQuestions() as any
     const handleStorytellingOrChallenge = () => { }
     const handleAnswerCheck = async (option: string) => {
         setSelectedOption(option)
         if (option === current.correctAnswer) {
             // save the data
-            await submitQuizScore.mutateAsync({
-                score: 1, idtype: curentSet.type
-            })
+            if (!isFull(current, previous)) {
+                await submitQuizScore.mutateAsync({
+                    score: 1, idtype: curentSet.type
+                })
+            }
+
         }
         return router.push(`/${url}`)
 
@@ -56,7 +61,7 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
             <div className="bg-cover bg-center rounded-lg h-full relative">
                 <button
                     className="absolute top-4 right-4 bg-red-600 p-2 rounded-full text-white text-3xl"
-                    onClick={() => router.push(url)}
+                    onClick={() => router.push(`/${url}`)}
                 >
                     <FaTimes />
                 </button>
@@ -84,13 +89,12 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
                             {curentSet?.type === 'DIVERSITY' && current?.options.map((option: string) => (
                                 <button
                                     key={option}
-                                    className={`w-full p-4 text-left rounded mb-2 ${
-                                        selectedOption === option
-                                            ? option === current.correctAnswer
-                                                ? "bg-green-500 text-white"
-                                                : "bg-red-500 text-white"
-                                            : "bg-gray-200 hover:bg-gray-300"
-                                    } ${isButtonDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                    className={`w-full p-4 text-left rounded mb-2 ${selectedOption === option
+                                        ? option === current.correctAnswer
+                                            ? "bg-green-500 text-white"
+                                            : "bg-red-500 text-white"
+                                        : "bg-gray-200 hover:bg-gray-300"
+                                        } ${isButtonDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
                                     onClick={() => handleAnswerCheck(option)}
                                     disabled={isButtonDisabled}
                                     title={isButtonDisabled ? "You've already selected an answer" : ""}
@@ -116,6 +120,7 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
                         </div>
                         <div className="flex items-center justify-center text-lg mt-6 p-6 rounded-lg space-x-4" style={{ backgroundColor: curentSet.bgColor }}>
                             <p className="text-white">Score: {points?.score ?? 0}</p>
+                            <GameSessionTimer />
                         </div>
                     </div>
                 </div>

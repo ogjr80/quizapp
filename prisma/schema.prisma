@@ -121,14 +121,27 @@ model Achievement {
 }
 
 model Points {
-  id        String       @id @default(cuid())
-  userId    String       @unique
-  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stages    ScoreTypes[]
+  id          String        @id @default(cuid())
+  userId      String        @unique
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stages      ScoreTypes[]
+  score       Int
+  intraScores IntraScores[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+}
+
+model IntraScores {
+  id        String     @id @default(cuid())
+  points    Points?    @relation(fields: [pointsId], references: [id], onDelete: Cascade)
+  pointsId  String?    @unique
   score     Int
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  deletedAt DateTime?
+  type      ScoreTypes @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([pointsId])
 }
 
 model GameSession {

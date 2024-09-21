@@ -9,7 +9,9 @@ export class PointsService {
     static getUserPoints(ctx: HeritageContext): any {
         try {
             return this.db.points.findUnique({
-                where: { userId: ctx.user.id }
+                where: { userId: ctx.user.id }, include: {
+                    intraScores: true
+                }
             })
         } catch (error) {
             return null
@@ -42,6 +44,7 @@ export class PointsService {
                     create: {
                         stages: [idtype],
                         score: scores,
+
                         user: {
                             connect: {
                                 id: ctx.user.id,
@@ -67,6 +70,22 @@ export class PointsService {
                         },
                     },
                 });
+                await this.db.intraScores.upsert({
+                    where: {
+                        pointsId: pts.id,
+                        type: idtype
+                    },
+                    create: {
+                        score: scores,
+                        type: idtype,
+                        pointsId: pts.id
+                    },
+                    update: {
+                        score: {
+                            increment: scores
+                        }
+                    }
+                })
                 return {
                     success: true,
                     message: "Quiz score submitted successfully",

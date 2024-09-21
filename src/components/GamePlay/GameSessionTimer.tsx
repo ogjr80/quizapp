@@ -48,7 +48,7 @@ export const GameSessionTimer = () => {
                 {session && session.isActive && (
                     <>
                         {isTimeUp ? (
-                            <span className="text-lg font-bold">{points.score ?? 0}</span>
+                            <span className="text-3xl font-bold">{points?.score ?? 0}</span>
                         ) : (
                             <span className={`text-lg font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
                                 {timeLeft}

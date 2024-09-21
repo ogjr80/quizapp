@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
 import { useGameSession } from '@/hooks/useGameSession'
 import { GameSessionTimer } from "@/components"
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { isFull, ShuffleQuestions } from '@/lib/shuffleQuestions'; // You'll need to create this utility function
 import { useQuestions } from '@/hooks/stores/useQuestions'
 import { Question } from '@/types/questions'
@@ -21,7 +21,7 @@ function PublicPage() {
   const { previous, setCurrent, current } = useQuestions()
 
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
-  const { points, loading } = usePoints()
+  const { points, loading: pointsLoading } = usePoints()
   useEffect(() => {
     const interval = setInterval(() => {
       setShowTrophy(prev => !prev); // Toggle the state
@@ -33,11 +33,11 @@ function PublicPage() {
 
   // Sample leaderboard data
   const sampleLeaderboard = [
-    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: 120 },
-    { image: '/cards/sun-sm.svg', name: 'Player 2', points: 95 },
-    { image: '/cards/green-sm.svg', name: 'Player 3', points: 80 },
-    { image: '/cards/country-sm.svg', name: 'Player 4', points: 75 },
-    { image: '/cards/blue-sm.svg', name: 'Player 5', points: 60 },
+    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: points?.score ?? 0 },
+    { image: '/cards/blue-sm.svg', name: 'Player 5', points: points?.intraScores.find((e: any) => e.type === "DIVERSITY")?.score ?? 0 },
+    { image: '/cards/country-sm.svg', name: 'Player 4', points: points?.intraScores.find((e: any) => e.type === "STORYTELLING")?.score ?? 0 },
+    { image: '/cards/sun-sm.svg', name: 'Player 2', points: points?.intraScores.find((e: any) => e.type === "CHALLENGE")?.score ?? 0 },
+    { image: '/cards/green-sm.svg', name: 'Player 3', points: points?.intraScores.find((e: any) => e.type === "UNITY")?.score ?? 0 },
   ];
   const { session: gameSession, startGameSession } = useGameSession() as any
   const handleSession = async () => {
@@ -49,6 +49,14 @@ function PublicPage() {
   }
   const { isTimeUp } = useSessionCounter()
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Add this line
+
+  useEffect(() => {
+    // Set loading to false once all necessary data is loaded
+    if (!pointsLoading && gameSession !== undefined) {
+      setIsLoading(false);
+    }
+  }, [pointsLoading, gameSession]);
 
   const handleCardClick = (fileId: string) => {
     // Assuming each file in QuizCardsData has a 'questions' array
@@ -61,6 +69,8 @@ function PublicPage() {
       router.push(`/public/${fileId}`);
     }
   };
+
+
 
   return (
     <div className='bg'>
@@ -101,7 +111,9 @@ function PublicPage() {
       <div className='min-h-screen  justify-center flex  items-center '>
         <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
-            <button title={isFull(file, previous) ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"} disabled={isFull(file, previous) || isTimeUp || (gameSession && !gameSession.isActive)}
+            <button
+              title={isLoading || isFull(file, previous) ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
+              disabled={isLoading || isFull(file, previous) || isTimeUp || (gameSession && !gameSession.isActive)}
               key={file.id}
               className={`${isFull(file, previous) && 'border-l-red-500 border-l-4 rounded-l-md'} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
@@ -135,6 +147,7 @@ function PublicPage() {
                     className="pointer-events-none transition-opacity duration-300 group-hover:greyscale"
                   />
                 </div>
+
                 <div
                   className="h-[16rem] hidden rounded-lg sm:flex items-center -mt-6 z-50 justify-center transition-transform duration-300 group-hover:translate-y-2 sm:bg-transparent"
                   style={{ backgroundColor: file.bgColor }}
