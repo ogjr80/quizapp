@@ -43,7 +43,7 @@ const Quiz: React.FC = () => {
       playCorrect();
     }
 
-    if (currentQuestion < 9) {
+    if (currentQuestion < 3) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       router.push('/');

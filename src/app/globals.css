@@ -20,18 +20,22 @@
   .backface-hidden {
     backface-visibility: hidden;
   }
+
   .perspective-1000 {
     perspective: 1000px;
   }
+
   .transform-style-3d {
     transform-style: preserve-3d;
   }
+
   .rotate-y-180 {
     transform: rotateY(180deg);
   }
 }
+
 .bg {
-  background: 
+  background:
     linear-gradient(rgba(6, 6, 6, 0.7), rgba(6, 6, 6, 0.7)),
     url('/flag.svg');
   background-size: cover, cover;
@@ -87,13 +91,11 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: repeating-radial-gradient(
-    circle,
-    transparent 0%,
-    transparent 5%,
-    rgba(255, 255, 255, 0.05) 5%,
-    rgba(255, 255, 255, 0.05) 10%
-  );
+  background: repeating-radial-gradient(circle,
+      transparent 0%,
+      transparent 5%,
+      rgba(255, 255, 255, 0.05) 5%,
+      rgba(255, 255, 255, 0.05) 10%);
   background-size: 50px 50px;
   mix-blend-mode: screen;
   filter: hue-rotate(0deg);
@@ -106,10 +108,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: 100% 50%;
   }
- 
+
 }
 
 @keyframes holoEffectAnimation {
@@ -117,6 +120,7 @@
     transform: rotate(0deg);
     filter: hue-rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
     filter: hue-rotate(360deg);
@@ -145,9 +149,47 @@
   0% {
     transform: translate(-50%, -50%) scale(1.2) rotateY(0deg);
   }
- 
+
   100% {
     transform: translate(-50%, -50%) scale(1.2) rotateY(360deg);
   }
 
+}
+
+
+
+
+
+
+
+.fire-effect-120 {
+  animation: burn 1s infinite alternate;
+}
+
+.fire-effect-95 {
+  animation: burn 0.8s infinite alternate;
+}
+
+.fire-effect-80 {
+  animation: burn 0.6s infinite alternate;
+}
+
+.fire-effect-75 {
+  animation: burn 0.5s infinite alternate;
+}
+
+.fire-effect-60 {
+  animation: burn 0.4s infinite alternate;
+}
+
+@keyframes burn {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
 }

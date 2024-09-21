@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-arm64-openssl-1.1.x","debian-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-1.1.x", "debian-openssl-3.0.x"]
 }
 
 model GameHistory {
@@ -33,6 +33,7 @@ model User {
   highScores    HighScore[]
   gamePlays     GamePlay[]
   achievements  Achievement[]
+  Points        Points[]
 }
 
 model Account {
@@ -90,22 +91,22 @@ model Authenticator {
 }
 
 model HighScore {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  score     Int
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  score      Int
   difficulty String
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 }
 
 model GamePlay {
-  id             String   @id @default(cuid())
-  userId         String
-  user           User     @relation(fields: [userId], references: [id])
-  score          Int
-  difficulty     String
-  totalAnswered  Int
-  createdAt      DateTime @default(now())
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  score         Int
+  difficulty    String
+  totalAnswered Int
+  createdAt     DateTime @default(now())
 }
 
 model Achievement {
@@ -114,4 +115,22 @@ model Achievement {
   user      User     @relation(fields: [userId], references: [id])
   name      String
   createdAt DateTime @default(now())
+}
+
+model Points {
+  id        String       @id @default(cuid())
+  userId    String       @unique
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stages    ScoreTypes[]
+  score     Int
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
+}
+
+enum ScoreTypes {
+  DIVERSITY
+  STORYTELLING
+  CHALLENGE
+  UNITY
 }
