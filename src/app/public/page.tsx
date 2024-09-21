@@ -1,11 +1,12 @@
 'use client'
 import React from 'react'
-import { AnimatedBackground } from '@opherlabs/components'
+import { AnimatedBackground } from '@/components'
 import { QuizCardsData } from '@/data'
 import Link from 'next/link'
 import Image from 'next/image'
-import { PlayIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'; // Add this import
+import { IoPlayOutline } from "react-icons/io5";
+
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
 import { useGameSession } from '@/hooks/useGameSession'
@@ -75,8 +76,8 @@ function PublicPage() {
               {gameSession ? (
                 <GameSessionTimer />
               ) : (
-                <button title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
-                  <PlayIcon className="w-16 h-16 text-gray-400" />
+                <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
+                  <IoPlayOutline className="w-16 h-16 group-hover:text-white text-gray-400" />
                 </button>
               )}
             </div>
