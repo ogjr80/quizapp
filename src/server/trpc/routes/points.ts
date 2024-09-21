@@ -2,6 +2,11 @@ import { z } from "zod";
 import { authProcedure, publicProcedure, router } from "../trpc";
 import { PointsSchema } from "@/server/core/points/schema";
 import { PointsService } from "@/server/core/points/service";
+import { Points } from "@prisma/client";
+import EventEmitter, { on } from 'events';
+const ee = new EventEmitter();
+import { tracked } from '@trpc/server';
+import { observable } from "@trpc/server/observable";
 
 export const pointsRouter = router({
   submitQuizScore: authProcedure
@@ -12,25 +17,24 @@ export const pointsRouter = router({
       return await PointsService.submitQuizScore(input, ctx);
     }),
 
-  getUserScores: publicProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(async ({ input }) => {
-      const { userId } = input;
+  getUserScores: authProcedure
+    .query(async ({ ctx }) => {
+      return await PointsService.getUserPoints(ctx)
 
-      const userScores = await prisma.quizAttempt.findMany({
-        where: { userId },
-        orderBy: { createdAt: 'desc' },
-        include: { quiz: true },
-      });
-
-      const totalPoints = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { totalPoints: true },
-      });
-
-      return {
-        quizAttempts: userScores,
-        totalPoints: totalPoints?.totalPoints || 0,
-      };
     }),
+  onAdd: publicProcedure.subscription(() => {
+    // return an `observable` with a callback which is triggered immediately
+    return observable<Points>((emit) => {
+      const onAdd = (data: Points) => {
+        // emit data to client
+        emit.next(data);
+      };
+      // trigger `onAdd()` when `add` is triggered in our event emitter
+      ee.on('add', onAdd);
+      // unsubscribe function when client disconnects or stops subscribing
+      return () => {
+        ee.off('add', onAdd);
+      };
+    });
+  })
 });

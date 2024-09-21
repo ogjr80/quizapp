@@ -14,6 +14,7 @@ const t = initTRPC.context<typeof createHeritageContext>().create({
             },
         };
     },
+    // {{ edit_1 }}: Enable subscriptions
 });
 
 export const router = t.router;
