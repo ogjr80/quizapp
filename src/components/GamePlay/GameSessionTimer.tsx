@@ -13,13 +13,14 @@ export const GameSessionTimer = () => {
         isTimeUp,
         progress
     } = useSessionCounter()
+    const { points } = usePoints()
 
     if (loading) return <>loading</>
 
     const radius = 40
     const circumference = 2 * Math.PI * radius
     const strokeDashoffset = circumference - (progress / 100) * circumference
-    const { points } = usePoints()
+
     return (
         <div className="relative w-24 h-24">
             <svg className="w-full h-full transform -rotate-90">
