@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { PiHourglassFill } from "react-icons/pi";
+import GameSessionTimer from './GameSessionTimer';
 
 type Question = {
     question: string;
@@ -193,3 +194,5 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
         </div>
     );
 };
+
+export default QuizComponent;
