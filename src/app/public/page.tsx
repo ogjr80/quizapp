@@ -33,10 +33,10 @@ function PublicPage() {
   // Sample leaderboard data
   const sampleLeaderboard = [
     { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: 120 },
-    { image: '/logo/opco.svg', name: 'Player 2', points: 95 },
-    { image: '/logo/easyhq.svg', name: 'Player 3', points: 80 },
-    { image: '/logo/eoh.svg', name: 'Player 4', points: 75 },
-    { image: '/logo/opco.svg', name: 'Player 5', points: 60 },
+    { image: '/cards/sun-sm.svg', name: 'Player 2', points: 95 },
+    { image: '/cards/green-sm.svg', name: 'Player 3', points: 80 },
+    { image: '/cards/country-sm.svg', name: 'Player 4', points: 75 },
+    { image: '/cards/blue-sm.svg', name: 'Player 5', points: 60 },
   ];
   const { session: gameSession, startGameSession } = useGameSession() as any
   const handleSession = async () => {
