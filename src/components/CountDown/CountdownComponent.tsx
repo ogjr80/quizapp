@@ -26,7 +26,6 @@ export const CountdownComponent: React.FC<{ targetDate: string, url: string, ses
 
   useEffect(() => {
     setIsClient(true);
-    setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -60,11 +59,11 @@ export const CountdownComponent: React.FC<{ targetDate: string, url: string, ses
       <div className="z-10 mt-3 text-white text-center">
         <p className="text-lg sm:text-base">Register by 23 September 2024 to secure your spot!</p>
         <div className=" py-3 space-x-4 my-4 flex justify-center items-center">
-          
-          {session && session?.user ?<>
-          <h1 className="text-xl sm:text-2xl 2xl:text-5xl">Welcome {session?.user?.name}</h1>
-          
-          </> :<RegisterAction url={url} />}
+
+          {session && session?.user ? <>
+            <h1 className="text-xl sm:text-2xl 2xl:text-5xl">Welcome {session?.user?.name}</h1>
+
+          </> : <RegisterAction url={url} />}
           {/* <RegisterAction mode="session" url={url} session={session} /> */}
         </div>
       </div>

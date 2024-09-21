@@ -4,7 +4,7 @@ import { AnimatedBackground } from '@opherlabs/components'
 import { QuizCardsData } from '@/data'
 import Link from 'next/link'
 import Image from 'next/image'
-import { PlayIcon, TrophyIcon } from 'lucide-react'
+import { PlayIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'; // Add this import
 import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
