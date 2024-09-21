@@ -2,51 +2,60 @@
 import { useGameSession } from '@/hooks/useGameSession'
 import { useScores } from '@/hooks/stores/useScores'
 import React, { useState, useEffect } from 'react'
+import useSessionCounter from '@/hooks/useSessionCounter'
+import { usePoints } from '@/hooks/usePoints'
 
 export const GameSessionTimer = () => {
-    const { session, loading } = useGameSession() as any
-    const { score } = useScores()
-    const [timeLeft, setTimeLeft] = useState<string>('')
-    const [isTimeUp, setIsTimeUp] = useState(false)
-
-    useEffect(() => {
-        if (session && session.isActive && session.endTime) {
-            const timer = setInterval(() => {
-                const now = new Date().getTime()
-                const end = new Date(session.endTime).getTime()
-                const difference = end - now
-
-                if (difference > 0) {
-                    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-                    const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-                    setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`)
-                } else {
-                    setTimeLeft('00:00')
-                    setIsTimeUp(true)
-                    clearInterval(timer)
-                }
-            }, 1000)
-
-            return () => clearInterval(timer)
-        }
-    }, [session])
+    const {
+        loading,
+        session,
+        timeLeft,
+        isTimeUp,
+        progress
+    } = useSessionCounter()
 
     if (loading) return <>loading</>
 
+    const radius = 40
+    const circumference = 2 * Math.PI * radius
+    const strokeDashoffset = circumference - (progress / 100) * circumference
+    const { points } = usePoints()
     return (
-        <div className={`${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
-            {session && session.isActive && (
-                <>
-                    <div className="span">
-
-                    </div>
-                    {isTimeUp ? (
-                        <span>{score}</span>
-                    ) : (
-                        <span>{timeLeft}</span>
-                    )}
-                </>
-            )}
+        <div className="relative w-24 h-24">
+            <svg className="w-full h-full transform -rotate-90">
+                <circle
+                    cx="50%"
+                    cy="50%"
+                    r={radius}
+                    stroke="#e5e7eb"
+                    strokeWidth="4"
+                    fill="transparent"
+                />
+                <circle
+                    cx="50%"
+                    cy="50%"
+                    r={radius}
+                    stroke={parseInt(timeLeft.split(':')[0]) < 3 ? '#ef4444' : '#22c55e'}
+                    strokeWidth="4"
+                    fill="transparent"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+                {session && session.isActive && (
+                    <>
+                        {isTimeUp ? (
+                            <span className="text-lg font-bold">{points.score ?? 0}</span>
+                        ) : (
+                            <span className={`text-lg font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
+                                {timeLeft}
+                            </span>
+                        )}
+                    </>
+                )}
+            </div>
         </div>
     )
 }

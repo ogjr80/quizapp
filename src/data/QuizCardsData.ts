@@ -10,6 +10,7 @@ export const QuizCardsData = [
                 question: "What is the national animal of South Africa?",
                 options: ["Springbok", "Lion", "Elephant", "Buffalo"],
                 correctAnswer: "Springbok",
+                type: "DIVERSITY",
                 timer: 30
             },
             {
@@ -18,7 +19,8 @@ export const QuizCardsData = [
                 "question": "What is the national flower of South Africa?",
                 "options": ["Protea", "Daisy", "Sunflower", "Rose"],
                 "correctAnswer": "Protea",
-                "explanation": "The King Protea is the national flower of South Africa. It symbolizes beauty, resilience, and strength, and is often associated with the country's natural diversity and unity."
+                "explanation": "The King Protea is the national flower of South Africa. It symbolizes beauty, resilience, and strength, and is often associated with the country's natural diversity and unity.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq4",
@@ -26,7 +28,8 @@ export const QuizCardsData = [
                 "question": "Which of the following is NOT one of South Africa's 11 official languages?",
                 "options": ["Zulu", "Xhosa", "Swahili", "Afrikaans"],
                 "correctAnswer": "Swahili",
-                "explanation": "South Africa has 11 official languages, including Zulu, Xhosa, Afrikaans, English, and Sesotho, but Swahili is not one of them."
+                "explanation": "South Africa has 11 official languages, including Zulu, Xhosa, Afrikaans, English, and Sesotho, but Swahili is not one of them.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq5",
@@ -34,7 +37,8 @@ export const QuizCardsData = [
                 "question": "Which South African cultural group is known for their intricate beadwork and colorful attire, especially during ceremonies?",
                 "options": ["Zulu", "Xhosa", "Sotho", "Venda"],
                 "correctAnswer": "Zulu",
-                "explanation": "The Zulu cultural group is known for their elaborate beadwork and vibrant ceremonial attire."
+                "explanation": "The Zulu cultural group is known for their elaborate beadwork and vibrant ceremonial attire.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq6",
@@ -42,7 +46,8 @@ export const QuizCardsData = [
                 "question": "What is the traditional dish called that is commonly enjoyed by people of Indian descent in Durban, often served in a hollowed-out loaf of bread?",
                 "options": ["Bobotie", "Bunny Chow", "Braai", "Biltong"],
                 "correctAnswer": "Bunny Chow",
-                "explanation": "Bunny Chow is a dish consisting of a hollowed-out loaf of bread filled with curry, popular among the Indian community in Durban."
+                "explanation": "Bunny Chow is a dish consisting of a hollowed-out loaf of bread filled with curry, popular among the Indian community in Durban.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq7",
@@ -50,7 +55,8 @@ export const QuizCardsData = [
                 "question": "What is the name of the iconic mountain that overlooks Cape Town and is considered one of the New7Wonders of Nature?",
                 "options": ["Table Mountain", "Lion's Head", "Devil's Peak", "Signal Hill"],
                 "correctAnswer": "Table Mountain",
-                "explanation": "Table Mountain is the iconic flat-topped mountain overlooking Cape Town and is recognized as one of the New7Wonders of Nature."
+                "explanation": "Table Mountain is the iconic flat-topped mountain overlooking Cape Town and is recognized as one of the New7Wonders of Nature.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq8",
@@ -58,7 +64,8 @@ export const QuizCardsData = [
                 "question": "Which famous South African landmark served as a prison for political leaders, including Nelson Mandela, during the apartheid era?",
                 "options": ["Alcatraz", "Robben Island", "Devil's Island", "Pollsmoor Prison"],
                 "correctAnswer": "Robben Island",
-                "explanation": "Robben Island, located off the coast of Cape Town, served as a prison for political leaders, including Nelson Mandela, during the apartheid era."
+                "explanation": "Robben Island, located off the coast of Cape Town, served as a prison for political leaders, including Nelson Mandela, during the apartheid era.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq9",
@@ -66,7 +73,8 @@ export const QuizCardsData = [
                 "question": "What is the name of the vast national park in South Africa known for its rich wildlife and is one of the largest game reserves in Africa?",
                 "options": ["Addo Elephant Park", "Kruger National Park", "Pilanesberg National Park", "iSimangaliso Wetland Park"],
                 "correctAnswer": "Kruger National Park",
-                "explanation": "Kruger National Park is one of the largest game reserves in Africa, known for its diverse wildlife and vast size."
+                "explanation": "Kruger National Park is one of the largest game reserves in Africa, known for its diverse wildlife and vast size.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq10",
@@ -74,7 +82,8 @@ export const QuizCardsData = [
                 "question": "Which South African ethnic group primarily speaks Sesotho?",
                 "options": ["Zulu", "Xhosa", "Basotho", "Tswana"],
                 "correctAnswer": "Basotho",
-                "explanation": "The Basotho people primarily speak Sesotho, and they are predominantly found in the Free State province and Lesotho."
+                "explanation": "The Basotho people primarily speak Sesotho, and they are predominantly found in the Free State province and Lesotho.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq11",
@@ -82,7 +91,8 @@ export const QuizCardsData = [
                 "question": "Who coined the term 'Rainbow Nation' to describe South Africa's racial and cultural diversity?",
                 "options": ["Nelson Mandela", "Desmond Tutu", "F.W. de Klerk", "Thabo Mbeki"],
                 "correctAnswer": "Desmond Tutu",
-                "explanation": "The term 'Rainbow Nation' was coined by Archbishop Desmond Tutu to describe South Africa's peaceful transition from apartheid to a democracy that embraces all races and cultures."
+                "explanation": "The term 'Rainbow Nation' was coined by Archbishop Desmond Tutu to describe South Africa's peaceful transition from apartheid to a democracy that embraces all races and cultures.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq12",
@@ -90,7 +100,8 @@ export const QuizCardsData = [
                 "question": "Which South African cultural group is known for preparing bobotie, a dish made of spiced minced meat baked with an egg-based topping?",
                 "options": ["Zulu", "Xhosa", "Cape Malay", "Afrikaner"],
                 "correctAnswer": "Cape Malay",
-                "explanation": "The Cape Malay community is known for preparing bobotie, a dish made of spiced minced meat baked with an egg-based topping."
+                "explanation": "The Cape Malay community is known for preparing bobotie, a dish made of spiced minced meat baked with an egg-based topping.",
+                type: "DIVERSITY"
             },
             {
                 "id": "dq13",
@@ -210,7 +221,8 @@ export const QuizCardsData = [
                 "question": "Which of the following is NOT mentioned as one of EOH's digital transformation capabilities?",
                 "options": ["Managed Services", "Digital Infrastructure", "Blockchain Solutions", "Cloud Solutions"],
                 "correctAnswer": "Blockchain Solutions",
-                "explanation": "EOH's digital transformation capabilities include Managed Services, Digital Infrastructure, Security, Automation, Cloud Solutions, Data, and App Dev, but Blockchain Solutions is not specifically mentioned."
+                "explanation": "EOH's digital transformation capabilities include Managed Services, Digital Infrastructure, Security, Automation, Cloud Solutions, Data, and App Dev, but Blockchain Solutions is not specifically mentioned.",
+                type: "DIVERSITY"
             }
         ]
     },
@@ -225,12 +237,14 @@ export const QuizCardsData = [
                 question: "Who was the first democratic president of South Africa?",
                 options: ["Nelson Mandela", "Thabo Mbeki", "Cyril Ramaphosa", "FW de Klerk"],
                 correctAnswer: "Nelson Mandela",
+                type: "STORYTELLING",
                 timer: 40
             },
             {
                 question: "What year did South Africa become a democratic country?",
                 options: ["1990", "1994", "2000", "1989"],
                 correctAnswer: "1994",
+                type: "STORYTELLING",
                 timer: 40
             }
         ]
@@ -246,13 +260,16 @@ export const QuizCardsData = [
                 question: "Which city is known as the legislative capital of South Africa?",
                 options: ["Cape Town", "Pretoria", "Johannesburg", "Durban"],
                 correctAnswer: "Cape Town",
-                timer: 35
+                timer: 35,
+                type: "CHALLENGE"
             },
             {
                 question: "What is the longest river in South Africa?",
                 options: ["Orange River", "Vaal River", "Limpopo River", "Crocodile River"],
                 correctAnswer: "Orange River",
-                timer: 35
+                timer: 35,
+                type: "CHALLENGE"
+
             }
         ]
     },
@@ -271,6 +288,8 @@ export const QuizCardsData = [
                     "Proudly South African",
                     "Strength through Unity"
                 ],
+                type: "UNITY",
+
                 correctAnswer: "Unity in Diversity",
                 timer: 30
             },
@@ -278,6 +297,7 @@ export const QuizCardsData = [
                 question: "Which sport is most popular in South Africa?",
                 options: ["Rugby", "Soccer", "Cricket", "Hockey"],
                 correctAnswer: "Soccer",
+                type: "UNITY",
                 timer: 30
             }
         ]
