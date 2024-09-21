@@ -5,7 +5,6 @@ import { PointsService } from "@/server/core/points/service";
 import { Points } from "@prisma/client";
 import EventEmitter, { on } from 'events';
 const ee = new EventEmitter();
-import { tracked } from '@trpc/server';
 import { observable } from "@trpc/server/observable";
 
 export const pointsRouter = router({

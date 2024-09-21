@@ -1,15 +1,19 @@
 'use client'
 import React from 'react'
-import { AnimatedBackground, CardsHolder, QuizCards, } from '@opherlabs/components'
+import { AnimatedBackground } from '@opherlabs/components'
 import { QuizCardsData } from '@/data'
 import Link from 'next/link'
 import Image from 'next/image'
-import { TrophyIcon } from 'lucide-react'
+import { PlayIcon, TrophyIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'; // Add this import
 import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
+import { useGameSession } from '@/hooks/useGameSession'
+import { GameSessionTimer } from "@/components"
+
 
 function PublicPage() {
+
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
   const { points, loading } = usePoints()
   useEffect(() => {
@@ -23,13 +27,20 @@ function PublicPage() {
 
   // Sample leaderboard data
   const sampleLeaderboard = [
-    { image: session?.user?.image ?? '', name: 'Player 1', points: 120 },
+    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: 120 },
     { image: '/logo/opco.svg', name: 'Player 2', points: 95 },
     { image: '/logo/easyhq.svg', name: 'Player 3', points: 80 },
     { image: '/logo/eoh.svg', name: 'Player 4', points: 75 },
     { image: '/logo/opco.svg', name: 'Player 5', points: 60 },
   ];
-
+  const { session: gameSession, startGameSession } = useGameSession()
+  const handleSession = async () => {
+    try {
+      await startGameSession.mutateAsync({ type: "individual" })
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className='bg'>
       <AnimatedBackground />
@@ -40,20 +51,15 @@ function PublicPage() {
             <p>A cultural celebration Game</p>
           </div>
           <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-3 bg-white h-32 w-32">
-            <h1 className='text-4xl font-bold border-2 border-black rounded-full h-full w-full flex justify-center items-center'>
-              <Link href="/leaderboard">
-                {showTrophy ? ( // Conditional rendering
-                  <div className="relative">
-                    <TrophyIcon className="w-16 h-16 text-gray-400" />
-                    <span className="absolute top-0 right-0 bg-red-500 text-white text-sm font-bold rounded-full px-1">
-                      {points?.score ?? 0}
-                    </span>
-                  </div>
-                ) : (
-                  <Image src={session?.user?.image ?? '/ava.jpeg'} className='rounded-full' alt="Profile" width={80} height={80} /> // Add your profile image here
-                )}
-              </Link>
-            </h1>
+            <div className='text-4xl font-bold border-2 border-black rounded-full h-full w-full flex justify-center items-center'>
+              {gameSession ? (
+                <GameSessionTimer />
+              ) : (
+                <button onClick={handleSession}>
+                  <PlayIcon className="w-16 h-16 text-gray-400" />
+                </button>
+              )}
+            </div>
           </div>
           <div className="icons flex justify-end gap-4 items-center">
             <Link href="/">
@@ -68,7 +74,6 @@ function PublicPage() {
             <Link href={session?.user ? '/api/auth/signout' : '/api/auth/signin'}>
               {session?.user ? 'Logout' : 'Login'}
             </Link>
-
           </div>
         </div>
       </div>
@@ -148,7 +153,7 @@ function PublicPage() {
           })}
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

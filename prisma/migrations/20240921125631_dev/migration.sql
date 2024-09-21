@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "ScoreTypes" AS ENUM ('DIVERSITY', 'STORYTELLING', 'CHALLENGE', 'UNITY');
+
 -- CreateTable
 CREATE TABLE "GameHistory" (
     "id" TEXT NOT NULL,
@@ -18,6 +21,7 @@ CREATE TABLE "User" (
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "teamSessionId" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -106,6 +110,43 @@ CREATE TABLE "Achievement" (
     CONSTRAINT "Achievement_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Points" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "stages" "ScoreTypes"[],
+    "score" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Points_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "GameSession" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "teamSessionId" TEXT NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endTime" TIMESTAMP(3) NOT NULL DEFAULT NOW() + INTERVAL '12 minutes',
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "GameSession_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TeamSession" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TeamSession_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -115,8 +156,26 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 -- CreateIndex
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Points_userId_key" ON "Points"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameSession_userId_key" ON "GameSession"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameSession_teamSessionId_key" ON "GameSession"("teamSessionId");
+
+-- CreateIndex
+CREATE INDEX "GameSession_userId_idx" ON "GameSession"("userId");
+
+-- CreateIndex
+CREATE INDEX "GameSession_teamSessionId_idx" ON "GameSession"("teamSessionId");
+
 -- AddForeignKey
 ALTER TABLE "GameHistory" ADD CONSTRAINT "GameHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_teamSessionId_fkey" FOREIGN KEY ("teamSessionId") REFERENCES "TeamSession"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -135,3 +194,12 @@ ALTER TABLE "GamePlay" ADD CONSTRAINT "GamePlay_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "Achievement" ADD CONSTRAINT "Achievement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Points" ADD CONSTRAINT "Points_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GameSession" ADD CONSTRAINT "GameSession_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GameSession" ADD CONSTRAINT "GameSession_teamSessionId_fkey" FOREIGN KEY ("teamSessionId") REFERENCES "TeamSession"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

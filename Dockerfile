@@ -45,22 +45,28 @@ RUN SKIP_ENV_VALIDATION=1 pnpm run build
 
 ##### RUNNER
 
-FROM --platform=linux/amd64 gcr.io/distroless/nodejs20-debian12 AS runner
+FROM --platform=linux/amd64 node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+# Copy necessary files
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+# Copy prisma files and install Prisma CLI
+COPY --from=builder /app/prisma ./prisma
+RUN npm install -g prisma
+
+# Add startup script
+COPY start.sh ./
+RUN chmod +x start.sh
 
 ENV PORT=3000
 ENV AUTH_TRUST_HOST=1
 
 EXPOSE 3000
-CMD ["server.js"]
+CMD ["./start.sh"]

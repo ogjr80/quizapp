@@ -1,5 +1,6 @@
 "use client";
 import { useScores } from "@/hooks/stores/useScores";
+import { useGameSession } from "@/hooks/useGameSession";
 import { usePoints } from "@/hooks/usePoints";
 import { ScoreTypes } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
@@ -30,6 +31,7 @@ interface FileDetailProps {
 
 export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     const { score, setScore } = useScores()
+    const { session: gameSession } = useGameSession()
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const file = files.find((item) => item.id === id);
@@ -86,94 +88,108 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
         if (timerRef.current) clearInterval(timerRef.current);
     };
 
-    const handleAnswerCheck = (option: string) => {
+    const handleAnswerCheck = async (option: string) => {
         setSelectedOption(option);
         setShowAnswer(true);
         if (option === currentQuestion?.correctAnswer) {
-            setScore(41);
+            setScore(score ?? 0 + 1);
+            const result = await submitQuizScore.mutateAsync({
+                score: 1, idtype: file.type
+            });
+            result.success && router.push(`/${url}`);
         }
 
         if (timerRef.current) clearInterval(timerRef.current);
         setTimeout(() => {
-            moveToNextQuestion();
+            // moveToNextQuestion();
         }, 300);
     };
 
-
+    const handleStorytellingOrChallenge = () => {
+        // For storytelling and challenge cards, we'll just move to the next question
+        // In a real implementation, you might want to add a voting system or validation here
+        setTimeout(() => {
+            setCurrentQuestionIndex((prevIndex) => {
+                if (prevIndex < file.questions.length - 1) {
+                    return prevIndex + 1;
+                } else {
+                    // onNextTeam();
+                    router.push('/public');
+                    return prevIndex;
+                }
+            });
+        }, 1000);
+    };
 
     return (
         <div className="mx-auto h-screen p-10 my-5 lg:px-8">
-            <div
-                className="bg-cover bg-center rounded-lg h-full relative"
-                style={{ backgroundImage: `url(${file.source.replace("-sm", "")})` }}
-            >
+            <div className="bg-cover bg-center rounded-lg h-full relative">
                 <button
                     className="absolute top-4 right-4 bg-red-600 p-2 rounded-full text-white text-3xl"
-                    onClick={() => router.push(`/${url}`)}
+                    onClick={() => router.push('/public')}
                 >
                     <FaTimes />
                 </button>
+                {gameSession && <div
+                    className="absolute top-4 left-0 bg-white-600 p-2 rounded-r-full text-white text-3xl"
+                >
+                    {(gameSession as any)['isActive'] ?? 0}
+                </div>
+                }
 
                 <div className="flex items-center justify-center h-full w-full">
                     <div className="relative rounded-lg shadow-lg max-w-md w-full">
-                        <div
-                            className="bg-cover bg-center rounded-t-lg p-6"
-                            style={{ backgroundColor: file.bgColor }}
-                        >
+                        <div className="bg-cover bg-center rounded-t-lg p-6" style={{ backgroundColor: file.bgColor }}>
                             <h2 className="text-2xl font-bold text-center text-white mb-2">
-                                {file.title} Questions
+                                {file.title}
                             </h2>
                             <p className="text-center text-white">
-                                {currentQuestion?.question ?? "Loading question..."}
+                                {currentQuestion.question}
+                            </p>
+                            <p className="text-center text-white mt-2">
+                                Current Team:
                             </p>
                         </div>
-                        <div className="bg-white p-6 rounded-b-lg space-y-4">
-                            {currentQuestion?.options.map((option, index) => (
+                        <div className="bg-white rounded-b-lg p-6">
+                            {file.type === 'DIVERSITY' && currentQuestion.options.map((option, index) => (
                                 <button
                                     key={index}
-                                    className="w-full py-2 px-4 border-4 rounded-2xl hover:bg-green-300"
-                                    style={{
-                                        borderColor:
-                                            selectedOption === option ? "green" : file.bgColor,
-                                        backgroundColor:
-                                            selectedOption === option ? "green" : "transparent",
-                                        color: selectedOption === option ? "white" : "black",
-                                    }}
+                                    className={`w-full p-4 text-left rounded mb-2 ${showAnswer
+                                        ? option === currentQuestion.correctAnswer
+                                            ? "bg-green-500 text-white"
+                                            : option === selectedOption
+                                                ? "bg-red-500 text-white"
+                                                : "bg-gray-200"
+                                        : "bg-gray-200 hover:bg-gray-300"
+                                        }`}
                                     onClick={() => handleAnswerCheck(option)}
+                                    disabled={showAnswer}
                                 >
                                     {option}
                                 </button>
-                            )) || <p>No options available</p>}
-                            <div className="hidden">
-                                {showAnswer && (
-                                    <p className="text-center mt-4">
-                                        {selectedOption === currentQuestion?.correctAnswer
-                                            ? "Correct!"
-                                            : "Incorrect, try again."}
-                                    </p>
-                                )}
-                            </div>
+                            ))}
+                            {(file.type === 'STORYTELLING' || file.type === 'CHALLENGE' || file.type === 'UNITY') && (
+                                <div>
+                                    <textarea
+                                        className="w-full p-2 border rounded"
+                                        rows={4}
+                                        placeholder="Enter your response here"
+                                    ></textarea>
+                                    <button
+                                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+                                        onClick={handleStorytellingOrChallenge}
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                        <div
-                            className="flex items-center justify-center text-lg mt-6 p-6 rounded-lg space-x-4"
-                            style={{ backgroundColor: file.bgColor }}
-                        >
-                            <PiHourglassFill
-                                className="h-10 w-10 rounded-full text-white border-4 border-white p-2"
-                                style={{ backgroundColor: file.bgColor }}
-                            />
-                            <span
-                                className="font-semibold text-base p-2 h-10 w-10 flex items-center justify-center rounded-full text-white border-4 border-white"
-                                style={{ backgroundColor: file.bgColor }}
-                            >
-                                {timeLeft}s
-                            </span>
-                            <p className="text-white">{score}</p>
+                        <div className="flex items-center justify-center text-lg mt-6 p-6 rounded-lg space-x-4" style={{ backgroundColor: file.bgColor }}>
+                            <p className="text-white">Score: {score}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };

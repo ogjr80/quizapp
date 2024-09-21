@@ -16,18 +16,25 @@ export class PointsService {
         }
     }
     static async submitQuizScore(points: IPointsSchema, ctx: HeritageContext) {
-        console.log({ u: ctx.session, s: ctx.user })
+
         try {
-            const { idtype, score } = points;
-            const scores = score * 10
-            const recordedSchools = await this.db.points.findUnique(
-                {
-                    where: {
-                        userId: ctx.user.id
+            const user = await this.db.user.findUnique({
+                where: {
+                    id: ctx.user.id
+                },
+                include: { gameSession: true, teamSession: true }
+            })
+            const sesion = user?.gameSession ?? user?.teamSession
+            if (sesion) {
+                const { idtype, score } = points;
+                const scores = score * 10
+                const recordedScores = await this.db.points.findUnique(
+                    {
+                        where: {
+                            userId: ctx.user.id
+                        }
                     }
-                }
-            )
-            if (!recordedSchools?.stages.includes(idtype)) {
+                )
                 const pts = await this.db.points.upsert({
                     where: {
                         userId: ctx.user.id,
@@ -43,9 +50,13 @@ export class PointsService {
                     },
                     update: {
                         stages: {
-
-                            push: ScoreTypes[idtype],
-                        }, // Directly assign the value
+                            set: [
+                                ...new Set([
+                                    ...(recordedScores?.stages || []),
+                                    ScoreTypes[idtype]
+                                ])
+                            ]
+                        },
                         score: {
                             increment: scores
                         },
@@ -64,10 +75,14 @@ export class PointsService {
             }
             return {
                 success: false,
-                message: ''
+                message: "We could not record your score, session ended",
             }
+
         } catch (error) {
-            throw error;
+            return {
+                success: false,
+                message: "Unable t record your score"
+            }
         }
     }
 
