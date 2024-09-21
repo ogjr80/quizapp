@@ -24,11 +24,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
 
     session: async ({ session, token }) => {
-      console.log(
-        { token: token.id, session, iod: session.userId }
-      )
+
       const user = await UserService.findUserByUserName(session.user.email)
-      console.log({ sess: user })
       token.id = user?.id
       session.user.id = user?.id as string
       return session

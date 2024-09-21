@@ -1,8 +1,15 @@
 import { heritageClient } from "@/server/trpc/client";
 
 export function usePoints() {
-    const submitQuizScore = heritageClient.points.submitQuizScore.useMutation();
+    const myScores = heritageClient.points.getUserScores.useQuery()
+    const submitQuizScore = heritageClient.points.submitQuizScore.useMutation({
+        onSuccess: () => {
+            myScores.refetch()
+        }
+    });
     return {
-        submitQuizScore
+        submitQuizScore,
+        loading: myScores.isLoading,
+        points: myScores?.data
     };
 }

@@ -7,10 +7,11 @@ import Image from 'next/image'
 import { TrophyIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'; // Add this import
 import { useSession } from 'next-auth/react'
+import { usePoints } from '@/hooks/usePoints'
 
 function PublicPage() {
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
-
+  const { points, loading } = usePoints()
   useEffect(() => {
     const interval = setInterval(() => {
       setShowTrophy(prev => !prev); // Toggle the state
@@ -45,11 +46,11 @@ function PublicPage() {
                   <div className="relative">
                     <TrophyIcon className="w-16 h-16 text-gray-400" />
                     <span className="absolute top-0 right-0 bg-red-500 text-white text-sm font-bold rounded-full px-1">
-                      {0}
+                      {points?.score ?? 0}
                     </span>
                   </div>
                 ) : (
-                  <Image src={session?.user?.image ?? ''} className='rounded-full' alt="Profile" width={80} height={80} /> // Add your profile image here
+                  <Image src={session?.user?.image ?? '/ava.jpeg'} className='rounded-full' alt="Profile" width={80} height={80} /> // Add your profile image here
                 )}
               </Link>
             </h1>
@@ -63,6 +64,9 @@ function PublicPage() {
             </Link>
             <Link href="/">
               <Image src="/logo/easyhq.svg" alt="Instagram" width={60} height={60} />
+            </Link>
+            <Link href={session?.user ? '/api/auth/signout' : '/api/auth/signin'}>
+              {session?.user ? 'Logout' : 'Login'}
             </Link>
 
           </div>
