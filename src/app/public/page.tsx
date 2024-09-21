@@ -55,7 +55,7 @@ function PublicPage() {
               {gameSession ? (
                 <GameSessionTimer />
               ) : (
-                <button onClick={handleSession}>
+                <button title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
                   <PlayIcon className="w-16 h-16 text-gray-400" />
                 </button>
               )}
