@@ -10,9 +10,14 @@ import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
 import { useGameSession } from '@/hooks/useGameSession'
 import { GameSessionTimer } from "@/components"
-
+import { useRouter } from 'next/navigation';
+import { isFull, ShuffleQuestions } from '@/lib/shuffleQuestions'; // You'll need to create this utility function
+import { useQuestions } from '@/hooks/stores/useQuestions'
+import { Question } from '@/types/questions'
+import useSessionCounter from '@/hooks/useSessionCounter'
 
 function PublicPage() {
+  const { previous, setCurrent, current } = useQuestions()
 
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
   const { points, loading } = usePoints()
@@ -33,7 +38,7 @@ function PublicPage() {
     { image: '/logo/eoh.svg', name: 'Player 4', points: 75 },
     { image: '/logo/opco.svg', name: 'Player 5', points: 60 },
   ];
-  const { session: gameSession, startGameSession } = useGameSession()
+  const { session: gameSession, startGameSession } = useGameSession() as any
   const handleSession = async () => {
     try {
       await startGameSession.mutateAsync({ type: "individual" })
@@ -41,6 +46,21 @@ function PublicPage() {
       console.log(error)
     }
   }
+  const { isTimeUp } = useSessionCounter()
+  const router = useRouter();
+
+  const handleCardClick = (fileId: string) => {
+    // Assuming each file in QuizCardsData has a 'questions' array
+    const file = QuizCardsData.find(f => f.id === fileId);
+    if (file && file.questions) {
+      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions// Ensure 'type' exists
+      const shfled = ShuffleQuestions(qus as Question[]);
+      setCurrent(shfled)
+      // Navigate to the question page with the selected question as a query parameter
+      router.push(`/public/${fileId}`);
+    }
+  };
+
   return (
     <div className='bg'>
       <AnimatedBackground />
@@ -51,7 +71,7 @@ function PublicPage() {
             <p>A cultural celebration Game</p>
           </div>
           <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-3 bg-white h-32 w-32">
-            <div className='text-4xl font-bold border-2 border-black rounded-full h-full w-full flex justify-center items-center'>
+            <div className='text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
               {gameSession ? (
                 <GameSessionTimer />
               ) : (
@@ -79,12 +99,13 @@ function PublicPage() {
       </div>
       <div className='min-h-screen  justify-center flex  items-center '>
         <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
-          {QuizCardsData.map((file) => (
-            <div
+          {QuizCardsData.map((file: any) => (
+            <button title={isFull(file, previous) ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"} disabled={isFull(file, previous) || isTimeUp || (gameSession && !gameSession.isActive)}
               key={file.id}
-              className="relative group transition-transform w-full transform hover:scale-105"
+              className={`${isFull(file, previous) && 'border-l-red-500 border-l-4 rounded-l-md'} relative group transition-transform w-full transform hover:scale-105`}
+              onClick={() => handleCardClick(file.id)}
             >
-              <Link href={`/${'public'}/${file.id}`}>
+              <div>
                 {/* Mobile View */}
                 <div
                   className="block sm:hidden w-full h-48 bg-cover bg-center relative rounded-t-lg"
@@ -92,8 +113,8 @@ function PublicPage() {
                 >
                   <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
                     <div className="text-center text-white px-4">
-                      {file.title.split(" ").map((word, index) => (
-                        <p key={index} className="text-lg font-bold">
+                      {file.title.split(" ").map((word: string) => (
+                        <p key={word} className="text-lg font-bold">
                           {word}
                         </p>
                       ))}
@@ -118,22 +139,27 @@ function PublicPage() {
                   style={{ backgroundColor: file.bgColor }}
                 >
                   <div className="text-center sm:hidden">
-                    {file.title.split(" ").map((word, index) => (
-                      <p key={index} className="text-xl font-extrabold text-white">
+                    {file.title.split(" ").map((word: string) => (
+                      <p key={word} className="text-xl font-extrabold text-white">
                         {word}
                       </p>
                     ))}
                   </div>
                   <div className="hidden sm:block text-center">
-                    {file.title.split(" ").map((word, index) => (
-                      <p key={index} className="text-xl font-extrabold text-white">
+                    {file.title.split(" ").map((word: string) => (
+                      <p key={word} className="text-xl font-extrabold text-white">
                         {word}
                       </p>
                     ))}
                   </div>
+                  {isFull(file, previous) &&
+                    <div className=" fixed bottom-0 left-0 bg-red-700 text-red-200 rounded-r-full px-3 py-1.5 ">Complete</div>
+                  }
                 </div>
-              </Link>
-            </div>
+
+
+              </div>
+            </button>
           ))}
         </div>
 
@@ -156,7 +182,5 @@ function PublicPage() {
     </div >
   )
 }
-
-
 
 export default PublicPage
