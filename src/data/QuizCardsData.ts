@@ -234,18 +234,404 @@ export const QuizCardsData = [
         bgColor: "#00BEA1",
         questions: [
             {
-                question: "Who was the first democratic president of South Africa?",
-                options: ["Nelson Mandela", "Thabo Mbeki", "Cyril Ramaphosa", "FW de Klerk"],
-                correctAnswer: "Nelson Mandela",
-                type: "STORYTELLING",
-                timer: 40
+                "id": "sp1",
+                "type": "STORYTELLING",
+                "question": "Share a personal story about a traditional dish from your culture and its significance to your family."
             },
             {
-                question: "What year did South Africa become a democratic country?",
-                options: ["1990", "1994", "2000", "1989"],
-                correctAnswer: "1994",
-                type: "STORYTELLING",
-                timer: 40
+                "id": "sp2",
+                "type": "STORYTELLING",
+                "question": "Describe a cultural celebration or tradition that is unique to your community in South Africa."
+            },
+            {
+                "id": "sp3",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a family heirloom and its importance to your heritage."
+            },
+            {
+                "id": "sp4",
+                "type": "STORYTELLING",
+                "question": "Share a folktale or legend from your culture that has been passed down through generations."
+            },
+            {
+                "id": "sp5",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional game or activity from your childhood that reflects your cultural background."
+            },
+            {
+                "id": "sp6",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a significant historical event that has shaped your community's identity."
+            },
+            {
+                "id": "sp7",
+                "type": "STORYTELLING",
+                "question": "Share an experience where you learned an important lesson about your culture from an elder."
+            },
+            {
+                "id": "sp8",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional craft or art form from your culture and its significance."
+            },
+            {
+                "id": "sp9",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a time when you felt proud of your cultural heritage."
+            },
+            {
+                "id": "sp10",
+                "type": "STORYTELLING",
+                "question": "Share a personal anecdote about participating in a cultural rite of passage."
+            },
+            {
+                "id": "sp11",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional musical instrument from your culture and its role in celebrations."
+            },
+            {
+                "id": "sp12",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a cultural misunderstanding you've experienced and how it was resolved."
+            },
+            {
+                "id": "sp13",
+                "type": "STORYTELLING",
+                "question": "Share a memory of a traditional wedding or ceremony you've attended in your community."
+            },
+            {
+                "id": "sp14",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional healing practice or remedy from your culture."
+            },
+            {
+                "id": "sp15",
+                "type": "STORYTELLING",
+                "question": "Tell a story about how your family maintains connections to your cultural roots."
+            },
+            {
+                "id": "sp16",
+                "type": "STORYTELLING",
+                "question": "Share an experience of learning or speaking your native language in a meaningful context."
+            },
+            {
+                "id": "sp17",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional dance from your culture and its significance."
+            },
+            {
+                "id": "sp18",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a cultural custom that you find particularly beautiful or meaningful."
+            },
+            {
+                "id": "sp19",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about how your cultural background has influenced your career or life choices."
+            },
+            {
+                "id": "sp20",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional coming-of-age ritual from your culture."
+            },
+            {
+                "id": "sp21",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a time when you shared your culture with someone from a different background."
+            },
+            {
+                "id": "sp22",
+                "type": "STORYTELLING",
+                "question": "Share a memory of a cultural festival or event that left a lasting impression on you."
+            },
+            {
+                "id": "sp23",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of storytelling in your culture (e.g., oral traditions, praise poetry)."
+            },
+            {
+                "id": "sp24",
+                "type": "STORYTELLING",
+                "question": "Tell a story about how your cultural values have guided you through a challenging situation."
+            },
+            {
+                "id": "sp25",
+                "type": "STORYTELLING",
+                "question": "Share an experience of returning to your ancestral homeland or a place of cultural significance."
+            },
+            {
+                "id": "sp26",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional costume or clothing item from your culture and its symbolism."
+            },
+            {
+                "id": "sp27",
+                "type": "STORYTELLING",
+                "question": "Tell a story about how your community has adapted traditional practices to modern times."
+            },
+            {
+                "id": "sp28",
+                "type": "STORYTELLING",
+                "question": "Share a personal account of how you've blended different cultural influences in your life."
+            },
+            {
+                "id": "sp29",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional method of conflict resolution in your culture."
+            },
+            {
+                "id": "sp30",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a cultural mentor who has significantly influenced your understanding of your heritage."
+            },
+            {
+                "id": "sp31",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional holiday in your culture and how your family celebrates it."
+            },
+            {
+                "id": "sp32",
+                "type": "STORYTELLING",
+                "question": "Share a story about a cultural superstition or belief that has been passed down in your family."
+            },
+            {
+                "id": "sp33",
+                "type": "STORYTELLING",
+                "question": "Tell about a time when you experienced culture shock and how you overcame it."
+            },
+            {
+                "id": "sp34",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional architectural style from your culture and its significance."
+            },
+            {
+                "id": "sp35",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural exchange program or hosting someone from a different culture."
+            },
+            {
+                "id": "sp36",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a traditional lullaby or children's song from your culture."
+            },
+            {
+                "id": "sp37",
+                "type": "STORYTELLING",
+                "question": "Describe a cultural taboo in your community and how it affects daily life."
+            },
+            {
+                "id": "sp38",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about a cultural misunderstanding that led to a humorous situation."
+            },
+            {
+                "id": "sp39",
+                "type": "STORYTELLING",
+                "question": "Tell about a traditional method of timekeeping or calendar system in your culture."
+            },
+            {
+                "id": "sp40",
+                "type": "STORYTELLING",
+                "question": "Describe a cultural ritual related to birth or naming ceremonies in your community."
+            },
+            {
+                "id": "sp41",
+                "type": "STORYTELLING",
+                "question": "Share a story about how your culture's traditional wisdom has been scientifically validated."
+            },
+            {
+                "id": "sp42",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural practice that outsiders often misunderstand and explain its true meaning."
+            },
+            {
+                "id": "sp43",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of transportation unique to your culture or region."
+            },
+            {
+                "id": "sp44",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural protest or movement."
+            },
+            {
+                "id": "sp45",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a cultural hero or historical figure who inspires you."
+            },
+            {
+                "id": "sp46",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of body art or modification in your culture and its significance."
+            },
+            {
+                "id": "sp47",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about how your cultural background has influenced your relationships."
+            },
+            {
+                "id": "sp48",
+                "type": "STORYTELLING",
+                "question": "Tell about a time when you had to defend or explain an aspect of your culture to others."
+            },
+            {
+                "id": "sp49",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of entertainment or sport from your culture."
+            },
+            {
+                "id": "sp50",
+                "type": "STORYTELLING",
+                "question": "Share a story about a cultural tradition that has been lost and efforts to revive it."
+            },
+            {
+                "id": "sp51",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural coming-of-age gift and its significance in your community."
+            },
+            {
+                "id": "sp52",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional method of navigation or wayfinding in your culture."
+            },
+            {
+                "id": "sp53",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural purification or cleansing ritual."
+            },
+            {
+                "id": "sp54",
+                "type": "STORYTELLING",
+                "question": "Tell a story about a cultural tradition that has evolved significantly over time."
+            },
+            {
+                "id": "sp55",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of divination or fortune-telling in your culture."
+            },
+            {
+                "id": "sp56",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about how your culture's values clash with modern societal norms."
+            },
+            {
+                "id": "sp57",
+                "type": "STORYTELLING",
+                "question": "Tell about a time when you reconnected with a lost aspect of your cultural heritage."
+            },
+            {
+                "id": "sp58",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional method of conflict resolution or justice in your culture."
+            },
+            {
+                "id": "sp59",
+                "type": "STORYTELLING",
+                "question": "Share a story about a cultural tradition that brings your community together during difficult times."
+            },
+            {
+                "id": "sp60",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural practice that promotes environmental conservation or sustainability."
+            },
+            {
+                "id": "sp61",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of courtship or matchmaking in your culture."
+            },
+            {
+                "id": "sp62",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural initiation or secret society."
+            },
+            {
+                "id": "sp63",
+                "type": "STORYTELLING",
+                "question": "Tell a story about how your culture has influenced your views on family and relationships."
+            },
+            {
+                "id": "sp64",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional method of preserving food in your culture and its cultural significance."
+            },
+            {
+                "id": "sp65",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about a cultural faux pas you've committed and what you learned from it."
+            },
+            {
+                "id": "sp66",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural tradition that celebrates the changing of seasons."
+            },
+            {
+                "id": "sp67",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of martial arts or self-defense from your culture."
+            },
+            {
+                "id": "sp68",
+                "type": "STORYTELLING",
+                "question": "Share a story about how your culture views and treats mental health."
+            },
+            {
+                "id": "sp69",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural practice that honors ancestors or departed loved ones."
+            },
+            {
+                "id": "sp70",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of communal decision-making in your culture."
+            },
+            {
+                "id": "sp71",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural bartering or trading system."
+            },
+            {
+                "id": "sp72",
+                "type": "STORYTELLING",
+                "question": "Tell a story about how your culture's traditional knowledge has been used in modern innovations."
+            },
+            {
+                "id": "sp73",
+                "type": "STORYTELLING",
+                "question": "Describe a cultural practice that promotes unity between different generations."
+            },
+            {
+                "id": "sp74",
+                "type": "STORYTELLING",
+                "question": "Share an anecdote about how your cultural background has influenced your approach to education."
+            },
+            {
+                "id": "sp75",
+                "type": "STORYTELLING",
+                "question": "Tell about a cultural tradition that celebrates academic or personal achievements."
+            },
+            {
+                "id": "sp76",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional form of shelter or housing in your culture and its adaptations over time."
+            },
+            {
+                "id": "sp77",
+                "type": "STORYTELLING",
+                "question": "Share a story about a cultural practice that promotes physical and mental well-being."
+            },
+            {
+                "id": "sp78",
+                "type": "STORYTELLING",
+                "question": "Tell about a time when you challenged a cultural norm within your own community."
+            },
+            {
+                "id": "sp79",
+                "type": "STORYTELLING",
+                "question": "Describe a traditional method of timekeeping or scheduling in your culture."
+            },
+            {
+                "id": "sp80",
+                "type": "STORYTELLING",
+                "question": "Share an experience of participating in a cultural ceremony that marks a major life transition."
             }
         ]
     },
@@ -257,19 +643,354 @@ export const QuizCardsData = [
         bgColor: "#00C8DA",
         questions: [
             {
-                question: "Which city is known as the legislative capital of South Africa?",
-                options: ["Cape Town", "Pretoria", "Johannesburg", "Durban"],
-                correctAnswer: "Cape Town",
-                timer: 35,
-                type: "CHALLENGE"
+                "id": "cc1",
+                "type": "CHALLENGE",
+                "question": "Learn and perform a traditional South African dance move (e.g., Zulu dance, Gumboot dance) for the group."
             },
             {
-                question: "What is the longest river in South Africa?",
-                options: ["Orange River", "Vaal River", "Limpopo River", "Crocodile River"],
-                correctAnswer: "Orange River",
-                timer: 35,
-                type: "CHALLENGE"
-
+                "id": "cc2",
+                "type": "CHALLENGE",
+                "question": "Recite the first stanza of the South African national anthem in a language other than your first language."
+            },
+            {
+                "id": "cc3",
+                "type": "CHALLENGE",
+                "question": "Name and explain the significance of three national symbols of South Africa."
+            },
+            {
+                "id": "cc4",
+                "type": "CHALLENGE",
+                "question": "Demonstrate how to properly pronounce three South African place names with clicks (e.g., Qunu, Xhosa, KwaZulu-Natal)."
+            },
+            {
+                "id": "cc5",
+                "type": "CHALLENGE",
+                "question": "Share a traditional proverb or saying from your culture and explain its meaning to the group."
+            },
+            {
+                "id": "cc6",
+                "type": "CHALLENGE",
+                "question": "Describe the process of making a traditional South African dish (e.g., bobotie, chakalaka, or pap)."
+            },
+            {
+                "id": "cc7",
+                "type": "CHALLENGE",
+                "question": "Identify and explain the cultural significance of three items found in a traditional South African beadwork pattern."
+            },
+            {
+                "id": "cc8",
+                "type": "CHALLENGE",
+                "question": "Demonstrate how to properly greet someone in three different South African languages."
+            },
+            {
+                "id": "cc9",
+                "type": "CHALLENGE",
+                "question": "Name and describe three indigenous plants used in traditional South African medicine."
+            },
+            {
+                "id": "cc10",
+                "type": "CHALLENGE",
+                "question": "Explain the historical significance of the Cradle of Humankind and its importance to South African heritage."
+            },
+            {
+                "id": "cc11",
+                "type": "CHALLENGE",
+                "question": "Describe the symbolism behind the South African flag's colors and design."
+            },
+            {
+                "id": "cc12",
+                "type": "CHALLENGE",
+                "question": "Share a short folktale or legend from one of South Africa's indigenous cultures."
+            },
+            {
+                "id": "cc13",
+                "type": "CHALLENGE",
+                "question": "Demonstrate how to tie a traditional South African head wrap (doek) or explain its cultural significance."
+            },
+            {
+                "id": "cc14",
+                "type": "CHALLENGE",
+                "question": "Name and describe three traditional South African musical instruments."
+            },
+            {
+                "id": "cc15",
+                "type": "CHALLENGE",
+                "question": "Explain the concept of 'Ubuntu' and give an example of how it applies in everyday life."
+            },
+            {
+                "id": "cc16",
+                "type": "CHALLENGE",
+                "question": "Describe the significance of the 'Big Five' in South African wildlife and culture."
+            },
+            {
+                "id": "cc17",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about a South African historical figure (e.g., Nelson Mandela, Steve Biko, Desmond Tutu)."
+            },
+            {
+                "id": "cc18",
+                "type": "CHALLENGE",
+                "question": "Explain the importance of the 'braai' in South African culture and describe what typically happens at one."
+            },
+            {
+                "id": "cc19",
+                "type": "CHALLENGE",
+                "question": "Name and describe three traditional South African games or sports."
+            },
+            {
+                "id": "cc20",
+                "type": "CHALLENGE",
+                "question": "Share the meaning behind your name or a traditional naming custom from your culture."
+            },
+            {
+                "id": "cc21",
+                "type": "CHALLENGE",
+                "question": "Describe the role of a sangoma in traditional South African culture."
+            },
+            {
+                "id": "cc22",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of lobola in South African marriage traditions."
+            },
+            {
+                "id": "cc23",
+                "type": "CHALLENGE",
+                "question": "Name and describe three UNESCO World Heritage Sites in South Africa."
+            },
+            {
+                "id": "cc24",
+                "type": "CHALLENGE",
+                "question": "Share three words unique to South African English (e.g., 'lekker', 'eish', 'shame') and explain their meanings."
+            },
+            {
+                "id": "cc25",
+                "type": "CHALLENGE",
+                "question": "Describe the traditional attire of one South African cultural group and explain its significance."
+            },
+            {
+                "id": "cc26",
+                "type": "CHALLENGE",
+                "question": "Explain the importance of oral tradition in preserving South African heritage."
+            },
+            {
+                "id": "cc27",
+                "type": "CHALLENGE",
+                "question": "Name and describe three significant South African fossils or paleontological discoveries."
+            },
+            {
+                "id": "cc28",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about the history and cultural significance of Table Mountain."
+            },
+            {
+                "id": "cc29",
+                "type": "CHALLENGE",
+                "question": "Describe the role of cattle in traditional South African cultures."
+            },
+            {
+                "id": "cc30",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Indaba tree' in South African culture and decision-making processes."
+            },
+            {
+                "id": "cc31",
+                "type": "CHALLENGE",
+                "question": "Describe the significance of the 'Rainbow Nation' concept in post-apartheid South Africa."
+            },
+            {
+                "id": "cc32",
+                "type": "CHALLENGE",
+                "question": "Name and explain the importance of three South African freedom fighters during the apartheid era."
+            },
+            {
+                "id": "cc33",
+                "type": "CHALLENGE",
+                "question": "Demonstrate or explain a traditional South African method of cooking over an open fire."
+            },
+            {
+                "id": "cc34",
+                "type": "CHALLENGE",
+                "question": "Share the story behind a South African public holiday and its significance."
+            },
+            {
+                "id": "cc35",
+                "type": "CHALLENGE",
+                "question": "Describe the role of the Truth and Reconciliation Commission in South Africa's history."
+            },
+            {
+                "id": "cc36",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the Voortrekker Monument and its place in South African history."
+            },
+            {
+                "id": "cc37",
+                "type": "CHALLENGE",
+                "question": "Name and describe three traditional South African alcoholic beverages."
+            },
+            {
+                "id": "cc38",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about the Zulu Kingdom and its most famous king, Shaka Zulu."
+            },
+            {
+                "id": "cc39",
+                "type": "CHALLENGE",
+                "question": "Describe the role of the sangoma and inyanga in traditional South African healing practices."
+            },
+            {
+                "id": "cc40",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the Great Zimbabwe ruins to South African history and culture."
+            },
+            {
+                "id": "cc41",
+                "type": "CHALLENGE",
+                "question": "Name and describe three famous South African artists and their contributions to the country's culture."
+            },
+            {
+                "id": "cc42",
+                "type": "CHALLENGE",
+                "question": "Share the story of the Soweto Uprising and its impact on South African history."
+            },
+            {
+                "id": "cc43",
+                "type": "CHALLENGE",
+                "question": "Describe the traditional role of elders in South African society."
+            },
+            {
+                "id": "cc44",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Madiba shirt' in South African fashion and politics."
+            },
+            {
+                "id": "cc45",
+                "type": "CHALLENGE",
+                "question": "Name and describe three important South African literary works and their authors."
+            },
+            {
+                "id": "cc46",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about the Cape Winelands and its importance to South African culture."
+            },
+            {
+                "id": "cc47",
+                "type": "CHALLENGE",
+                "question": "Describe the role of traditional healers in modern South African society."
+            },
+            {
+                "id": "cc48",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Toyi-toyi' dance in South African protest culture."
+            },
+            {
+                "id": "cc49",
+                "type": "CHALLENGE",
+                "question": "Name and describe three famous South African sportspeople and their achievements."
+            },
+            {
+                "id": "cc50",
+                "type": "CHALLENGE",
+                "question": "Share the story behind the South African coat of arms and explain its symbolism."
+            },
+            {
+                "id": "cc51",
+                "type": "CHALLENGE",
+                "question": "Describe the traditional coming-of-age rituals for one South African cultural group."
+            },
+            {
+                "id": "cc52",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Muti' in traditional South African beliefs and practices."
+            },
+            {
+                "id": "cc53",
+                "type": "CHALLENGE",
+                "question": "Name and describe three famous South African musicians and their contributions to the country's music scene."
+            },
+            {
+                "id": "cc54",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about the Kruger National Park and its importance to South African conservation efforts."
+            },
+            {
+                "id": "cc55",
+                "type": "CHALLENGE",
+                "question": "Describe the role of traditional leadership structures in modern South African governance."
+            },
+            {
+                "id": "cc56",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Ndebele' painting style and its cultural importance."
+            },
+            {
+                "id": "cc57",
+                "type": "CHALLENGE",
+                "question": "Name and describe three famous South African comedians and their impact on the country's entertainment industry."
+            },
+            {
+                "id": "cc58",
+                "type": "CHALLENGE",
+                "question": "Share the story of the discovery of gold in South Africa and its impact on the country's history."
+            },
+            {
+                "id": "cc59",
+                "type": "CHALLENGE",
+                "question": "Describe the traditional role of storytelling in South African cultures."
+            },
+            {
+                "id": "cc60",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Protea' as South Africa's national flower."
+            },
+            {
+                "id": "cc61",
+                "type": "CHALLENGE",
+                "question": "Name and describe three important South African inventions or scientific discoveries."
+            },
+            {
+                "id": "cc62",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about the Drakensberg Mountains and their cultural significance."
+            },
+            {
+                "id": "cc63",
+                "type": "CHALLENGE",
+                "question": "Describe the role of traditional dress in modern South African society."
+            },
+            {
+                "id": "cc64",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Springbok' as South Africa's national animal."
+            },
+            {
+                "id": "cc65",
+                "type": "CHALLENGE",
+                "question": "Name and describe three famous South African films and their impact on the country's cinema."
+            },
+            {
+                "id": "cc66",
+                "type": "CHALLENGE",
+                "question": "Share the story of the Battle of Blood River and its place in South African history."
+            },
+            {
+                "id": "cc67",
+                "type": "CHALLENGE",
+                "question": "Describe the traditional methods of conflict resolution in one South African cultural group."
+            },
+            {
+                "id": "cc68",
+                "type": "CHALLENGE",
+                "question": "Explain the significance of the 'Vuvuzela' in South African sporting culture."
+            },
+            {
+                "id": "cc69",
+                "type": "CHALLENGE",
+                "question": "Name and describe three important South African environmental conservation initiatives."
+            },
+            {
+                "id": "cc70",
+                "type": "CHALLENGE",
+                "question": "Share three interesting facts about South African street art and its role in urban culture."
             }
         ]
     },
@@ -281,25 +1002,256 @@ export const QuizCardsData = [
         bgColor: "#00BEA1",
         questions: [
             {
-                question: "What is the motto of South Africa?",
-                options: [
-                    "Unity in Diversity",
-                    "Forward Together",
-                    "Proudly South African",
-                    "Strength through Unity"
-                ],
-                type: "UNITY",
-
-                correctAnswer: "Unity in Diversity",
-                timer: 30
+                "id": "uc1",
+                "question": "Lead a short discussion on how diversity strengthens South African workplaces and suggest one way to celebrate this diversity.",
+                "type": "UNITY"
             },
             {
-                question: "Which sport is most popular in South Africa?",
-                options: ["Rugby", "Soccer", "Cricket", "Hockey"],
-                correctAnswer: "Soccer",
-                type: "UNITY",
-                timer: 30
+                "id": "uc2",
+                "question": "Share this card with another player, allowing them to earn double points on their next correct answer or completed challenge.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc3",
+                "question": "Organize a mini cultural exchange where each player shares a unique aspect of their heritage.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc4",
+                "question": "Choose a player to skip their next challenge and automatically earn points for promoting unity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc5",
+                "question": "Lead a group discussion on how to combat stereotypes and promote understanding between different cultures.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc6",
+                "question": "Allow all players to collaborate on the next challenge, sharing knowledge and earning bonus points for teamwork.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc7",
+                "question": "Initiate a 'language exchange' where players teach each other phrases from their native languages.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc8",
+                "question": "Propose a hypothetical multicultural event and have players contribute ideas to make it inclusive and respectful.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc9",
+                "question": "Share a personal story of cross-cultural friendship and inspire others to do the same.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc10",
+                "question": "Choose a player to receive a 'cultural ambassador' bonus, earning extra points for their next three answers.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc11",
+                "question": "Organize a quick brainstorming session on how to make your workplace or community more inclusive.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc12",
+                "question": "Allow players to 'gift' points to another player whose answers or stories they found particularly insightful.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc13",
+                "question": "Initiate a discussion on the importance of preserving indigenous languages and cultures in South Africa.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc14",
+                "question": "Create a 'unity circle' where each player shares one thing they appreciate about South African diversity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc15",
+                "question": "Propose a community project that celebrates diversity and have players contribute ideas.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc16",
+                "question": "Allow players to form teams for the next round, encouraging collaboration across cultural backgrounds.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc17",
+                "question": "Initiate a discussion on how traditional wisdom from various cultures can be applied to modern challenges.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc18",
+                "question": "Create a 'cultural appreciation moment' where players acknowledge and celebrate each other's unique backgrounds.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc19",
+                "question": "Allow a player to 'consult the group' on their next challenge, promoting knowledge sharing and unity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc20",
+                "question": "Organize a mini 'cultural talent show' where players showcase a skill or tradition from their heritage.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc21",
+                "question": "Start a discussion on how technology can be used to bridge cultural gaps and promote understanding.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc22",
+                "question": "Encourage players to share a traditional recipe from their culture and discuss its significance.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc23",
+                "question": "Initiate a 'cultural myth-busting' session where players challenge common stereotypes about different cultures.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc24",
+                "question": "Create a 'unity playlist' by having each player suggest a song that represents their cultural background.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc25",
+                "question": "Organize a quick brainstorming session on how to make educational curricula more inclusive of diverse cultures.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc26",
+                "question": "Allow players to create a 'cultural fusion' by combining elements from different traditions into a new game or activity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc27",
+                "question": "Initiate a discussion on the role of sports in promoting unity and cultural understanding.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc28",
+                "question": "Create a 'unity mural' where each player adds an element representing their cultural heritage.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc29",
+                "question": "Encourage players to share how their cultural background influences their approach to problem-solving in the workplace.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc30",
+                "question": "Organize a 'cultural innovation challenge' where players propose ideas that blend traditional practices with modern technology.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc31",
+                "question": "Discuss the importance of multilingualism in fostering unity and understanding in South Africa.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc32",
+                "question": "Share a traditional game from your culture and teach others how to play it.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc33",
+                "question": "Propose ways to make public spaces more inclusive and welcoming to people from all cultural backgrounds.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc34",
+                "question": "Discuss the role of art in promoting cross-cultural understanding and unity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc35",
+                "question": "Create a 'cultural exchange' moment where players swap an item representing their heritage with another player.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc36",
+                "question": "Initiate a discussion on how to promote intercultural dialogue in schools and universities.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc37",
+                "question": "Share a proverb or saying from your culture and explain its meaning and relevance today.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc38",
+                "question": "Organize a 'cultural storytelling' session where players share traditional stories from their heritage.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc39",
+                "question": "Allow players to 'adopt' a cultural practice from another player's heritage and share their experience.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc40",
+                "question": "Initiate a discussion on the role of music in promoting unity and cultural understanding.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc41",
+                "question": "Create a 'cultural artifact' exchange where players swap an item representing their heritage with another player.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc42",
+                "question": "Discuss the importance of cultural competence in the workplace and propose ways to develop it.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc43",
+                "question": "Share a traditional dance from your culture and teach others how to do it.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc44",
+                "question": "Propose ways to promote cultural awareness in the media and entertainment industry.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc45",
+                "question": "Discuss the role of literature in promoting cross-cultural understanding and unity.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc46",
+                "question": "Create a 'cultural costume' exchange where players swap an item representing their heritage with another player.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc47",
+                "question": "Initiate a discussion on the role of food in promoting unity and cultural understanding.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc48",
+                "question": "Allow players to 'adopt' a cultural holiday from another player's heritage and share their experience.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc49",
+                "question": "Discuss the importance of cultural sensitivity in the healthcare industry and propose ways to improve it.",
+                "type": "UNITY"
+            },
+            {
+                "id": "uc50",
+                "question": "Create a 'cultural symbol' exchange where players swap an item representing their heritage with another player.",
+                "type": "UNITY"
             }
         ]
+
     }
 ];
