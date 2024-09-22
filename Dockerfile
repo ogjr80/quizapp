@@ -69,4 +69,4 @@ ENV PORT=3000
 ENV AUTH_TRUST_HOST=1
 
 EXPOSE 3000
-CMD ["./start.sh"]
+CMD ["server.js"]
