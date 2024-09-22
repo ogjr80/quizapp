@@ -124,10 +124,32 @@ CREATE TABLE "Points" (
 );
 
 -- CreateTable
+CREATE TABLE "IntraScores" (
+    "id" TEXT NOT NULL,
+    "pointsId" TEXT,
+    "score" INTEGER NOT NULL,
+    "type" "ScoreTypes" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "IntraScores_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Question" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "type" "ScoreTypes" NOT NULL,
+    "intraScoresId" TEXT,
+
+    CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "GameSession" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "teamSessionId" TEXT NOT NULL,
+    "userId" TEXT,
+    "teamSessionId" TEXT,
     "startTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endTime" TIMESTAMP(3) NOT NULL DEFAULT NOW() + INTERVAL '12 minutes',
     "isActive" BOOLEAN NOT NULL DEFAULT false,
@@ -158,6 +180,21 @@ CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credent
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Points_userId_key" ON "Points"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "IntraScores_pointsId_key" ON "IntraScores"("pointsId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "IntraScores_type_key" ON "IntraScores"("type");
+
+-- CreateIndex
+CREATE INDEX "IntraScores_pointsId_idx" ON "IntraScores"("pointsId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Question_intraScoresId_key" ON "Question"("intraScoresId");
+
+-- CreateIndex
+CREATE INDEX "Question_intraScoresId_idx" ON "Question"("intraScoresId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "GameSession_userId_key" ON "GameSession"("userId");
@@ -199,7 +236,13 @@ ALTER TABLE "Achievement" ADD CONSTRAINT "Achievement_userId_fkey" FOREIGN KEY (
 ALTER TABLE "Points" ADD CONSTRAINT "Points_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "IntraScores" ADD CONSTRAINT "IntraScores_pointsId_fkey" FOREIGN KEY ("pointsId") REFERENCES "Points"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Question" ADD CONSTRAINT "Question_intraScoresId_fkey" FOREIGN KEY ("intraScoresId") REFERENCES "IntraScores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "GameSession" ADD CONSTRAINT "GameSession_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GameSession" ADD CONSTRAINT "GameSession_teamSessionId_fkey" FOREIGN KEY ("teamSessionId") REFERENCES "TeamSession"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GameSession" ADD CONSTRAINT "GameSession_teamSessionId_fkey" FOREIGN KEY ("teamSessionId") REFERENCES "TeamSession"("id") ON DELETE SET NULL ON UPDATE CASCADE;

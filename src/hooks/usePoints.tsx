@@ -7,6 +7,7 @@ export function usePoints() {
             myScores.refetch()
         }
     });
+
     return {
         submitQuizScore,
         loading: myScores.isLoading,

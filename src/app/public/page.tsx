@@ -18,10 +18,10 @@ import { Question } from '@/types/questions'
 import useSessionCounter from '@/hooks/useSessionCounter'
 
 function PublicPage() {
-  const { previous, setCurrent, current } = useQuestions()
+  const { setCurrent, current } = useQuestions()
 
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
-  const { points, loading: pointsLoading } = usePoints()
+  const { points, loading: pointsLoading } = usePoints() as any
   useEffect(() => {
     const interval = setInterval(() => {
       setShowTrophy(prev => !prev); // Toggle the state
@@ -59,13 +59,11 @@ function PublicPage() {
   }, [pointsLoading, gameSession]);
 
   const handleCardClick = (fileId: string) => {
-    // Assuming each file in QuizCardsData has a 'questions' array
     const file = QuizCardsData.find(f => f.id === fileId);
     if (file && file.questions) {
-      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions// Ensure 'type' exists
+      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions
       const shfled = ShuffleQuestions(qus as Question[]);
       setCurrent(shfled)
-      // Navigate to the question page with the selected question as a query parameter
       router.push(`/public/${fileId}`);
     }
   };
@@ -108,17 +106,22 @@ function PublicPage() {
           </div>
         </div>
       </div>
+      <div className="bg-white z-[60]">
+
+      </div>
       <div className='min-h-screen  justify-center flex  items-center '>
+
         <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
             <button
-              title={isLoading || isFull(file, previous) ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
-              disabled={isLoading || isFull(file, previous) || isTimeUp || (gameSession && !gameSession.isActive)}
+              title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
+              disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive)}
               key={file.id}
-              className={`${isFull(file, previous) && 'border-l-red-500 border-l-4 rounded-l-md'} relative group transition-transform w-full transform hover:scale-105`}
+              className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
             >
               <div>
+
                 {/* Mobile View */}
                 <div
                   className="block sm:hidden w-full h-48 bg-cover bg-center relative rounded-t-lg"
@@ -166,9 +169,11 @@ function PublicPage() {
                       </p>
                     ))}
                   </div>
-                  {isFull(file, previous) &&
-                    <div className=" fixed bottom-0 left-0 bg-red-700 text-red-200 rounded-r-full px-3 py-1.5 ">Complete</div>
-                  }
+                  {points?.intraScores.find((one: any) => one.type === file.type)?.questions?.length === 10 && (
+                    <div className="fixed bottom-0 left-0 bg-red-600 text-red-200 rounded-r-full px-3 py-1.5">
+                      Complete
+                    </div>
+                  )}
                 </div>
 
 

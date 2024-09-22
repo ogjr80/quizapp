@@ -37,21 +37,20 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     const { session: gameSession, } = useGameSession()
     const { id } = useParams()
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
-    const { current, previous } = useQuestions() as any
+    const { current } = useQuestions() as any
     const handleStorytellingOrChallenge = () => { }
     const handleAnswerCheck = async (option: string) => {
         setSelectedOption(option)
+        const intra = points?.intraScores.find((s: any) => s.type === current.type)
+        let score = 0
         if (option === current.correctAnswer) {
-            // save the data
-            if (!isFull(current, previous)) {
-                await submitQuizScore.mutateAsync({
-                    score: 1, idtype: curentSet.type
-                })
-            }
-
+            score = 1
         }
-        return router.push(`/${url}`)
 
+        await submitQuizScore.mutateAsync({
+            score, idtype: curentSet.type, question: current.question
+        })
+        return router.push(`/${url}`)
     }
     const curentSet: FileItem = files.find(e => e.id === id) as FileItem
     const isButtonDisabled = selectedOption !== null;
@@ -118,9 +117,9 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
                                 </div>
                             )}
                         </div>
-                        <div className="flex items-center justify-center text-lg mt-6 p-6 rounded-lg space-x-4" style={{ backgroundColor: curentSet.bgColor }}>
+                        <div className="flex items-center justify-between items-center text-lg mt-6 p-6 rounded-lg space-x-4" style={{ backgroundColor: curentSet.bgColor }}>
                             <p className="text-white">Score: {points?.score ?? 0}</p>
-                            <GameSessionTimer />
+                            <GameSessionTimer style="w-12 h-12" />
                         </div>
                     </div>
                 </div>

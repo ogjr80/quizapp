@@ -1,11 +1,9 @@
 'use client'
-import { useGameSession } from '@/hooks/useGameSession'
-import { useScores } from '@/hooks/stores/useScores'
-import React, { useState, useEffect } from 'react'
+import React, { } from 'react'
 import useSessionCounter from '@/hooks/useSessionCounter'
 import { usePoints } from '@/hooks/usePoints'
 
-export const GameSessionTimer = () => {
+export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
     const {
         loading,
         session,
@@ -22,7 +20,7 @@ export const GameSessionTimer = () => {
     const strokeDashoffset = circumference - (progress / 100) * circumference
 
     return (
-        <div className="relative w-24 h-24">
+        <div className={`relative ${style}`}>
             <svg className="w-full h-full transform -rotate-90">
                 <circle
                     cx="50%"

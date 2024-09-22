@@ -135,13 +135,24 @@ model Points {
 model IntraScores {
   id        String     @id @default(cuid())
   points    Points?    @relation(fields: [pointsId], references: [id], onDelete: Cascade)
-  pointsId  String?    @unique
+  pointsId  String?
   score     Int
-  type      ScoreTypes @unique
+  questions Question[]
+  type      ScoreTypes
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  @@index([pointsId])
+  @@unique([pointsId, type])
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  name          String
+  type          ScoreTypes
+  intraScores   IntraScores? @relation(fields: [intraScoresId], references: [id], onDelete: Cascade)
+  intraScoresId String?
+
+  @@index([intraScoresId])
 }
 
 model GameSession {

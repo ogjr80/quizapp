@@ -1,16 +1,20 @@
 import { db as database } from "@/lib/prisma";
 import { HeritageContext } from "@/types/context";
 import { PrismaClient, ScoreTypes } from "@prisma/client";
-import { IPointsSchema } from "./types";
+import { IntraScoreQuestionSchema, IPointsSchema } from "./types";
 
 export class PointsService {
-
     private static readonly db: PrismaClient = database;
+
     static getUserPoints(ctx: HeritageContext): any {
         try {
             return this.db.points.findUnique({
                 where: { userId: ctx.user.id }, include: {
-                    intraScores: true
+                    intraScores: {
+                        include: {
+                            questions: true
+                        }
+                    }
                 }
             })
         } catch (error) {
@@ -28,15 +32,32 @@ export class PointsService {
             })
             const sesion = user?.gameSession ?? user?.teamSession
             if (sesion) {
-                const { idtype, score } = points;
+                const { idtype, score, question } = points;
                 const scores = score * 10
                 const recordedScores = await this.db.points.findUnique(
                     {
                         where: {
                             userId: ctx.user.id
+                        },
+                        include: {
+                            intraScores: {
+                                include: {
+                                    questions: true
+                                }
+                            }
                         }
                     }
                 )
+
+                // Check if the number of questions for this type is less than 10
+                const existingQuestions = recordedScores?.intraScores.find(score => score.type === idtype)?.questions || [];
+                if (existingQuestions.length >= 10) {
+                    return {
+                        success: false,
+                        message: "Maximum number of questions reached for this type",
+                    };
+                }
+
                 const pts = await this.db.points.upsert({
                     where: {
                         userId: ctx.user.id,
@@ -69,23 +90,37 @@ export class PointsService {
                             },
                         },
                     },
+                    include: {
+                        intraScores: true
+                    }
                 });
+
+                // Modify this part
                 await this.db.intraScores.upsert({
                     where: {
-                        pointsId: pts.id,
-                        type: idtype
+                        pointsId_type: {
+                            pointsId: pts.id,
+                            type: idtype,
+                        }
                     },
                     create: {
                         score: scores,
                         type: idtype,
-                        pointsId: pts.id
+                        pointsId: pts.id,
+                        questions: {
+                            create: { name: question, type: idtype }
+                        }
                     },
                     update: {
                         score: {
                             increment: scores
+                        },
+                        questions: {
+                            create: { name: question, type: idtype }
                         }
                     }
-                })
+                });
+
                 return {
                     success: true,
                     message: "Quiz score submitted successfully",
@@ -98,12 +133,12 @@ export class PointsService {
             }
 
         } catch (error) {
+            console.error({ error });
             return {
                 success: false,
-                message: "Unable t record your score"
-            }
+                error,
+                message: "Unable to record your score"
+            };
         }
     }
-
-
 }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { authProcedure, publicProcedure, router } from "../trpc";
-import { PointsSchema } from "@/server/core/points/schema";
+import { IntraScoreQuestionSchema, PointsSchema } from "@/server/core/points/schema";
 import { PointsService } from "@/server/core/points/service";
 import { Points } from "@prisma/client";
 import EventEmitter, { on } from 'events';
@@ -15,6 +15,8 @@ export const pointsRouter = router({
     .mutation(async ({ input, ctx }) => {
       return await PointsService.submitQuizScore(input, ctx);
     }),
+
+
 
   getUserScores: authProcedure
     .query(async ({ ctx }) => {
