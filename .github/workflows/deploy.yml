@@ -56,7 +56,6 @@ jobs:
       - name: create env file
         run: |
           echo "
-          DATABASE_URL=${{secrets.DATABASE_URL}}
           AUTH_URL=${{secrets.AUTH_URL}}
           AUTH_SECRET=${{secrets.AUTH_SECRET}}
           AUTH_GOOGLE_ID=${{secrets.AUTH_GOOGLE_ID}}
@@ -91,7 +90,7 @@ jobs:
           docker push ghcr.io/${{ github.repository }}:${{steps.extract-tag.outputs.VERSION}}
 
   Deploy-To-Prod:
-    name: Deploy Preview 🚀
+    name: Deploy to Production 🚀
     runs-on: ubuntu-latest
     needs: Container-Registry
     environment: preview
@@ -130,7 +129,7 @@ jobs:
           app-name: ${{secrets.AZURE_APP_NAME}}
           images: ghcr.io/${{github.repository}}:${{steps.extract-version.outputs.VERSION}}
   Deploy-To-Demo:
-    name: Deploy Preview 🚀
+    name: Deploy to demo environment 🏡
     runs-on: ubuntu-latest
     needs: Container-Registry
     environment: preview
