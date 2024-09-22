@@ -8,15 +8,25 @@ export async function GET(request: Request) {
                 try {
                     const points = await db.points.findMany({
                         include: {
-                            user: true
+                            user: true,
+                            intraScores: true
                         },
                         orderBy: {
                             score: 'asc'
                         },
-                        take: 100 // Limit the number of records
+                        take: 10 // Limit the number of records
                     });
-
-                    controller.enqueue(encoder.encode(`data: ${JSON.stringify(points)}\n\n`));
+                    // get current players 
+                    const players = await db.gameSession.findMany({
+                        where: {
+                            isActive: true
+                        },
+                        include: {
+                            user: true
+                        }
+                    })
+                    console.log({ points, players: players.map((p: { user: any }) => p.user) })
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ points, players: players.map((p: { user: any }) => p.user) })}\n\n`));
                 } catch (error) {
                     console.error('Error fetching points:', error);
                     controller.enqueue(encoder.encode(`data: ${JSON.stringify([])}\n\n`));

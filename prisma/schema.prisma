@@ -176,8 +176,10 @@ model TeamSession {
   name         String
   users        User[]
   gameSessions GameSession[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  isActive     Boolean       @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ScoreTypes {

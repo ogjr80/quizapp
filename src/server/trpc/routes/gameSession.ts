@@ -14,5 +14,8 @@ export const gameSessionRouter = router({
         team: z.string().optional().nullable()
     })).mutation(async ({ input, ctx }) => {
         return await GameSessionService.saveSession(input.type, ctx, input.team as any)
+    }),
+    endGameSession: authProcedure.mutation(async ({ ctx }) => {
+        return await GameSessionService.endGameSession(ctx)
     })
 })
