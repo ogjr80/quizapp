@@ -33,11 +33,11 @@ function PublicPage() {
 
   // Sample leaderboard data
   const sampleLeaderboard = [
-    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: points?.score ?? 0 },
-    { image: '/cards/blue-sm.svg', name: 'Player 5', points: points?.intraScores.find((e: any) => e.type === "DIVERSITY")?.score ?? 0 },
-    { image: '/cards/country-sm.svg', name: 'Player 4', points: points?.intraScores.find((e: any) => e.type === "STORYTELLING")?.score ?? 0 },
-    { image: '/cards/sun-sm.svg', name: 'Player 2', points: points?.intraScores.find((e: any) => e.type === "CHALLENGE")?.score ?? 0 },
-    { image: '/cards/green-sm.svg', name: 'Player 3', points: points?.intraScores.find((e: any) => e.type === "UNITY")?.score ?? 0 },
+    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: points?.score ?? 0, intesity: 150 },
+    { image: '/cards/blue-sm.svg', name: 'Player 5', points: points?.intraScores.find((e: any) => e.type === "DIVERSITY")?.score ?? 0, intesity: 120 },
+    { image: '/cards/country-sm.svg', name: 'Player 4', points: points?.intraScores.find((e: any) => e.type === "STORYTELLING")?.score ?? 0, intesity: 90 },
+    { image: '/cards/sun-sm.svg', name: 'Player 2', points: points?.intraScores.find((e: any) => e.type === "CHALLENGE")?.score ?? 0, intesity: 60 },
+    { image: '/cards/green-sm.svg', name: 'Player 3', points: points?.intraScores.find((e: any) => e.type === "UNITY")?.score ?? 0, intesity: 30 },
   ];
   const { session: gameSession, startGameSession } = useGameSession() as any
   const handleSession = async () => {
@@ -188,7 +188,7 @@ function PublicPage() {
       <div className="leaderboard-container fixed bottom-0 p-3 left-1/2 transform -translate-x-1/2 overflow-hidden">
         <div className="leaderboard-carousel flex animate-slide">
           {sampleLeaderboard.map((player, index) => {
-            const fireIntensity = player.points; // Use points to determine fire intensity
+            const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
               <div key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
                 <Image src={player.image} alt={player.name} width={50} height={50} className="rounded-full" />

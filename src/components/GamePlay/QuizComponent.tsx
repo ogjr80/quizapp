@@ -7,8 +7,10 @@ import { isFull } from "@/lib/shuffleQuestions";
 import { ScoreTypes } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaTrophy } from "react-icons/fa";
 import GameSessionTimer from "./GameSessionTimer";
+import { Clock10Icon } from "lucide-react";
+import { StoryTelling } from "./StoryTelling";
 
 type Question = {
     question: string;
@@ -102,24 +104,18 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
                                 </button>
                             ))}
                             {(current?.type === 'STORYTELLING' || current?.type === 'CHALLENGE' || current?.type === 'UNITY') && (
-                                <div>
-                                    <textarea
-                                        className="w-full p-2 border rounded"
-                                        rows={4}
-                                        placeholder="Enter your response here"
-                                    ></textarea>
-                                    <button
-                                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                                        onClick={handleStorytellingOrChallenge}
-                                    >
-                                        Submit
-                                    </button>
-                                </div>
+                                <StoryTelling url={url} style={`bg-[${curentSet.bgColor}]`} />
                             )}
                         </div>
-                        <div className="flex items-center justify-between items-center text-lg mt-6 p-6 rounded-lg space-x-4" style={{ backgroundColor: curentSet.bgColor }}>
-                            <p className="text-white">Score: {points?.score ?? 0}</p>
-                            <GameSessionTimer style="w-12 h-12" />
+                        <div className="flex items-center justify-between items-center text-lg mt-6 py-6 rounded-lg space-x-4" style={{ backgroundColor: curentSet.bgColor }}>
+                            <div className="bg-white  flex gap-3 justify-center items-center rounded-r-full px-7 py-3">
+                                <FaTrophy className="w-6 h-6" />
+                                <p className="text-">{points?.score ?? 0}</p>
+                            </div>
+                            <div className="bg-white rounded-l-full gap-3 px-4 flex justify-center items-center py-1">
+                                <GameSessionTimer style="w-12 h-12 " />
+                                <Clock10Icon className=" h-9 w-9" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -65,120 +65,29 @@
   padding: 20px;
 }
 
-.interactive-card .glare {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
-  transition: background 0.1s ease;
-  z-index: 3;
-}
-
-/* Holographic Effect */
-.interactive-card.holo {
-  background-size: 100% 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.interactive-card.holo::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: repeating-radial-gradient(circle,
-      transparent 0%,
-      transparent 5%,
-      rgba(255, 255, 255, 0.05) 5%,
-      rgba(255, 255, 255, 0.05) 10%);
-  background-size: 50px 50px;
-  mix-blend-mode: screen;
-  filter: hue-rotate(0deg);
-  animation: holoEffectAnimation 20s linear infinite;
-  z-index: 1;
-  pointer-events: none;
-}
-
-@keyframes holoBackgroundAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 100% 50%;
-  }
-
-}
-
-@keyframes holoEffectAnimation {
-  0% {
-    transform: rotate(0deg);
-    filter: hue-rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-    filter: hue-rotate(360deg);
-  }
-}
-
-/* Flip and Scale Animation */
-.interactive-card.focused {
-  position: fixed;
-  top: 10%;
-  left: 30%;
-  width: 500px;
-  height: 700px;
-  transform: translate(-50%, -50%) scale(1.2) rotateY(0deg);
-  transition: transform 1s ease, width 0.5s ease, height 0.5s ease;
-  z-index: 1000;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-}
-
-.interactive-card.animate-flip {
-  animation: flipAnimation 1s ease;
-}
-
-@keyframes flipAnimation {
-  0% {
-    transform: translate(-50%, -50%) scale(1.2) rotateY(0deg);
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1.2) rotateY(360deg);
-  }
-
-}
 
 
 
 
 
 
-
-.fire-effect-120 {
+.fire-effect-150 {
   animation: burn 1s infinite alternate;
 }
 
-.fire-effect-95 {
+.fire-effect-120 {
   animation: burn 0.8s infinite alternate;
 }
 
-.fire-effect-80 {
+.fire-effect-90 {
   animation: burn 0.6s infinite alternate;
 }
 
-.fire-effect-75 {
+.fire-effect-60 {
   animation: burn 0.5s infinite alternate;
 }
 
-.fire-effect-60 {
+.fire-effect-30 {
   animation: burn 0.4s infinite alternate;
 }
 
