@@ -1,26 +1,27 @@
 'use client'
 import React from 'react'
-import { AnimatedBackground } from '@opherlabs/components'
+import { AnimatedBackground } from '@/components'
 import { QuizCardsData } from '@/data'
 import Link from 'next/link'
 import Image from 'next/image'
-import { PlayIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'; // Add this import
+import { IoPlayOutline } from "react-icons/io5";
+
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
 import { useGameSession } from '@/hooks/useGameSession'
 import { GameSessionTimer } from "@/components"
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { isFull, ShuffleQuestions } from '@/lib/shuffleQuestions'; // You'll need to create this utility function
 import { useQuestions } from '@/hooks/stores/useQuestions'
 import { Question } from '@/types/questions'
 import useSessionCounter from '@/hooks/useSessionCounter'
 
 function PublicPage() {
-  const { previous, setCurrent, current } = useQuestions()
+  const { setCurrent, current } = useQuestions()
 
   const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
-  const { points, loading } = usePoints()
+  const { points, loading: pointsLoading } = usePoints() as any
   useEffect(() => {
     const interval = setInterval(() => {
       setShowTrophy(prev => !prev); // Toggle the state
@@ -32,11 +33,11 @@ function PublicPage() {
 
   // Sample leaderboard data
   const sampleLeaderboard = [
-    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: 120 },
-    { image: '/logo/opco.svg', name: 'Player 2', points: 95 },
-    { image: '/logo/easyhq.svg', name: 'Player 3', points: 80 },
-    { image: '/logo/eoh.svg', name: 'Player 4', points: 75 },
-    { image: '/logo/opco.svg', name: 'Player 5', points: 60 },
+    { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: points?.score ?? 0 },
+    { image: '/cards/blue-sm.svg', name: 'Player 5', points: points?.intraScores.find((e: any) => e.type === "DIVERSITY")?.score ?? 0 },
+    { image: '/cards/country-sm.svg', name: 'Player 4', points: points?.intraScores.find((e: any) => e.type === "STORYTELLING")?.score ?? 0 },
+    { image: '/cards/sun-sm.svg', name: 'Player 2', points: points?.intraScores.find((e: any) => e.type === "CHALLENGE")?.score ?? 0 },
+    { image: '/cards/green-sm.svg', name: 'Player 3', points: points?.intraScores.find((e: any) => e.type === "UNITY")?.score ?? 0 },
   ];
   const { session: gameSession, startGameSession } = useGameSession() as any
   const handleSession = async () => {
@@ -48,18 +49,26 @@ function PublicPage() {
   }
   const { isTimeUp } = useSessionCounter()
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Add this line
+
+  useEffect(() => {
+    // Set loading to false once all necessary data is loaded
+    if (!pointsLoading && gameSession !== undefined) {
+      setIsLoading(false);
+    }
+  }, [pointsLoading, gameSession]);
 
   const handleCardClick = (fileId: string) => {
-    // Assuming each file in QuizCardsData has a 'questions' array
     const file = QuizCardsData.find(f => f.id === fileId);
     if (file && file.questions) {
-      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions// Ensure 'type' exists
+      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions
       const shfled = ShuffleQuestions(qus as Question[]);
       setCurrent(shfled)
-      // Navigate to the question page with the selected question as a query parameter
       router.push(`/public/${fileId}`);
     }
   };
+
+
 
   return (
     <div className='bg'>
@@ -75,8 +84,8 @@ function PublicPage() {
               {gameSession ? (
                 <GameSessionTimer />
               ) : (
-                <button title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
-                  <PlayIcon className="w-16 h-16 text-gray-400" />
+                <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
+                  <IoPlayOutline className="w-16 h-16 group-hover:text-white text-gray-400" />
                 </button>
               )}
             </div>
@@ -97,15 +106,22 @@ function PublicPage() {
           </div>
         </div>
       </div>
+      <div className="bg-white z-[60]">
+
+      </div>
       <div className='min-h-screen  justify-center flex  items-center '>
+
         <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
-            <button title={isFull(file, previous) ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"} disabled={isFull(file, previous) || isTimeUp || (gameSession && !gameSession.isActive)}
+            <button
+              title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
+              disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive)}
               key={file.id}
-              className={`${isFull(file, previous) && 'border-l-red-500 border-l-4 rounded-l-md'} relative group transition-transform w-full transform hover:scale-105`}
+              className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
             >
               <div>
+
                 {/* Mobile View */}
                 <div
                   className="block sm:hidden w-full h-48 bg-cover bg-center relative rounded-t-lg"
@@ -134,6 +150,7 @@ function PublicPage() {
                     className="pointer-events-none transition-opacity duration-300 group-hover:greyscale"
                   />
                 </div>
+
                 <div
                   className="h-[16rem] hidden rounded-lg sm:flex items-center -mt-6 z-50 justify-center transition-transform duration-300 group-hover:translate-y-2 sm:bg-transparent"
                   style={{ backgroundColor: file.bgColor }}
@@ -152,9 +169,11 @@ function PublicPage() {
                       </p>
                     ))}
                   </div>
-                  {isFull(file, previous) &&
-                    <div className=" fixed bottom-0 left-0 bg-red-700 text-red-200 rounded-r-full px-3 py-1.5 ">Complete</div>
-                  }
+                  {points?.intraScores.find((one: any) => one.type === file.type)?.questions?.length === 10 && (
+                    <div className="fixed bottom-0 left-0 bg-red-600 text-red-200 rounded-r-full px-3 py-1.5">
+                      Complete
+                    </div>
+                  )}
                 </div>
 
 
