@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useScores } from './stores/useScores'
+import { useEffect, useState } from 'react'
 import { useGameSession } from './useGameSession'
 
 export const useSessionCounter = () => {
-    const { session, loading } = useGameSession() as any
+    const { session, loading, endGame } = useGameSession() as any
     const [timeLeft, setTimeLeft] = useState<string>('')
     const [isTimeUp, setIsTimeUp] = useState(false)
     const [progress, setProgress] = useState(100)
@@ -23,6 +22,8 @@ export const useSessionCounter = () => {
                     setProgress((difference / totalDuration) * 100)
                 } else {
                     setTimeLeft('00:00')
+                    // TODO: send event to server to end the game
+                    endGame.mutate()
                     setIsTimeUp(true)
                     setProgress(0)
                     clearInterval(timer)

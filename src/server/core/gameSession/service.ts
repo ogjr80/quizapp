@@ -5,7 +5,26 @@ import { PrismaClient } from "@prisma/client";
 
 export class GameSessionService {
 
+
     private static database: PrismaClient = db
+    static endGameSession = async (ctx: HeritageContext): Promise<boolean> => {
+        try {
+            const session = await this.database.gameSession.findUnique({
+                where: {
+                    userId: ctx.user.id
+                }
+            })
+            if (session) {
+                await this.database.gameSession.update({
+                    where: { id: session.id },
+                    data: { isActive: false }
+                })
+            }
+            return true
+        } catch (error) {
+            return false
+        }
+    }
     static getGameSession = async (mode: "individual" | "team", ctx: HeritageContext,) => {
         try {
             if (mode == "individual") {
