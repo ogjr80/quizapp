@@ -66,7 +66,7 @@ export const PointsSubscriber: React.FC = () => {
 
                                         {
                                             sortedData.sortedByOverallScore.map((player: any, index: number) => (
-                                                <div className="index text-xl m-0 flex items-center  w-full">
+                                                <div key={player.id} className="index text-xl m-0 flex items-center  w-full">
                                                     <span className='text-xl font-bold'>{index + 1}</span>
                                                     <div className='flex justify-between py-2  px-4 items-center bg-white/70 rounded-full flex-1 my-2'>
 
@@ -86,12 +86,12 @@ export const PointsSubscriber: React.FC = () => {
                                         <div className="grid grid-cols-2 my-6 gap-6">
                                             {
                                                 Object.keys(sortedData.groupedAndSortedIntraScores).map((category) => (
-                                                    <div className={`flex rounded-md divide-y divide-gray-300 flex-col border p-3 border-dashed border-gray-300 ${colors[category as keyof typeof colors]}`}>
+                                                    <div key={category} className={`flex rounded-md divide-y divide-gray-300 flex-col border p-3 border-dashed border-gray-300 ${colors[category as keyof typeof colors]}`}>
                                                         <h3 className='text-xl text font-bold capitalize'>{category.toLowerCase()} Questions</h3>
                                                         <div className="d">
                                                             {
                                                                 sortedData.groupedAndSortedIntraScores[category].map((player: any, index: number) => (
-                                                                    <div className="index text-md flex items-center gap-2 w-full">
+                                                                    <div key={player.id} className="index text-md flex items-center gap-2 w-full">
                                                                         <span className='text-xl text-white font-bold'>{index + 1}</span>
                                                                         <div className='flex justify-between py-2  px-4 items-center bg-white/70 rounded-full flex-1 my-2 gap-2'>
                                                                             <div className=" flex items-center gap-2">
