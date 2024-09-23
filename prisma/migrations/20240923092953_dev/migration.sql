@@ -163,6 +163,7 @@ CREATE TABLE "GameSession" (
 CREATE TABLE "TeamSession" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -182,16 +183,7 @@ CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credent
 CREATE UNIQUE INDEX "Points_userId_key" ON "Points"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "IntraScores_pointsId_key" ON "IntraScores"("pointsId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "IntraScores_type_key" ON "IntraScores"("type");
-
--- CreateIndex
-CREATE INDEX "IntraScores_pointsId_idx" ON "IntraScores"("pointsId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Question_intraScoresId_key" ON "Question"("intraScoresId");
+CREATE UNIQUE INDEX "IntraScores_pointsId_type_key" ON "IntraScores"("pointsId", "type");
 
 -- CreateIndex
 CREATE INDEX "Question_intraScoresId_idx" ON "Question"("intraScoresId");

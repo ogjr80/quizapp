@@ -23,7 +23,6 @@ export const PointsSubscriber: React.FC = () => {
         };
 
         eventSource.onerror = (error) => {
-            console.error('SSE error:', error);
             eventSource.close();
         };
 
@@ -31,7 +30,6 @@ export const PointsSubscriber: React.FC = () => {
             eventSource.close();
         };
     }, []);
-    console.log({ data, sortedData })
     const colors = {
         STORYTELLING: "bg-[#00BEA1]/70",
         DIVERSITY: "bg-[#1A3E75]/70",
