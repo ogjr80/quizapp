@@ -35,7 +35,7 @@ export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
                     cx="50%"
                     cy="50%"
                     r={radius}
-                    stroke={parseInt(timeLeft.split(':')[0]) < 3 ? '#ef4444' : session.isActive ? '#22c55e' : '#e5e7eb'}
+                    stroke={parseInt(timeLeft.split(':')[0]) < 3 ? '#ef4444' : session?.isActive ? '#22c55e' : '#e5e7eb'}
                     strokeWidth="4"
                     fill="transparent"
                     strokeDasharray={circumference}
