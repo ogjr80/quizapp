@@ -85,7 +85,8 @@ function PublicPage() {
                 <GameSessionTimer />
               ) : (
                 <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
-                  <IoPlayOutline className="w-16 h-16 group-hover:text-white text-gray-400" />
+                  <IoPlayOutline className={`w-16 group h-16 text-gray-500 text-gray-400 ${session?.user ? '' : 'group-hover:hidden '}`} />
+                  <Link href="/api/auth/signin" className={`text-sm hidden   text-white font-bold ${session?.user ? 'hidden' : 'group-hover:block'}`}>Login First</Link>
                 </button>
               )}
             </div>
