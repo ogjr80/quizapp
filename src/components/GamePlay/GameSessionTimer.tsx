@@ -4,7 +4,7 @@ import useSessionCounter from '@/hooks/useSessionCounter'
 import { usePoints } from '@/hooks/usePoints'
 import Link from 'next/link'
 
-export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
+export const GameSessionTimer = ({ style = "sm:w-24 sm:h-24 w-16 h-16" }) => {
     const {
         loading,
         timeLeft,
@@ -46,12 +46,12 @@ export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
             <div className="absolute inset-0 flex items-center justify-center">
                 <>
                     {!session?.isActive ? (
-                        <Link href='/leaderboard' className="font-bold group ">
+                        <Link href='/leaderboard' className="font-bold group justify-center items-center flex">
                             <span className='text-xs group-hover:block hidden'>Leaderboard</span>
-                            <span className='text-3xl group-hover:hidden font-bold'>
+                            <span className='sm:text-3xl text-lg group-hover:hidden font-bold'>
                                 {points?.score ?? 0}</span> </Link>
                     ) : (
-                        <span className={`text-lg font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
+                        <span className={`sm:text-lg text-xs font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
                             {timeLeft}
                         </span>
                     )}
