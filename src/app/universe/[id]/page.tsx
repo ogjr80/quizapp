@@ -7,7 +7,7 @@ function PublicIdPage() {
     return (
         <div className='bg'>
             <AnimatedBackground />
-            <QuizComponent files={QuizCardsData as any} url={'public'} />
+            <QuizComponent files={QuizCardsData as any} url={'universe'} />
         </div>
     )
 }
