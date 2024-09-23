@@ -5,6 +5,8 @@ import { AnimatedBackground } from '@/components/CountDown';
 import { sortLeaderboard } from '@/lib/sortLeaderboard';
 import Image from 'next/image';
 import { PiEmptyFill } from 'react-icons/pi';
+import { StepBackIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export const PointsSubscriber: React.FC = () => {
     const [data, setData] = useState<any | null>(null);
@@ -42,7 +44,9 @@ export const PointsSubscriber: React.FC = () => {
                 <div className='bg'>
                     <AnimatedBackground />
                     <div className="fixed z-[80] divide-y px-3 right-0 top-0 bottom-0 w-1/8 bg-green-500/90 overflow-y-auto">
-                        <h2 className="text-center font-bold text-2xl font-mono font-bold text-white py-2">Playing Now</h2>
+                        <h2 className="text-center font-bold text-2xl font-mono font-bold text-white py-2">
+                            <span> Playing Now</span>
+                        </h2>
                         <ul className="space-y-2 px-1">
                             {
                                 data && data['players'].map((player: any) => (
@@ -56,7 +60,11 @@ export const PointsSubscriber: React.FC = () => {
                         <div className="rounded-l-3xl min-w-7xl overflow-y-auto overflow-x-hidden mx-auto w-screen h-[44rem] z-[60] bg-white/90 max-w-7xl relative">
 
                             <div className="pr-1/6 divide-y divide-gray-300 py-6 pl-5">
-                                <h1 className="text-6xl font-bold">Game play Leaderboard</h1>
+                                <h1 className="text-6xl flex gap-3  items-center font-bold">
+                                    <Link href="/universe">
+                                        <StepBackIcon className='w-10 h-10 text-green-500 animate-pulse' />
+                                    </Link>
+                                    <span>Game play Leaderboard</span></h1>
                                 {/* <Authenticated /> */}
                                 <div className="grid divide-x divide-gray-300 grid-cols-3">
                                     <div className="mt-8 mx-5 ">

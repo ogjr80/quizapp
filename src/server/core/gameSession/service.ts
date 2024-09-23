@@ -4,8 +4,6 @@ import { PrismaClient } from "@prisma/client";
 
 
 export class GameSessionService {
-
-
     private static database: PrismaClient = db
     static endGameSession = async (ctx: HeritageContext): Promise<boolean> => {
         try {
@@ -57,8 +55,18 @@ export class GameSessionService {
             } : {
                 teamSessionId: team as string
             }
-            const session = await this.database.gameSession.create({
-                data
+            const session = await this.database.gameSession.upsert({
+                where: {
+                    userId: ctx.user.id
+                },
+                update: {
+                    isActive: true,
+                    endTime: new Date(new Date().getTime() + 12 * 60 * 1000),
+                    startTime: new Date()
+                },
+                create: {
+                    userId: ctx.user.id, isActive: true
+                }
             })
             return session
         } catch (error) {

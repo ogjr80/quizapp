@@ -56,8 +56,10 @@ function PublicPage() {
       const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions
       const shfled = ShuffleQuestions(qus as Question[]);
       setCurrent(shfled)
+      console.log(shfled)
       router.push(`/universe/${fileId}`);
     }
+    console.log(file)
   };
 
 
@@ -73,7 +75,7 @@ function PublicPage() {
           </div>
           <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-3 bg-white h-32 w-32">
             <div className='text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
-              {gameSession ? (
+              {gameSession?.isActive ? (
                 <GameSessionTimer />
               ) : (
                 <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
@@ -107,7 +109,7 @@ function PublicPage() {
           </div>
           <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-2 bg-white h-16 w-16">
             <div className='text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
-              {gameSession ? (
+              {gameSession?.isActive ? (
                 <GameSessionTimer />
               ) : (
                 <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
@@ -135,7 +137,7 @@ function PublicPage() {
           {QuizCardsData.map((file: any) => (
             <button
               title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
-              disabled={!gameSession?.isActive ? isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive) : true}
+              disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || (gameSession && !gameSession.isActive)}
               key={file.id}
               className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
@@ -215,18 +217,16 @@ function PublicPage() {
           ))}
         </div>
 
-        {/* Mini Leaderboard Carousel */}
-
       </div>
       <div className="leaderboard-container fixed max-w-7xl w-full sm:block bottom-0 pl-2 pr-9 sm:p-3 sm:left-1/2 transform sm:-translate-x-1/2 overflow-hidden">
         <div className="leaderboard-carousel flex justify-center animate-slide">
           {MyLeaderBoardData.map((player, index) => {
             const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
-              <div key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
+              <Link href={`/leaderboard`} key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
                 <Image src={player.image} alt={player.name} width={50} height={50} className="rounded-full" />
                 <p className='sm:text-xl text-sm font-bold'>{player.points} points</p>
-              </div>
+              </Link>
             );
           })}
         </div>
