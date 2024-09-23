@@ -127,6 +127,7 @@ jobs:
         uses: azure/webapps-deploy@v3.0.2
         with:
           app-name: ${{secrets.AZURE_APP_NAME}}
+          
           images: ghcr.io/${{github.repository}}:${{steps.extract-version.outputs.VERSION}}
   Deploy-To-Demo:
     name: Deploy to demo environment 🏡
