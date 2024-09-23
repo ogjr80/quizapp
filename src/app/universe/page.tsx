@@ -217,18 +217,16 @@ function PublicPage() {
           ))}
         </div>
 
-        {/* Mini Leaderboard Carousel */}
-
       </div>
       <div className="leaderboard-container fixed max-w-7xl w-full sm:block bottom-0 pl-2 pr-9 sm:p-3 sm:left-1/2 transform sm:-translate-x-1/2 overflow-hidden">
         <div className="leaderboard-carousel flex justify-center animate-slide">
           {MyLeaderBoardData.map((player, index) => {
             const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
-              <div key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
+              <Link href={`/leaderboard`} key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
                 <Image src={player.image} alt={player.name} width={50} height={50} className="rounded-full" />
                 <p className='sm:text-xl text-sm font-bold'>{player.points} points</p>
-              </div>
+              </Link>
             );
           })}
         </div>
