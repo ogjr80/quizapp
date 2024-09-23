@@ -219,7 +219,7 @@ function PublicPage() {
 
       </div>
       <div className="leaderboard-container fixed max-w-7xl w-full sm:block bottom-0 pl-2 pr-9 sm:p-3 sm:left-1/2 transform sm:-translate-x-1/2 overflow-hidden">
-        <div className="leaderboard-carousel flex animate-slide">
+        <div className="leaderboard-carousel flex justify-center animate-slide">
           {MyLeaderBoardData.map((player, index) => {
             const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
@@ -232,21 +232,6 @@ function PublicPage() {
         </div>
       </div>
 
-      <style jsx>{`
-        @media (max-width: 600px) {
-          .leaderboard-container {
-            padding-left: 0;
-            padding-right: 0;
-            padding-top: 4rem;
-          }
-          .leaderboard-carousel {
-            justify-content: center;
-          }
-          .player-card {
-            margin: 0 5px;
-          }
-        }
-      `}</style>
     </div >
   )
 }
