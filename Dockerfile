@@ -9,6 +9,7 @@ ARG AUTH_GITHUB_SECRET
 ARG AUTH_GOOGLE_ID
 ARG AUTH_GOOGLE_SECRET
 ARG PLATFORM=linux/amd64
+
 FROM --platform=linux/amd64 node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat openssl git curl 
 WORKDIR /app
@@ -64,11 +65,11 @@ RUN npm install -g prisma
 # Add startup script
 COPY start.sh ./
 RUN chmod +x start.sh
-
+ENV DATABASE_URL=${DATABASE_URL}
+ENV NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
 ENV PORT=3000
 ENV AUTH_TRUST_HOST=1
-ENV DATABASE_URL=$DATABASE_URL
-ENV NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL
+
 
 EXPOSE 3000
 CMD ["server.js"]

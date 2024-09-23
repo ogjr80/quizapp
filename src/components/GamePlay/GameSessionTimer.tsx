@@ -6,7 +6,6 @@ import { usePoints } from '@/hooks/usePoints'
 export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
     const {
         loading,
-        session,
         timeLeft,
         isTimeUp,
         progress
@@ -43,17 +42,16 @@ export const GameSessionTimer = ({ style = "w-24 h-24" }) => {
                 />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-                {session && session.isActive && (
-                    <>
-                        {isTimeUp ? (
-                            <span className="text-3xl font-bold">{points?.score ?? 0}</span>
-                        ) : (
-                            <span className={`text-lg font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
-                                {timeLeft}
-                            </span>
-                        )}
-                    </>
-                )}
+
+                <>
+                    {isTimeUp ? (
+                        <span className="text-3xl font-bold">{points?.score ?? 0}</span>
+                    ) : (
+                        <span className={`text-lg font-bold ${parseInt(timeLeft.split(':')[0]) < 3 ? 'text-red-500' : ''}`}>
+                            {timeLeft}
+                        </span>
+                    )}
+                </>
             </div>
         </div>
     )
