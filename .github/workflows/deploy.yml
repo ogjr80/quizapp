@@ -87,11 +87,11 @@ jobs:
       - name: Build and Push Production Image
         run: |
           docker build \
-            -t ghcr.io/${{ github.repository }}:${{steps.extract-tag.outputs.VERSION}} \
+            -t ghcr.io/${{ github.repository }}:prod-${{steps.extract-tag.outputs.VERSION}} \
             --build-arg NEXT_PUBLIC_URL=${{secrets.NEXT_PUBLIC_URL}} \
             --build-arg DATABASE_URL=${{secrets.DATABASE_URL}} \
             .
-          docker push ghcr.io/${{ github.repository }}:${{steps.extract-tag.outputs.VERSION}}
+          docker push ghcr.io/${{ github.repository }}:prod-${{steps.extract-tag.outputs.VERSION}}
       
   Demo-Image-Registry:
     name: Build Demo Image 🐳
@@ -153,7 +153,7 @@ jobs:
             --build-arg NEXT_PUBLIC_URL=${{secrets.DEMO_NEXT_PUBLIC_URL}} \
             --build-arg DATABASE_URL=${{secrets.DEMO_DATABASE_URL}} \
             .
-          docker push ghcr.io/${{ github.repository }}:prod-${{steps.extract-tag.outputs.VERSION}}
+          docker push ghcr.io/${{ github.repository }}:demo-${{steps.extract-tag.outputs.VERSION}}
     
   Deploy-To-Prod:
     name: Deploy to Production 🚀
