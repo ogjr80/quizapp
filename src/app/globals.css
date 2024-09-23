@@ -78,6 +78,22 @@ body {
   height: 100%;
 }
 
+@media (max-width: 600px) {
+  .leaderboard-container {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 4rem;
+  }
+
+  .leaderboard-carousel {
+    justify-content: center;
+  }
+
+  .player-card {
+    margin: 0 5px;
+  }
+}
+
 .canvas-container {
   position: fixed;
   top: 0;
