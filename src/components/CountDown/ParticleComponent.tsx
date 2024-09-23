@@ -91,7 +91,7 @@ export const ParticleComponent: React.FC<ParticleProps> = ({ count }) => {
     return <div className="absolute inset-0 bg-gray-900" />;
   }
 
-  return <canvas ref={canvasRef} className="absolute min-h-screen inset-0 bg-opacity-50 bg-gray-900" />;
+  return <canvas ref={canvasRef} className="absolute min-h-screen max-h-screen min-w-screen max-w-screen inset-0 bg-opacity-50 bg-gray-900" />;
 };
 
 export default ParticleComponent;
