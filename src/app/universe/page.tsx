@@ -74,31 +74,31 @@ function PublicPage() {
     <div className='bg'>
       <AnimatedBackground />
       <div className="er z-10 fixed top-10 w-full">
-        <div className="flex flex-col sm:flex-row justify-between bg-white rounded-full px-4 sm:px-16 py-2 items-center mx-auto max-w-7xl">
-          <div className="text-center sm:text-start">
-            <h1 className="text-2xl sm:text-4xl font-bold">Unity in Diversity</h1>
-            <p className="text-sm sm:text-base">A cultural celebration Game</p>
+        <div className="flex justify-between bg-white rounded-full px-16 py-2 items-center mx-auto max-w-7xl">
+          <div className="text-start">
+            <h1 className="text-4xl font-bold">Unity in Diversity</h1>
+            <p>A cultural celebration Game</p>
           </div>
-          <div className="flex justify-center items-center fixed sm:static left-50 left-1/2 transform -translate-x-1/2 sm:transform-none rounded-full p-3 bg-white h-24 sm:h-32 w-24 sm:w-32">
-            <div className='text-2xl sm:text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
+          <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-3 bg-white h-32 w-32">
+            <div className='text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
               {gameSession ? (
                 <GameSessionTimer />
               ) : (
                 <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
-                  <IoPlayOutline className="w-8 sm:w-16 h-8 sm:h-16 group-hover:text-white text-gray-400" />
+                  <IoPlayOutline className="w-16 h-16 group-hover:text-white text-gray-400" />
                 </button>
               )}
             </div>
           </div>
-          <div className="icons flex justify-center sm:justify-end gap-2 sm:gap-4 items-center">
+          <div className="icons flex justify-end gap-4 items-center">
             <Link href="/">
-              <Image src="/logo/eoh.svg" alt="LinkedIn" width={50} height={50} />
+              <Image src="/logo/eoh.svg" alt="LinkedIn" width={70} height={70} />
             </Link>
             <Link href="/">
-              <Image src="/logo/opco.svg" alt="Twitter" width={40} height={40} />
+              <Image src="/logo/opco.svg" alt="Twitter" width={60} height={60} />
             </Link>
             <Link href="/">
-              <Image src="/logo/easyhq.svg" alt="Instagram" width={40} height={40} />
+              <Image src="/logo/easyhq.svg" alt="Instagram" width={60} height={60} />
             </Link>
             <Link href={session?.user ? '/api/auth/signout' : '/api/auth/signin'}>
               {session?.user ? 'Logout' : 'Login'}
@@ -109,15 +109,15 @@ function PublicPage() {
       <div className="bg-white z-[60]">
 
       </div>
-      <div className='min-h-screen flex flex-col justify-center items-center'>
+      <div className='min-h-screen  justify-center flex  items-center '>
 
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mx-auto max-w-7xl items-center">
+        <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
             <button
               title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
               disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive)}
               key={file.id}
-              className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full sm:w-auto transform hover:scale-105`}
+              className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
             >
               <div>
@@ -152,7 +152,7 @@ function PublicPage() {
                 </div>
 
                 <div
-                  className="h-[16rem] hidden sm:flex items-center -mt-6 z-50 justify-center transition-transform duration-300 group-hover:translate-y-2 sm:bg-transparent"
+                  className="h-[16rem] hidden rounded-lg sm:flex items-center -mt-6 z-50 justify-center transition-transform duration-300 group-hover:translate-y-2 sm:bg-transparent"
                   style={{ backgroundColor: file.bgColor }}
                 >
                   <div className="text-center sm:hidden">
