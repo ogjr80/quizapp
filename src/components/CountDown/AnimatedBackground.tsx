@@ -47,15 +47,18 @@ export const AnimatedBackground: React.FC = () => {
     render();
     return () => cancelAnimationFrame(animationFrameId);
   }, [dimensions]);
+
   return (
     <>
-      <canvas
-        ref={canvasRef}
-        width={dimensions.width}
-        height={dimensions.height}
-        className="fixed inset-0 pointer-events-none"
-      />
-      {canvasRef.current && <DynamicParticleComponent count={100} />}
+
+      <div className="canvas-container">
+        <canvas
+          ref={canvasRef}
+          width={dimensions.width}
+          height={dimensions.height}
+        />
+        {canvasRef.current && <DynamicParticleComponent count={100} />}
+      </div>
     </>
   );
 };
