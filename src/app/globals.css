@@ -69,7 +69,40 @@
 
 
 
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
 
+@media (max-width: 600px) {
+  .leaderboard-container {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 4rem;
+  }
+
+  .leaderboard-carousel {
+    justify-content: center;
+  }
+
+  .player-card {
+    margin: 0 5px;
+  }
+}
+
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
 
 .fire-effect-150 {
   animation: burn 1s infinite alternate;

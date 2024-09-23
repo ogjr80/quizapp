@@ -4,7 +4,7 @@ import { useGameSession } from './useGameSession'
 export const useSessionCounter = () => {
     const { session, loading, endGame } = useGameSession() as any
     const [timeLeft, setTimeLeft] = useState<string>('')
-    const [isTimeUp, setIsTimeUp] = useState(false)
+    const [isTimeUp, setIsTimeUp] = useState(session?.isActive)
     const [progress, setProgress] = useState(100)
     useEffect(() => {
         if (session && session.isActive && session.endTime) {
@@ -24,7 +24,7 @@ export const useSessionCounter = () => {
                     setTimeLeft('00:00')
                     // TODO: send event to server to end the game
                     endGame.mutate()
-                    setIsTimeUp(true)
+                    setIsTimeUp(session?.isActive)
                     setProgress(0)
                     clearInterval(timer)
                 }
