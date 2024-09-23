@@ -638,7 +638,7 @@ export const QuizCardsData = [
     {
         id: "3",
         type: "CHALLENGE",
-        title: "CHALLENGING CARDS",
+        title: "CHALLENGING QUESTIONS",
         source: "/cards/sun-sm.svg",
         bgColor: "#00C8DA",
         questions: [
@@ -996,7 +996,7 @@ export const QuizCardsData = [
     },
     {
         id: "4",
-        title: "UNITY CARDS",
+        title: "UNITY QUESTIONS",
         type: "UNITY",
         source: "/cards/green-sm.svg",
         bgColor: "#00BEA1",
