@@ -56,7 +56,6 @@ jobs:
       - name: create env file
         run: |
           echo "
-          DATABASE_URL=${{secrets.DATABASE_URL}}
           AUTH_URL=${{secrets.AUTH_URL}}
           AUTH_SECRET=${{secrets.AUTH_SECRET}}
           AUTH_GOOGLE_ID=${{secrets.AUTH_GOOGLE_ID}}
@@ -84,16 +83,79 @@ jobs:
           # Set the modified tag as an output
           echo "TAG=$TAG" >> $GITHUB_ENV
           echo "TAG=$TAG" >> $GITHUB_OUTPUT
-
-      - name: Build and Push Docker Image
+      - name: Build and Push Production Image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:${{steps.extract-tag.outputs.VERSION}} .
-          docker push ghcr.io/${{ github.repository }}:${{steps.extract-tag.outputs.VERSION}}
-
-  Deploy-To-Prod:
-    name: Deploy Preview 🚀
+          docker build \
+            -t ghcr.io/${{ github.repository }}:prod-${{steps.extract-tag.outputs.VERSION}} \
+            --build-arg DATABASE_URL=${{secrets.DATABASE_URL}} \
+            .
+          docker push ghcr.io/${{ github.repository }}:prod-${{steps.extract-tag.outputs.VERSION}}
+      
+  Demo-Image-Registry:
+    name: Build Demo Image 🐳
     runs-on: ubuntu-latest
-    needs: Container-Registry
+    needs: build-heritage-staging
+    environment: preview
+    steps:
+      - name: Checkout code 🧳
+        uses: actions/checkout@v4.1.7
+      - name: Setup Node 🍳
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20
+      - name: setup pnpm 👨‍💻
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9.6.0
+          run_install: false
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: create env file
+        run: |
+          echo "
+          AUTH_URL=${{secrets.DEMO_NEXT_PUBLIC_URL}}
+          AUTH_SECRET=${{secrets.AUTH_SECRET}}
+          AUTH_GOOGLE_ID=${{secrets.AUTH_GOOGLE_ID}}
+          AUTH_AZURE_AD_SECRET=${{secrets.AUTH_AZURE_AD_SECRET}}
+          AUTH_AZURE_AD_TENANT=${{secrets.AUTH_AZURE_AD_TENANT}}
+          AUTH_AZURE_AD_ID=${{secrets.AUTH_AZURE_AD_ID}}
+          AUTH_GOOGLE_SECRET=${{secrets.AUTH_GOOGLE_SECRET}}
+          ">.env
+      - run: sudo apt-get update && sudo apt-get install jq -y
+      - name: Extract version
+        id: extract-version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION" > $GITHUB_OUTPUT
+      - name: Extract tag
+        id: extract-tag
+        run: |
+          # Extract the tag without the 'v' prefix
+          TAG=${GITHUB_REF#refs/tags/v}
+          # Replace any characters that are not allowed in Docker image tags with a valid alternative, for example, replacing '/' with '-'
+          TAG=$(echo "$TAG" | tr / -)
+          VERSION=$(jq -r '.version' package.json)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "VERSION=${SHORT_SHA}" >> $GITHUB_OUTPUT
+          # Set the modified tag as an output
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+      - name: Build and Push Demo Image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository }}:demo-${{steps.extract-tag.outputs.VERSION}} \
+            --build-arg DATABASE_URL=${{secrets.DEMO_DATABASE_URL}} \
+            .
+          docker push ghcr.io/${{ github.repository }}:demo-${{steps.extract-tag.outputs.VERSION}}
+    
+  Deploy-To-Prod:
+    name: Deploy to Production 🚀
+    runs-on: ubuntu-latest
+    needs: [Container-Registry]
     environment: preview
     steps:
       - name: Checkout code 🧳
@@ -127,12 +189,12 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3.0.2
         with:
-          app-name: ${{secrets.AZURE_APP_NAME}}
-          images: ghcr.io/${{github.repository}}:${{steps.extract-version.outputs.VERSION}}
+          app-name: heritage
+          images: ghcr.io/${{github.repository}}:prod-${{steps.extract-version.outputs.VERSION}}
   Deploy-To-Demo:
-    name: Deploy Preview 🚀
+    name: Deploy to demo environment 🏡
     runs-on: ubuntu-latest
-    needs: Container-Registry
+    needs: [Demo-Image-Registry]
     environment: preview
     steps:
       - name: Checkout code 🧳
@@ -166,5 +228,5 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3.0.2
         with:
-          app-name: ${{secrets.AZURE_DEMO_APP_NAME}}
-          images: ghcr.io/${{github.repository}}:${{steps.extract-version.outputs.VERSION}}
+          app-name: demo
+          images: ghcr.io/${{github.repository}}:demo-${{steps.extract-version.outputs.VERSION}}

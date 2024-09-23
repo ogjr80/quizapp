@@ -23,7 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const url = `${process.env.AUTH_URL}/api/trpc`
+  const url = `/api/trpc`
   return (
     <AuthProvider >
       <TrpcServerProvider url={url}>
