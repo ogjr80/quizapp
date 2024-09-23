@@ -83,7 +83,6 @@ jobs:
           # Set the modified tag as an output
           echo "TAG=$TAG" >> $GITHUB_ENV
           echo "TAG=$TAG" >> $GITHUB_OUTPUT
-
       - name: Build and Push Production Image
         run: |
           docker build \
