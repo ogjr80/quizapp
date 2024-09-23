@@ -63,9 +63,9 @@ function PublicPage() {
 
 
   return (
-    <div className='bg'>
+    <div className='bg min-h-screen min-w-full max-w-screen max-h-screen overflow-hidden'>
       <AnimatedBackground />
-      <div className="er z-10 fixed top-10 w-full">
+      <div className="er hidden sm:block z-10 fixed top-10 w-full">
         <div className="flex justify-between bg-white rounded-full px-16 py-2 items-center mx-auto max-w-7xl">
           <div className="text-start">
             <h1 className="text-4xl font-bold">Unity in Diversity</h1>
@@ -99,12 +99,39 @@ function PublicPage() {
           </div>
         </div>
       </div>
-      <div className="bg-white z-[60]">
-
+      <div className="er sm:hidden z-10 fixed top-4 w-full">
+        <div className="flex justify-between bg-white rounded-full px-4 py-2 items-center mx-auto max-w-7xl">
+          <div className="">
+            <h1 className='text-sm font-bold'>Unity in Diversity</h1>
+            <p className='text-[10px]'>A Cultural Celebration Game</p>
+          </div>
+          <div className="flex justify-center items-center fixed left-50 left-1/2 transform -translate-x-1/2 rounded-full p-2 bg-white h-16 w-16">
+            <div className='text-4xl font-bold border-2 border-sblack rounded-full h-full w-full flex justify-center items-center'>
+              {gameSession ? (
+                <GameSessionTimer />
+              ) : (
+                <button className={`hover:scale-105 cursor-pointer group duration-300 rounded-full hover:p-3 transition hover:bg-green-500 hover-text-white`} title={session?.user ? "Start Session" : "Please Login First"} disabled={!session?.user} onClick={handleSession}>
+                  <IoPlayOutline className={`w-8 group h-8 text-gray-500 text-gray-400 ${session?.user ? '' : 'group-hover:hidden '}`} />
+                  <Link href="/api/auth/signin" className={`text-sm hidden   text-white font-bold ${session?.user ? 'hidden' : 'group-hover:block'}`}>Login First</Link>
+                </button>
+              )}
+            </div>
+          </div>
+          <div className='flex justify-center items-center gap-4'>
+            <Link href="/">
+              <Image src="/logo/eoh.svg" alt="LinkedIn" width={40} height={30} />
+            </Link>
+            <Link href="/">
+              <Image src="/logo/easyhq.svg" alt="Twitter" width={30} height={30} />
+            </Link>
+            <Link href="/">
+              <Image src="/logo/opco.svg" alt="Twitter" width={30} height={30} />
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className='min-h-screen  justify-center flex  items-center '>
-
-        <div className=" flex justify-center gap-8 mx-auto max-w-7xl items-center">
+      <div className='min-h-screen max-h-screen max-w-full mx-auto  flex -mt-16 sm:-mt-0 items-center '>
+        <div className=" grid grid-cols-2 sm:flex   gap-4 sm:gap-8 px-4 sm:px-0 mx-auto sm:max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
             <button
               title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
@@ -114,20 +141,33 @@ function PublicPage() {
               onClick={() => handleCardClick(file.id)}
             >
               <div>
-
-                {/* Mobile View */}
-                <div
-                  className="block sm:hidden w-full h-48 bg-cover bg-center relative rounded-t-lg"
-                  style={{ backgroundImage: `url(${file.source})` }}
-                >
-                  <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-                    <div className="text-center text-white px-4">
-                      {file.title.split(" ").map((word: string) => (
-                        <p key={word} className="text-lg font-bold">
-                          {word}
-                        </p>
-                      ))}
+                <div className="sm:hidden overflow-hidden  rounded-t-lg bg-gray-100">
+                  <Image
+                    alt=""
+                    src={file.source}
+                    layout="fill"
+                    objectFit="cover"
+                    className="pointer-events-none transition-opacity duration-300 group-hover:greyscale"
+                  />
+                  <div
+                    className="h-[16rem]  rounded-lg sm:flex items-center -mt-6 z-50 justify-center transition-transform duration-300 group-hover:translate-y-2 sm:bg-transparent"
+                    style={{ backgroundColor: file.bgColor }}
+                  >
+                    <div className="text-center  flex flex-col  justify-center items-center min-h-[16rem] sm:hidden">
+                      <div className='flex flex-col justify-center items-center'>
+                        {file.title.split(" ").map((word: string) => (
+                          <p key={word} className="text-xl px-3 font-extrabold text-white">
+                            {word}
+                          </p>
+                        ))}
+                        <button onClick={() => handleCardClick(file.id)} className='bg-white mx-3 px-5 mt-4 text-black px-3 py-1 rounded-full'>Play</button>
+                      </div>
                     </div>
+                    {points?.intraScores.find((one: any) => one.type === file.type)?.questions?.length === 10 && (
+                      <div className="fixed bottom-0 left-0 bg-red-600 text-red-200 rounded-r-full px-3 py-1.5">
+                        Complete
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* Desktop View */}
@@ -178,19 +218,20 @@ function PublicPage() {
         {/* Mini Leaderboard Carousel */}
 
       </div>
-      <div className="leaderboard-container fixed bottom-0 p-3 left-1/2 transform -translate-x-1/2 overflow-hidden">
-        <div className="leaderboard-carousel flex animate-slide">
+      <div className="leaderboard-container fixed max-w-7xl w-full sm:block bottom-0 pl-2 pr-9 sm:p-3 sm:left-1/2 transform sm:-translate-x-1/2 overflow-hidden">
+        <div className="leaderboard-carousel flex justify-center animate-slide">
           {MyLeaderBoardData.map((player, index) => {
             const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
               <div key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>
                 <Image src={player.image} alt={player.name} width={50} height={50} className="rounded-full" />
-                <p className='text-xl font-bold'>{player.points} points</p>
+                <p className='sm:text-xl text-sm font-bold'>{player.points} points</p>
               </div>
             );
           })}
         </div>
       </div>
+
     </div >
   )
 }

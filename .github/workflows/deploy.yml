@@ -228,5 +228,5 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3.0.2
         with:
-          app-name: herittage-demo
+          app-name: ${{secrets.AZURE_DEMO_APP_NAME}}
           images: ghcr.io/${{github.repository}}:demo-${{steps.extract-version.outputs.VERSION}}
