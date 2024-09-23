@@ -66,7 +66,6 @@ RUN npm install -g prisma
 COPY start.sh ./
 RUN chmod +x start.sh
 ENV DATABASE_URL=${DATABASE_URL}
-ENV NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
 ENV PORT=3000
 ENV AUTH_TRUST_HOST=1
 
