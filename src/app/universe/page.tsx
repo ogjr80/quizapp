@@ -11,8 +11,8 @@ import { useSession } from 'next-auth/react'
 import { usePoints } from '@/hooks/usePoints'
 import { useGameSession } from '@/hooks/useGameSession'
 import { GameSessionTimer } from "@/components"
-import { usePathname, useRouter } from 'next/navigation';
-import { isFull, ShuffleQuestions } from '@/lib/shuffleQuestions'; // You'll need to create this utility function
+import { useRouter } from 'next/navigation';
+import { ShuffleQuestions } from '@/lib/shuffleQuestions'; // You'll need to create this utility function
 import { useQuestions } from '@/hooks/stores/useQuestions'
 import { Question } from '@/types/questions'
 import useSessionCounter from '@/hooks/useSessionCounter'
@@ -20,19 +20,11 @@ import useSessionCounter from '@/hooks/useSessionCounter'
 function PublicPage() {
   const { setCurrent, current } = useQuestions()
 
-  const [showTrophy, setShowTrophy] = useState(true); // Add state for toggling
   const { points, loading: pointsLoading } = usePoints() as any
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowTrophy(prev => !prev); // Toggle the state
-    }, 5000); // Change every 5 seconds
 
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
   const { data: session } = useSession()
 
-  // Sample leaderboard data
-  const sampleLeaderboard = [
+  const MyLeaderBoardData = [
     { image: session?.user?.image ?? '/ava.jpeg', name: 'Player 1', points: points?.score ?? 0, intesity: 150 },
     { image: '/cards/blue-sm.svg', name: 'Player 5', points: points?.intraScores.find((e: any) => e.type === "DIVERSITY")?.score ?? 0, intesity: 120 },
     { image: '/cards/country-sm.svg', name: 'Player 4', points: points?.intraScores.find((e: any) => e.type === "STORYTELLING")?.score ?? 0, intesity: 90 },
@@ -116,7 +108,7 @@ function PublicPage() {
           {QuizCardsData.map((file: any) => (
             <button
               title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
-              disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive)}
+              disabled={!gameSession?.isActive ? isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || isTimeUp || (gameSession && !gameSession.isActive) : true}
               key={file.id}
               className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
@@ -188,7 +180,7 @@ function PublicPage() {
       </div>
       <div className="leaderboard-container fixed bottom-0 p-3 left-1/2 transform -translate-x-1/2 overflow-hidden">
         <div className="leaderboard-carousel flex animate-slide">
-          {sampleLeaderboard.map((player, index) => {
+          {MyLeaderBoardData.map((player, index) => {
             const fireIntensity = player.intesity; // Use points to determine fire intensity
             return (
               <div key={index} className={`player-card flex text-center text-white bg-white/20 rounded-t-full pb-5 px-3 -mb-4 flex-col items-center mx-2 fire-effect-${fireIntensity}`}>

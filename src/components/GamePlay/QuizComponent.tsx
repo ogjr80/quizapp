@@ -40,7 +40,7 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     const { id } = useParams()
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const { current } = useQuestions() as any
-    const handleStorytellingOrChallenge = () => { }
+
     const handleAnswerCheck = async (option: string) => {
         setSelectedOption(option)
         const intra = points?.intraScores.find((s: any) => s.type === current.type)
@@ -56,7 +56,7 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     }
     const curentSet: FileItem = files.find(e => e.id === id) as FileItem
     const isButtonDisabled = selectedOption !== null;
-
+    if (!gameSession?.isActive) router.push(`/${url}`)
     return (
         <div className="mx-auto h-screen p-10 my-5 lg:px-8">
             <div className="bg-cover bg-center rounded-lg h-full relative">
@@ -79,7 +79,7 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
                             <h2 className="text-2xl font-bold text-center text-white mb-2">
                                 {curentSet?.title}
                             </h2>
-                            <p className="text-center text-white">
+                            <p className="text-center font-bold text-white">
                                 {current?.question}
                             </p>
                             <p className="text-center text-white mt-2">

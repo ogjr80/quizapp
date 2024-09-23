@@ -13,7 +13,7 @@ export const ShuffleQuestions = (array: Question[]) => {
     }
 
     // Pick the first question from the shuffled array
-    const newQuestion: Question = availableQuestions[0]
+    const newQuestion: Question = availableQuestions[0] ?? availableQuestions[1]
 
     // Return the entire shuffled array and the selected question
     return newQuestion
