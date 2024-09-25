@@ -51,12 +51,7 @@ export class PointsService {
 
                 // Check if the number of questions for this type is less than 10
                 const existingQuestions = recordedScores?.intraScores.find(score => score.type === idtype)?.questions || [];
-                if (existingQuestions.length >= 10) {
-                    return {
-                        success: false,
-                        message: "Maximum number of questions reached for this type",
-                    };
-                }
+
 
                 const pts = await this.db.points.upsert({
                     where: {
@@ -95,7 +90,7 @@ export class PointsService {
                     }
                 });
 
-                // Modify this part
+
                 await this.db.intraScores.upsert({
                     where: {
                         pointsId_type: {

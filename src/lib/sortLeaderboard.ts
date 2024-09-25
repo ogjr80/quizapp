@@ -45,11 +45,11 @@ export function sortLeaderboard(data: LeaderboardEntry[]): {
   }));
 
   // Extract all intraScores into a single array, adding user name and image
-  const allIntraScores = data.flatMap(item => 
+  const allIntraScores = data.flatMap(item =>
     item.intraScores.map(score => ({
       ...score,
       userName: item.user.name,
-      userImage: item.user.image
+      userImage: item.user?.image ?? '/ava.jpeg'
     }))
   );
 
