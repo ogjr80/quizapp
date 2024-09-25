@@ -8,7 +8,6 @@ export const GameSessionTimer = ({ style = "sm:w-24 sm:h-24 w-16 h-16" }) => {
     const {
         loading,
         timeLeft,
-        isTimeUp,
         session,
         progress
     } = useSessionCounter()
