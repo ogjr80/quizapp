@@ -53,13 +53,21 @@ function PublicPage() {
   const handleCardClick = (fileId: string) => {
     const file = QuizCardsData.find(f => f.id === fileId);
     if (file && file.questions) {
-      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions
-      const shfled = ShuffleQuestions(qus as Question[]);
-      setCurrent(shfled)
-      console.log(shfled)
+      const qus = current ? file.questions.filter(r => r.type !== current?.type) : file.questions;
+      let shuffled = ShuffleQuestions(qus as Question[]);
+
+      // Ensure we have a valid shuffled array
+      if (!shuffled || shuffled === undefined) {
+        console.warn("Shuffle function returned undefined or empty array. Using original questions.");
+        shuffled = ShuffleQuestions(file.questions as any)
+      }
+
+      setCurrent(shuffled);
+      console.log(shuffled);
       router.push(`/universe/${fileId}`);
+    } else {
+      console.error("File or questions not found");
     }
-    console.log(file)
   };
 
 
@@ -136,10 +144,10 @@ function PublicPage() {
         <div className=" grid grid-cols-2 sm:flex   gap-4 sm:gap-8 px-4 sm:px-0 mx-auto sm:max-w-7xl items-center">
           {QuizCardsData.map((file: any) => (
             <button
-              title={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? "You have taken all 10 questions" : isTimeUp ? "Time Up" : (gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
-              disabled={isLoading || (points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 || (gameSession && !gameSession.isActive)}
+              title={(gameSession && !gameSession.isActive) ? 'Please start a new session' : "Click to play"}
+              disabled={isLoading || (gameSession && !gameSession.isActive)}
               key={file.id}
-              className={`${(points?.intraScores.find((e: any) => e.type === file.type)?.questions?.length || 0) >= 10 ? 'border-l-red-500 border-l-4 rounded-l-md' : ''} relative group transition-transform w-full transform hover:scale-105`}
+              className={` relative group transition-transform w-full transform hover:scale-105`}
               onClick={() => handleCardClick(file.id)}
             >
               <div>
@@ -162,7 +170,7 @@ function PublicPage() {
                             {word}
                           </p>
                         ))}
-                        <button onClick={() => handleCardClick(file.id)} className='bg-white mx-3 px-5 mt-4 text-black px-3 py-1 rounded-full'>Play</button>
+                        <span onClick={() => handleCardClick(file.id)} className='bg-white mx-3 px-5 mt-4 text-black px-3 py-1 rounded-full'>Play</span>
                       </div>
                     </div>
                     {points?.intraScores.find((one: any) => one.type === file.type)?.questions?.length === 10 && (
@@ -204,14 +212,7 @@ function PublicPage() {
                       </p>
                     ))}
                   </div>
-                  {points?.intraScores.find((one: any) => one.type === file.type)?.questions?.length === 10 && (
-                    <div className="fixed bottom-0 left-0 bg-red-600 text-red-200 rounded-r-full px-3 py-1.5">
-                      Complete
-                    </div>
-                  )}
                 </div>
-
-
               </div>
             </button>
           ))}
