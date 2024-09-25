@@ -3,35 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { AnimatedBackground } from './AnimatedBackground';
 import { Check } from 'lucide-react';
 import { RegisterAction } from './RegisterAction';
-import { Session } from 'inspector/promises';
 export const CountdownComponent: React.FC<{ targetDate: string, url: string, session?: any | unknown }> = ({ targetDate, url = '/api/auth/signup', session }) => {
   const [timeLeft, setTimeLeft] = useState<{ [key: string]: number }>({});
   const [isClient, setIsClient] = useState(false);
 
-  function calculateTimeLeft() {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
-  }
-
   useEffect(() => {
     setIsClient(true);
+
+    function calculateTimeLeft() {
+      const difference = +new Date(targetDate) - +new Date();
+      let timeLeft = {};
+
+      if (difference > 0) {
+        timeLeft = {
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      }
+
+      return timeLeft;
+    }
+
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate, isClient]);
+  }, [targetDate]);
 
   const timeComponents = Object.keys(timeLeft).map((interval) => {
     if (!timeLeft[interval]) {
@@ -62,9 +62,7 @@ export const CountdownComponent: React.FC<{ targetDate: string, url: string, ses
 
           {session && session?.user ? <>
             <h1 className="text-xl sm:text-2xl 2xl:text-5xl">Welcome {session?.user?.name}</h1>
-
           </> : <RegisterAction url={url} />}
-          {/* <RegisterAction mode="session" url={url} session={session} /> */}
         </div>
       </div>
       <div className="z-10 bg-white  backdrop-blur-md p-6 rounded-lg backdrop-blur-md max-w-2xl sm:max-w-2xl sm:p-4">

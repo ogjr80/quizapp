@@ -83,7 +83,7 @@ export const PointsSubscriber: React.FC = () => {
                         </ul>
                     </div>
                     <div className="bg-whote font-mono  rounded-3xl min-h-scheen h-screen sm:p-16 pt-16  px-4 flex justify-center items-center">
-                        <div className="rounded-l-3xl min-w-7xl overflow-y-auto overflow-x-hidden mx-auto w-screen h-[44rem] z-[60] bg-white/90 max-w-7xl relative">
+                        <div className="rounded-3xl min-w-7xl overflow-y-auto overflow-x-hidden mx-auto w-screen h-[44rem] z-[60] bg-white/90 max-w-7xl relative">
 
                             <div className="pr-1/6 divide-y divide-gray-300 py-6 pl-5">
                                 <h1 className="sm:text-6xl text-xl flex gap-3  items-center font-bold">
