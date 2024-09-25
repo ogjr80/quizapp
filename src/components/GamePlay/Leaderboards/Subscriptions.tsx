@@ -50,7 +50,7 @@ export const PointsSubscriber: React.FC = () => {
                         <ul className="space-y-2 px-1">
                             {
                                 data && data['players'].map((player: any) => (
-                                    <li className='flex items-center bg-white/70 rounded-full my-5 gap-2' key={player.id}><Image className='rounded-full' src={player.image} alt={player.name} width={32} height={32} /><span className='text-swhite text-sm font-bold'>{player.name}</span></li>
+                                    <li className='flex items-center bg-white/70 rounded-full my-5 gap-2' key={player.id}><Image className='rounded-full' src={player?.image ?? '/ava.jpeg'} alt={player.name} width={32} height={32} /><span className='text-swhite text-sm font-bold'>{player.name}</span></li>
                                 ))
                             }
 
@@ -77,7 +77,7 @@ export const PointsSubscriber: React.FC = () => {
                                                     <div className='flex justify-between py-2  px-4 items-center bg-white/70 rounded-full flex-1 my-2'>
 
                                                         <div className=" flex items-center gap-2">
-                                                            <Image className='rounded-full' src={player.user.image} alt={player.user.name} width={32} height={32} />
+                                                            <Image className='rounded-full' src={player.user?.image ?? '/ava.jpeg'} alt={player.user?.name ?? 'Player'} width={32} height={32} />
                                                             <span className='text-swhite text-xl font-bold'>{player.user.name}</span>
                                                         </div>
                                                         <span className='text-xl font-bold'>{player.score}</span>
