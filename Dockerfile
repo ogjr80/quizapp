@@ -49,8 +49,6 @@ RUN SKIP_ENV_VALIDATION=1 pnpm run build
 FROM --platform=linux/amd64 node:20-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV=production
-
 # Copy necessary files
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
@@ -68,7 +66,8 @@ RUN chmod +x start.sh
 ENV DATABASE_URL=${DATABASE_URL}
 ENV PORT=3000
 ENV AUTH_TRUST_HOST=1
+ENV NODE_ENV=production
 
 
 EXPOSE 3000
-CMD ["server.js"]
+CMD ["./start.sh"]
