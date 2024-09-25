@@ -58,12 +58,10 @@ function PublicPage() {
 
       // Ensure we have a valid shuffled array
       if (!shuffled || shuffled === undefined) {
-        console.warn("Shuffle function returned undefined or empty array. Using original questions.");
         shuffled = ShuffleQuestions(file.questions as any)
       }
 
       setCurrent(shuffled);
-      console.log(shuffled);
       router.push(`/universe/${fileId}`);
     } else {
       console.error("File or questions not found");
