@@ -11,6 +11,7 @@ import { FaTimes, FaTrophy } from "react-icons/fa";
 import GameSessionTimer from "./GameSessionTimer";
 import { Clock10Icon } from "lucide-react";
 import { StoryTelling } from "./StoryTelling";
+import JSConfetti from 'js-confetti';
 
 type Question = {
     question: string;
@@ -40,19 +41,46 @@ export const QuizComponent: React.FC<FileDetailProps> = ({ files, url, }) => {
     const { id } = useParams()
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const { current } = useQuestions() as any
+    const jsConfetti = useRef<JSConfetti | null>(null);
+    const correctSound = useRef<HTMLAudioElement | null>(null);
+    const incorrectSound = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        jsConfetti.current = new JSConfetti()
+        correctSound.current = new Audio('/sounds/correct.wav');
+        incorrectSound.current = new Audio('/sounds/fail.wav');
+    }, [])
 
     const handleAnswerCheck = async (option: string) => {
-        setSelectedOption(option)
-        const intra = points?.intraScores.find((s: any) => s.type === current.type)
-        let score = 0
+        setSelectedOption(option);
+        let score = 0;
         if (option === current.correctAnswer) {
-            score = 1
+            score = 1;
+            // Play correct sound
+            if (correctSound.current) {
+                correctSound.current.play().catch(e => console.error("Error playing sound:", e));
+            }
+            // Show confetti
+            jsConfetti.current?.addConfetti({
+                emojis: ['🎉', '🥳', '✨', '🚀', '🎊'],
+                emojiSize: 50,
+                confettiNumber: 150,
+            });
+            // Wait for confetti animation and sound to complete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        } else {
+            // Play incorrect sound
+            if (incorrectSound.current) {
+                incorrectSound.current.play().catch(e => console.error("Error playing sound:", e));
+            }
+            // Wait for sound to complete
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
 
         await submitQuizScore.mutateAsync({
             score, idtype: curentSet.type, question: current.question
-        })
-        return router.push(`/${url}`)
+        });
+        router.push(`/${url}`);
     }
     const curentSet: FileItem = files.find(e => e.id === id) as FileItem
     const isButtonDisabled = selectedOption !== null;
