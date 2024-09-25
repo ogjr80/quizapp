@@ -14,6 +14,184 @@ export const QuizCardsData = [
                 timer: 30
             },
             {
+                question: "What is 'Sokkie' in the context of South African dance culture?",
+                options: [
+                    "A traditional Zulu dance",
+                    "An Afrikaans social dance often performed at parties",
+                    "A type of modern hip-hop dance",
+                    "A classical ballet style"
+                ],
+                correctAnswer: "An Afrikaans social dance often performed at parties",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "What is the name of the vibrant festival celebrated by the South African Indian community that involves the lighting of lamps?",
+                options: ["Eid", "Diwali", "Holi", "Navaratri"],
+                correctAnswer: "Diwali",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which traditional Indian dance form is commonly performed at cultural events in South Africa?",
+                options: ["Salsa", "Bharatanatyam", "Ballet", "Pantsula"],
+                correctAnswer: "Bharatanatyam",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which Afrikaans musical group blends traditional African music with Western pop?",
+                options: ["Die Heuwels Fantasties", "Mango Groove", "Fokofpolisiekar", "Mafikizolo"],
+                correctAnswer: "Mango Groove",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "What is the central theme of Bok van Blerk's song 'De La Rey'?",
+                options: [
+                    "A love story set in Johannesburg",
+                    "A tribute to General Koos De La Rey, a Boer War hero",
+                    "An anthem for South African youth",
+                    "A political protest song against apartheid"
+                ],
+                correctAnswer: "A tribute to General Koos De La Rey, a Boer War hero",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which instrument is a key part of Indian classical music and is often played at cultural gatherings in South Africa?",
+                options: ["Tabla", "Trumpet", "Saxophone", "Marimba"],
+                correctAnswer: "Tabla",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which Afrikaans song by Kurt Darren became a popular dance anthem at Sokkie parties?",
+                options: ["Kaptein", "Hemel op die Platteland", "De La Rey", "Loslappie"],
+                correctAnswer: "Kaptein",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African festival, celebrated by the Indian community, involves colorful powders and celebrates the arrival of spring?",
+                options: ["Holi", "Diwali", "Eid", "Pongal"],
+                correctAnswer: "Holi",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "What style of dance is typically performed during the Diwali festival in South Africa?",
+                options: ["Gumboot dancing", "Bollywood dance", "Pantsula", "Ballet"],
+                correctAnswer: "Bollywood dance",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African city is home to the largest Diwali celebration, representing a major part of the Indian community's cultural heritage?",
+                options: ["Cape Town", "Durban", "Johannesburg", "Pretoria"],
+                correctAnswer: "Durban",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African singer's song 'Loslappie' is a hit at both Afrikaans and multicultural Sokkie parties?",
+                options: ["Steve Hofmeyr", "Kurt Darren", "Bok van Blerk", "Dozi"],
+                correctAnswer: "Kurt Darren",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African Indian artist is famous for performing Islamic music and promoting cultural harmony?",
+                options: ["Zain Bhikha", "Hugh Masekela", "Abdullah Ibrahim", "Johnny Clegg"],
+                correctAnswer: "Zain Bhikha",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "What type of song is 'De La Rey' by Bok van Blerk in terms of musical style?",
+                options: ["Rock ballad", "Traditional folk song", "Modern Afrikaans pop", "Sokkie dance track"],
+                correctAnswer: "Traditional folk song",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which Indian dance style, performed in South Africa, is characterized by fast footwork and storytelling through gestures?",
+                options: ["Kathak", "Ballet", "Pantsula", "Salsa"],
+                correctAnswer: "Kathak",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which song is often used as the soundtrack for Afrikaans weddings and Sokkie parties due to its lively beat?",
+                options: ["De La Rey", "Loslappie", "Hemel op die Platteland", "Kaptein"],
+                correctAnswer: "Kaptein",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African Indian musician has achieved international fame for his contributions to Islamic music?",
+                options: ["Zain Bhikha", "Jack Parow", "Johnny Clegg", "Lucky Dube"],
+                correctAnswer: "Zain Bhikha",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "What is the name of the popular dish often eaten at Diwali celebrations in South Africa?",
+                options: ["Koeksisters", "Samoosas", "Bobotie", "Melktert"],
+                correctAnswer: "Samoosas",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African holiday is celebrated by Indian communities with fireworks and the lighting of oil lamps?",
+                options: ["Holi", "Diwali", "Eid", "Christmas"],
+                correctAnswer: "Diwali",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which song by Kurt Darren is a classic Afrikaans Sokkie hit?",
+                options: ["Hemel op die Platteland", "Kaptein", "De La Rey", "Pille vir Kersfees"],
+                correctAnswer: "Kaptein",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African Indian community leader is often associated with peace and reconciliation efforts in South Africa?",
+                options: ["Zain Bhikha", "Mahatma Gandhi", "Nelson Mandela", "Johnny Clegg"],
+                correctAnswer: "Mahatma Gandhi",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which traditional Indian festival celebrated in South Africa involves the throwing of colored powders?",
+                options: ["Eid", "Diwali", "Holi", "Pongal"],
+                correctAnswer: "Holi",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which song by Johnny Clegg became an anthem of resistance during apartheid?",
+                options: ["Asimbonanga", "Pata Pata", "African Dream", "Vulindlela"],
+                correctAnswer: "Asimbonanga",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which form of dance is closely tied to the South African music genre Pantsula?",
+                options: ["Ballet", "Gumboot", "Hip Hop", "Pantsula"],
+                correctAnswer: "Pantsula",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
+                question: "Which South African genre of music emerged from the post-apartheid youth culture in the townships of Johannesburg?",
+                options: ["Maskandi", "Gqom", "Kwaito", "Mbaqanga"],
+                correctAnswer: "Kwaito",
+                type: "DIVERSITY",
+                timer: 30
+            },
+            {
                 "id": "dq3",
                 timer: 30,
                 "question": "What is the national flower of South Africa?",
