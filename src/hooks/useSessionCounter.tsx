@@ -32,7 +32,7 @@ export const useSessionCounter = () => {
 
             return () => clearInterval(timer)
         }
-    }, [session])
+    }, [session, endGame])
     return {
         loading,
         session,
