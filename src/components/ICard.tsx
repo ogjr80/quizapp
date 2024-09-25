@@ -1,24 +1,25 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
+import Image from 'next/image';
 export declare interface ICardProps {
-    isHolo?: boolean;
-    navigateTo?: string;
-    backImage?: string;
-    description?: string;
-    children?: React.ReactNode;
-    id?:any
+  isHolo?: boolean;
+  navigateTo?: string;
+  backImage?: string;
+  description?: string;
+  children?: React.ReactNode;
+  id?: any
 }
-export const InteractiveCard: React.FC<ICardProps> = ({ children, id, description,isHolo = false, navigateTo = '/', backImage = '/one.webp' }) => {
+export const InteractiveCard: React.FC<ICardProps> = ({ children, id, description, isHolo = false, navigateTo = '/', backImage = '/one.webp' }) => {
   const [transformStyle, setTransformStyle] = useState({});
   const [glareStyle, setGlareStyle] = useState({});
   const [isFocused, setIsFocused] = useState(false);
   const [animateFlip, setAnimateFlip] = useState(false);
   const cardRef: any = useRef(null);
-  const [isView,setIsView]=useState(false)
+  const [isView, setIsView] = useState(false)
   // const clickSoundRef = useRef(new Audio('/sounds/click.mp3'));
   // const flipSoundRef = useRef(new Audio('/sounds/flip.mp3'));
-const route = useRouter()
+  const route = useRouter()
   const handleMouseMove = (e: React.MouseEvent) => {
     // if (isFocused) return;
     setIsView(true)
@@ -36,9 +37,8 @@ const route = useRouter()
     });
 
     setGlareStyle({
-      background: `radial-gradient(circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,${
-        isHolo ? 0.4 : 0.2
-      }), transparent)`,
+      background: `radial-gradient(circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,${isHolo ? 0.4 : 0.2
+        }), transparent)`,
     });
   };
 
@@ -61,7 +61,7 @@ const route = useRouter()
     }, 150);
   };
 
-  const handleDoubleClick = (e:any) => {
+  const handleDoubleClick = (e: any) => {
     if (isFocused) {
       // clickSoundRef.current.play();
       route.push(navigateTo)
@@ -85,10 +85,9 @@ const route = useRouter()
 
   return (
     <div
-      ref={cardRef} 
-      className={`interactive-card ${isHolo ? 'holo' : ''} ${isFocused ? 'focused' : ''} ${
-        animateFlip ? 'animate-flip' : ''
-      }`}
+      ref={cardRef}
+      className={`interactive-card ${isHolo ? 'holo' : ''} ${isFocused ? 'focused' : ''} ${animateFlip ? 'animate-flip' : ''
+        }`}
       style={transformStyle}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -102,12 +101,12 @@ const route = useRouter()
           <div className="">{children}</div>
         </div>
         <div className="interactive-card-back">
-          {backImage && <img src={backImage} className='w-full h-full object-fit' alt="Card Back" />}
+          {backImage && <Image src={backImage} className='w-full h-full object-fit' alt="Card Back" width={100} height={100} />}
         </div>
       </div>
       {isView && <button className='z-1 fixed bottom-10 bg-green-500 px-4 py-1.5 text-white rounded-full'
-      onClick={handleClick}
-      
+        onClick={handleClick}
+
       >Instructions</button>}
     </div>
   );
